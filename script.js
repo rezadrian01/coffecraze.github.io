@@ -1,3 +1,4 @@
+// Tabs Functions
 window.onload = function () {
   // Menandai tab Details sebagai aktif secara default saat halaman dimuat
   document.getElementById("details").style.display = "block";
@@ -23,7 +24,9 @@ const tab = (evt, cityName) => {
   document.getElementById(cityName).style.display = "block";
   evt.currentTarget.className += " active";
 };
+// End Tabs Functions
 
+// Modal Functions
 const showModal = () => {
   const element = document.querySelector("#modal");
 
@@ -35,6 +38,27 @@ const hiddenModal = () => {
 
   element.classList.replace("block", "hidden");
 };
+// End Modal Functions
 
-// Get Year now
+// Get Year now for footer
 document.querySelector("#year").innerHTML = new Date().getFullYear();
+// End Get Year now for footer
+
+// Cart Functions
+const getQty = document.querySelector("#qty");
+let i = 1;
+getQty.innerHTML = i;
+
+const increment = () => {
+  getQty.innerHTML = ++i;
+};
+
+const decrement = () => {
+  if (i !== 1) {
+    getQty.innerHTML = --i;
+  } else {
+    return i;
+  }
+};
+
+// End Cart Functions
