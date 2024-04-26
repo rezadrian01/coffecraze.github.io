@@ -60,5 +60,4 @@ const decrement = () => {
     return i;
   }
 };
-
 // End Cart Functions

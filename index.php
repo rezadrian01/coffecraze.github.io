@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Home</title>
     <link rel="stylesheet" href="./src/output.css">
     <link rel="stylesheet" href="style.css">
 </head>
@@ -14,7 +14,7 @@
                 <div class="flex justify-between items-center">
                     <div class="text-xl font-medium">Logo</div>
 
-                    <button class="py-3 px-6 bg-[#723E29] text-sm text-white font-medium rounded-full">Log in / Sign up</button>
+                    <a href="login.php" class="py-3 px-6 bg-[#723E29] text-sm text-white font-medium rounded-full">Log in / Sign up</a>
                 </div>
             </header>
 
@@ -239,6 +239,8 @@
             </div>
         </div>
     </div>
+
+    <!-- JavaScript -->
     <script src="script.js"></script>
 </body>
 </html>
