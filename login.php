@@ -27,7 +27,9 @@ if (isset($_POST['login'])) {
     if (mysqli_num_rows($result) === 1) {
         $data = mysqli_fetch_assoc($result);
         if (password_verify($password, $data['password'])) {
-            setcookie('user', hash('sha256', $email), time() + (60 * 60 * 24));
+            if(isset($_POST['remember'])){
+                setcookie('user', hash('sha256', $email), time() + (60 * 60 * 24));
+            }
             $_SESSION["user"] = $email;
             header("Location: index.php");
             exit;
