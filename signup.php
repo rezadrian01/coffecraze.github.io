@@ -1,6 +1,7 @@
 <?php
 
 require('functions.php');
+
 if (isset($_POST['sign-up'])) {
     if (signup($_POST)) {
         echo "<script>
