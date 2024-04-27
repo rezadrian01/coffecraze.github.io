@@ -1,15 +1,34 @@
 <?php
 require('functions.php');
+session_start();
 
-if(isset($_POST['login'])){
+if (isset($_COOKIE['user'])) {
+    $key = $_COOKIE['user'];
+    $result = mysqli_query($conn, "SELECT email FROM user");
+    $row = mysqli_fetch_assoc($result);
+    foreach ($row as $data) {
+        if ($key === hash('sha256', $data)) {
+            $_SESSION['user'] = $data;
+        }
+    }
+}
+
+if (isset($_SESSION['user'])) {
+    header("Location: index.php");
+    exit();
+}
+
+if (isset($_POST['login'])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
     //cek apakah ada email di database
     $result = mysqli_query($conn, "SELECT * FROM user WHERE email = '$email';");
-    if(mysqli_num_rows($result) === 1){
+    if (mysqli_num_rows($result) === 1) {
         $data = mysqli_fetch_assoc($result);
-        if(password_verify($password, $data['password'])){
+        if (password_verify($password, $data['password'])) {
+            setcookie('user', hash('sha256', $email), time() + (60 * 60 * 24));
+            $_SESSION["user"] = $email;
             header("Location: index.php");
             exit;
         }
@@ -51,7 +70,7 @@ if(isset($_POST['login'])){
                     <div class="flex justify-between gap-x-2 items-center">
                         <input id="password" type="password" class="grow text-sm outline-none" placeholder="Password" name="password">
 
-                        <button id="show_hide_pass" type="button"onclick="showHidePassword()" class="p-1 transition hover:bg-[#eeeeee] rounded-full">
+                        <button id="show_hide_pass" type="button" onclick="showHidePassword()" class="p-1 transition hover:bg-[#eeeeee] rounded-full">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
@@ -59,7 +78,14 @@ if(isset($_POST['login'])){
                         </button>
                     </div>
                 </div>
-                <?php if(isset($error)): ?>
+
+                <!-- remember me -->
+                <div class="mt-4">
+                    <input type="checkbox" name="remember" id="remember">
+                    <label for="remember">Remember me</label>
+                </div>
+
+                <?php if (isset($error)) : ?>
                     <p class="text-xs italic text-red-500">Email atau password salah!</p>
                 <?php endif; ?>
 
