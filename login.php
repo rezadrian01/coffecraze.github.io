@@ -1,11 +1,34 @@
+<?php
+require('functions.php');
+
+if(isset($_POST['login'])){
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+
+    //cek apakah ada email di database
+    $result = mysqli_query($conn, "SELECT * FROM user WHERE email = '$email';");
+    if(mysqli_num_rows($result) === 1){
+        $data = mysqli_fetch_assoc($result);
+        if(password_verify($password, $data['password'])){
+            header("Location: index.php");
+            exit;
+        }
+    }
+    $error = true;
+}
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="stylesheet" href="./src/output.css">
 </head>
+
 <body>
     <div class="flex justify-center h-screen">
         <div class="w-1/4">
@@ -14,29 +37,34 @@
             </div>
 
             <!-- Email Input -->
-            <div class="flex flex-col py-2 px-3 border-2 rounded-2xl transition hover:border-gray-400 mb-4">
-                <label for="email" class="text-sm text-[#757575]">Email</label>
+            <form action="" method="post">
+                <div class="flex flex-col py-2 px-3 border-2 rounded-2xl transition hover:border-gray-400 mb-4">
+                    <label for="email" class="text-sm text-[#757575]">Email</label>
 
-                <input id="email" type="email" class="text-sm outline-none" placeholder="Email address">
-            </div>
-
-            <!-- Password Input -->
-            <div class="flex flex-col py-2 px-3 border-2 rounded-2xl transition hover:border-gray-400">
-                <label for="password" class="text-sm text-gray-500">Password</label>
-                
-                <div class="flex justify-between gap-x-2 items-center">
-                    <input id="password" type="password" class="grow text-sm outline-none" placeholder="Password">
-
-                    <button id="show_hide_pass" onclick="showHidePassword()" class="p-1 transition hover:bg-[#eeeeee] rounded-full">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                        </svg>  
-                    </button>
+                    <input id="email" type="email" class="text-sm outline-none" placeholder="Email address" name="email">
                 </div>
-            </div>
 
-            <button class="py-2.5 w-full bg-[#723E29] text-base text-white font-medium rounded-full mt-7">Login</button>
+                <!-- Password Input -->
+                <div class="flex flex-col py-2 px-3 border-2 rounded-2xl transition hover:border-gray-400">
+                    <label for="password" class="text-sm text-gray-500">Password</label>
+
+                    <div class="flex justify-between gap-x-2 items-center">
+                        <input id="password" type="password" class="grow text-sm outline-none" placeholder="Password" name="password">
+
+                        <button id="show_hide_pass" type="button"onclick="showHidePassword()" class="p-1 transition hover:bg-[#eeeeee] rounded-full">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <?php if(isset($error)): ?>
+                    <p class="text-xs italic text-red-500">Email atau password salah!</p>
+                <?php endif; ?>
+
+                <button type="submit" name="login" class="py-2.5 w-full bg-[#723E29] text-base text-white font-medium rounded-full mt-7">Login</button>
+            </form>
 
             <div class="text-sm text-center mt-4">
                 Don't have an account? <span><a href="signup.php" class="text-[#723E29] hover:underline">Sign up here</a></span>
@@ -49,7 +77,7 @@
         const showHidePassword = () => {
             const passwordElement = document.getElementById("password");
             const buttonShowHidePass = document.getElementById("show_hide_pass");
-            
+
             if (passwordElement.type === "password") {
                 passwordElement.type = "text";
 
@@ -62,4 +90,5 @@
         };
     </script>
 </body>
+
 </html>
