@@ -30,6 +30,10 @@ if (isset($_POST['login'])) {
             if(isset($_POST['remember'])){
                 setcookie('user', hash('sha256', $email), time() + (60 * 60 * 24));
             }
+            if($data['role'] === 'admin'){
+                header("Location: dashboard.php");
+                exit();
+            }
             $_SESSION["user"] = $email;
             header("Location: index.php");
             exit;

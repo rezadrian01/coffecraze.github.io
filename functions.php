@@ -1,6 +1,24 @@
 <?php
 
-$conn = mysqli_connect("localhost","root","","ta_web");
+$conn = mysqli_connect("localhost","root","","ta_web_final");
+
+function show($key){
+    global $conn;
+    if($key === false){
+        $result = mysqli_query($conn, "SELECT * FROM barang;");
+        $rows = [];
+        while($row = mysqli_fetch_array($result)){
+            $rows[] = $row;
+        }
+        return $rows;
+    }
+    $result = mysqli_query($conn, "SELECT * FROM barang WHERE id_kategori = '$key'");
+    $rows = [];
+    while($row = mysqli_fetch_array($result)){
+        $rows[] = $row;
+    }
+    return $rows;
+}
 
 function signup($data){
     global $conn;
@@ -30,6 +48,7 @@ function signup($data){
     mysqli_query($conn, "INSERT INTO USER VALUES ('$email', '$username', '$password1', '', 'user')");
     return true;
 }
+
 
 
 ?>
