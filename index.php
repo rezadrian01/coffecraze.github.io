@@ -2,7 +2,38 @@
     session_start();
     require('functions.php');
 
-    global $conn;
+    $items = show(false);
+    if(isset($_GET['key'])){
+        $key = $_GET['key'];
+        switch($key){
+            case "coffee":
+                $items = show(1);
+                break;
+            case "non coffee":
+                $items = show(2);
+                break;
+            case "frappuccino":
+                $items = show(3);
+                break;
+            case "seasional item":
+                $items = show(4);
+                break;
+            case "food":
+                $items = show(5);
+                break;
+            case "wafle":
+                $items = show(6);
+                break;
+            case "snack":
+                $items = show(7);
+                break;
+            case "desert":
+                $items = show(8);
+                break;
+        }
+    }
+    
+
 ?>
 
 <!DOCTYPE html>
@@ -36,20 +67,29 @@
             <main class="grow py-2.5 px-4 md:px-6 xl:px-12 2xl:px-16">
                 <div class="flex justify-between items-center mt-3 mb-8">
                     <div class="flex items-center gap-x-2">
-                        <button class="py-2 px-4 rounded-full text-sm text-white font-semibold bg-[#723E29]">
+                        <!--kategori-->
+                        <a href="index.php" class="py-2 px-4 rounded-full text-sm text-white font-semibold bg-[#723E29]">
                             All
-                        </button>
+
+                        </a>
+
+
                         <?php
                             $getCategory = "SELECT * FROM kategori";
                             $getCategoryQuery = mysqli_query($conn, $getCategory);
 
                             while($data = mysqli_fetch_array($getCategoryQuery)) {
                         ?>
-                            <button class="py-2 px-4 rounded-full text-sm text-white font-semibold bg-[#8d6e63] capitalize">
+
+                            <a href="index.php?key=<?= $data['nama']; ?>" class="py-2 px-4 rounded-full text-sm text-white font-semibold bg-[#8d6e63] capitalize">
                                 <?php echo $data['nama'] ?>
-                            </button>
+                            </a>
+
+                            
+
                         <?php }; ?>
                     </div>
+                    
 
                     <div>
                         <button class="flex items-center gap-x-2 py-2 pl-3 pr-4 rounded-full text-sm font-medium border">
@@ -65,10 +105,10 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-6 gap-6">
                     <?php
-                        $getProducts = "SELECT * FROM barang WHERE status = 'ready'";
-                        $getProductsQuery = mysqli_query($conn, $getProducts);
 
-                        while($data = mysqli_fetch_array($getProductsQuery)) {
+                        foreach($items as $data):
+
+
                     ?>
                         <div onclick='showModal(<?php echo $data["id"]?>)'>
                             <div class="h-80 w-full">
@@ -225,7 +265,11 @@
                                 </div>
                             </div>
                         </div>
-                    <?php }; ?>
+
+                    <?php endforeach; ?>
+
+                    
+
                 </div>
             </main>
 
