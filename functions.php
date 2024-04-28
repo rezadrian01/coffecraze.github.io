@@ -1,7 +1,6 @@
 <?php
 
-
-$conn = mysqli_connect("localhost","root","","ta_web_final");
+$conn = mysqli_connect("localhost","root","","ta_web");
 
 function show($key){
     global $conn;
@@ -28,8 +27,6 @@ function show($key){
     }
     return $rows;
 }
-=======
-
 
 function signup($data){
     global $conn;
@@ -59,4 +56,12 @@ function signup($data){
     mysqli_query($conn, "INSERT INTO USER VALUES ('$email', '$username', '$password1', '', 'user')");
     return true;
 }
+
+function addSession($email){
+    global $conn;
+    $result = mysqli_query($conn, "SELECT * FROM user WHERE email = '$email';");
+    $row = mysqli_fetch_assoc($result);
+    return $row;
+}
+
 ?>

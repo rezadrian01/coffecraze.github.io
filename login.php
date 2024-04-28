@@ -1,19 +1,26 @@
 <?php
 require('functions.php');
 session_start();
-
 if (isset($_COOKIE['user'])) {
     $key = $_COOKIE['user'];
     $result = mysqli_query($conn, "SELECT email FROM user");
     $row = mysqli_fetch_assoc($result);
     foreach ($row as $data) {
+        //data sebagai email user
         if ($key === hash('sha256', $data)) {
-            $_SESSION['user'] = $data;
+            var_dump($data);
+            $isi = addSession($data);
+            $_SESSION["data"] = array(
+                "email" => $isi['email'],
+                "username" => $isi['username'],
+                "alamat" => $isi['alamat'],
+                "role" => $isi['role']
+            );
         }
     }
 }
 
-if (isset($_SESSION['user'])) {
+if (isset($_SESSION["data"])) {
     header("Location: index.php");
     exit();
 }
@@ -30,11 +37,19 @@ if (isset($_POST['login'])) {
             if(isset($_POST['remember'])){
                 setcookie('user', hash('sha256', $email), time() + (60 * 60 * 24));
             }
+            //mengambil data user sebelum dimasukan ke session
+            $data = addSession($email);
+            $_SESSION["data"] = array(
+                "email" => $data['email'],
+                "username" => $data['username'],
+                "alamat" => $data['alamat'],
+                "role" => $data['role']
+            );
             if($data['role'] === 'admin'){
                 header("Location: dashboard.php");
                 exit();
             }
-            $_SESSION["user"] = $email;
+
             header("Location: index.php");
             exit;
         }
