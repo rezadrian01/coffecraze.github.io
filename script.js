@@ -1,22 +1,12 @@
-// Tabs Functions
-window.onload = function () {
-  // Menandai tab Details sebagai aktif secara default saat halaman dimuat
-  document.getElementById("details").style.display = "block";
-  document.querySelector(".tablinks.active").classList.remove("active"); // Hapus kelas 'active' dari tab sebelumnya
-  document
-    .querySelector("[onclick=\"tab(event, 'details')\"]")
-    .classList.add("active"); // Tambahkan kelas 'active' ke tab Details
-};
-
-const tab = (evt, cityName) => {
+const tab = (evt, cityName, id) => {
   let i, tabcontent, tablinks;
 
-  tabcontent = document.getElementsByClassName("tab-content");
+  tabcontent = document.getElementsByClassName(`tab-content${id}`);
   for (i = 0; i < tabcontent.length; i++) {
     tabcontent[i].style.display = "none";
   }
 
-  tablinks = document.getElementsByClassName("tablinks");
+  tablinks = document.getElementsByClassName(`tablinks${id}`);
   for (i = 0; i < tablinks.length; i++) {
     tablinks[i].className = tablinks[i].className.replace(" active", "");
   }
@@ -27,14 +17,14 @@ const tab = (evt, cityName) => {
 // End Tabs Functions
 
 // Modal Functions
-const showModal = () => {
-  const element = document.querySelector("#modal");
+const showModal = (id) => {
+  const element = document.querySelector(`#modal${id}`);
 
   element.classList.replace("hidden", "block");
 };
 
-const hiddenModal = () => {
-  const element = document.querySelector("#modal");
+const hiddenModal = (id) => {
+  const element = document.querySelector(`#modal${id}`);
 
   element.classList.replace("block", "hidden");
 };

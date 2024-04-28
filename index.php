@@ -1,10 +1,17 @@
 <?php
 
+<<<<<<< Updated upstream
 session_start();
 require('functions.php');
 $items = show(false);
+=======
+    session_start();
+>>>>>>> Stashed changes
 
+    include("functions.php");
+    global $conn;
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -39,9 +46,16 @@ $items = show(false);
                         <button class="py-2 px-4 rounded-full text-sm text-white font-semibold bg-[#723E29]">
                             All
                         </button>
-                        <a href="show.php?key=1" class="py-2 px-4 rounded-full text-sm text-white font-semibold bg-[#8d6e63]">
-                            Coffee
-                        </a>
+                        <?php
+                            $getCategory = "SELECT * FROM kategori";
+                            $getCategoryQuery = mysqli_query($conn, $getCategory);
+
+                            while($data = mysqli_fetch_array($getCategoryQuery)) {
+                        ?>
+                            <button class="py-2 px-4 rounded-full text-sm text-white font-semibold bg-[#8d6e63] capitalize">
+                                <?php echo $data['nama'] ?>
+                            </button>
+                        <?php }; ?>
                     </div>
 
                     <div>
@@ -56,19 +70,33 @@ $items = show(false);
                     </div>
                 </div>
 
-                <?php foreach($items as $data): ?>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-6 gap-6">
-                        <div onclick="showModal()">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-6 gap-6">
+                    <?php
+                        $getProducts = "SELECT * FROM barang WHERE status = 'ready'";
+                        $getProductsQuery = mysqli_query($conn, $getProducts);
+
+                        while($data = mysqli_fetch_array($getProductsQuery)) {
+                    ?>
+                        <div onclick='showModal(<?php echo $data["id"]?>)'>
                             <div class="h-80 w-full">
-                                <img class="h-full w-full rounded-2xl object-cover" src="./images/<?= $data['gambar']; ?>" alt="coffee">
+                                <img class="h-full w-full rounded-2xl object-cover" src="<?php echo "./images/" . $data['gambar']?>" alt="coffee">
                             </div>
 
                             <div class="flex justify-between items-center mt-1">
                                 <!-- Product's name and category -->
                                 <div>
-                                    <div class="text-sm text-[#757575]"><?= $data['kategori']; ?></div>
-                                    <h6 class="font-bold text-xl text-[#3e2723]"><?= $data['nama'] ?></h6>
+                                    <div class="text-sm text-[#757575] capitalize">
+                                        <?php 
+                                            $getProductCategory = "SELECT * FROM kategori WHERE id = {$data['id_kategori']};";
+                                            $getProductsCategoryQuery = mysqli_query($conn, $getProductCategory);
+                                            $resultProductCategory = mysqli_fetch_assoc($getProductsCategoryQuery);
+
+                                            echo $resultProductCategory['nama'];
+                                        ?>
+                                    </div>
+                                    <h6 class="font-bold text-xl text-[#3e2723]">
+                                        <?php echo $data['nama']; ?>
+                                    </h6>
                                 </div>
 
                                 <!-- Rating -->
@@ -83,7 +111,7 @@ $items = show(false);
                             </div>
 
                             <div class="flex justify-between items-center mt-1">
-                                <h6 class="text-lg font-bold"><?= $data['harga']; ?></h6>
+                                <h6 class="text-lg font-bold">Rp<?php echo $data['harga']; ?></h6>
                             </div>
 
                             <div class="flex items-center gap-x-2 mt-2">
@@ -96,119 +124,116 @@ $items = show(false);
                                 </button>
                             </div>
                         </div>
-                    </div>
-                <?php endforeach; ?>
 
-                <!-- Modal -->
-                <?php foreach($items as $data): ?>
-                    <div id="modal" class="hidden fixed top-0 left-0 flex justify-center items-center w-full h-full z-10">
-                        <!-- Backdrop -->
-                        <div onclick="hiddenModal()" class="fixed top-0 left-0 bg-black opacity-50 w-full h-full z-[-1]"></div>
-
-                        <!-- Modal Body -->
-                        <div class="bg-white rounded-3xl w-full max-w-screen-lg z-20">
-                            <div class="flex flex-col gap-y-4 max-h-full">
-                                <!-- Header -->
-                                <div class="flex justify-end p-2">
-                                    <!-- Close Button -->
-                                    <button onclick="hiddenModal()" class="p-3 rounded-full hover:bg-[#eeeeee]">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-                                        </svg>
-                                    </button>
-                                </div>
-
-                                <!-- Body -->
-                                <div class="grid grid-cols-12 gap-x-4 px-6 pb-6">
-                                    <div class="col-span-5">
-                                        <img class="rounded-2xl" src="./images/<?= $data['gambar']; ?>" alt="coffee">
+                        <div id="modal<?php echo $data['id']?>" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                            <div onclick="hiddenModal(<?php echo $data['id']?>)" class="fixed top-0 left-0 bg-black opacity-50 w-full h-full z-[-1]"></div>    
+                            
+                            <div class="relative w-full max-w-screen-lg max-h-full">
+                                <!-- Modal content -->
+                                <div class="relative bg-white rounded-3xl shadow-lg">
+                                    <!-- Modal header -->
+                                    <div class="flex items-center justify-end p-4 md:p-1 md:pb-0 rounded-t-2xl">
+                                        <button onclick="hiddenModal(<?php echo $data['id']?>)" class="p-3 rounded-full hover:bg-[#eeeeee]">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                                            </svg>
+                                        </button>
                                     </div>
-
-                                    <div class="col-span-7">
-                                        <div class="tabs-parent relative flex items-center justify-between gap-x-1 p-1 bg-[#e0e0e0] rounded-full">
-                                            <button onclick="tab(event, 'details')" class="tablinks w-full text-center py-2 rounded-full active">Details</button>
-                                            <button onclick="tab(event, 'review')" class="tablinks w-full text-center py-2 rounded-full">Review</d>
-                                        </div>
-
-                                        <div id="details" class="tab-content mt-4" style="display: block;">
-                                            <div class="flex justify-between items-center">
-                                                <div>
-                                                    <div class="text-2xl text-black font-medium">Caffè latte</div>
-                                                    <div class="text-base text-[#757575]">Espresso</div>
-                                                </div>
-
-                                                <div>
-                                                    <button class="py-3 px-6 bg-[#723E29] text-sm text-white font-medium rounded-full">Buy now</button>
-                                                    <button class="py-3 px-6 bg-[#723E29] text-sm text-white font-medium rounded-full">Add to cart</button>
-                                                </div>
+                                    
+                                    <!-- Modal body -->
+                                    <div class="p-4 md:pt-4 md:pb-6 md:px-6">
+                                        <div class="grid grid-cols-12 gap-x-4 px-6 pb-6">
+                                            <div class="col-span-5">
+                                                <img class="rounded-2xl" src="<?php echo "./images/" . $data['gambar']?>" alt="coffee">
                                             </div>
 
-                                            <!-- Rating -->
-                                            <div class="flex items-center gap-x-2 mt-1">
-                                                <div class="flex items-center">
-                                                    <svg class="w-4 h-4 text-[#fb8c00]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                                                        <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                                                    </svg>
-                                                    <svg class="w-4 h-4 text-[#fb8c00] ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                                                        <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                                                    </svg>
-                                                    <svg class="w-4 h-4 text-[#fb8c00] ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                                                        <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                                                    </svg>
-                                                    <svg class="w-4 h-4 text-[#fb8c00] ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                                                        <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                                                    </svg>
-                                                    <svg class="w-4 h-4 ms-1 text-gray-300 dark:text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                                                        <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                                                    </svg>
+                                            <div class="col-span-7">
+                                                <div class="tabs-parent relative flex items-center justify-between gap-x-1 p-1 bg-[#e0e0e0] rounded-full">
+                                                    <button onclick="tab(event, 'details<?php echo $data['id']; ?>', '<?php echo $data['id']; ?>')" class="tablinks<?php echo $data['id']; ?> w-full text-center py-2 rounded-full active">Details</button>
+                                                    <button onclick="tab(event, 'review<?php echo $data['id']; ?>', '<?php echo $data['id']; ?>')" class="tablinks<?php echo $data['id']; ?> w-full text-center py-2 rounded-full">Review</d>
                                                 </div>
 
-                                                <span>45</span>
-                                            </div>
+                                                <div id="details<?php echo $data['id']; ?>" class="tab-content<?php echo $data['id']; ?> mt-4" style="display: block;">
+                                                    <div class="flex justify-between items-center">
+                                                        <div>
+                                                            <div class="text-2xl text-black font-medium"><?php echo $data['nama']; ?></div>
+                                                            <div class="text-base text-[#757575] capitalize"><?php echo $resultProductCategory['nama']; ?></div>
+                                                        </div>
 
-                                            <div class="bg-[#eeeeee] rounded-2xl py-2 px-3 mt-4">
-                                                <div class="text-lg font-bold mb-3">Description</div>
+                                                        <div>
+                                                            <button class="py-3 px-6 bg-[#723E29] text-sm text-white font-medium rounded-full">Buy now</button>
+                                                            <button class="py-3 px-6 bg-[#723E29] text-sm text-white font-medium rounded-full">Add to cart</button>
+                                                        </div>
+                                                    </div>
 
-                                                <p class="text-base">
-                                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore vel illum quisquam itaque placeat recusandae voluptatem architecto repellendus laborum, quia sit vero corrupti, asperiores, laudantium dolorem autem eos? Magnam consectetur ducimus commodi eum. Eveniet at debitis velit impedit? Optio doloremque ducimus nemo vel beatae voluptatibus architecto ipsa aliquid earum quae?
-                                                </p>
-                                            </div>
-                                        </div>
+                                                    <!-- Rating -->
+                                                    <div class="flex items-center gap-x-2 mt-1">
+                                                        <div class="flex items-center">
+                                                            <svg class="w-4 h-4 text-[#fb8c00]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                                                <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+                                                            </svg>
+                                                            <svg class="w-4 h-4 text-[#fb8c00] ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                                                <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+                                                            </svg>
+                                                            <svg class="w-4 h-4 text-[#fb8c00] ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                                                <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+                                                            </svg>
+                                                            <svg class="w-4 h-4 text-[#fb8c00] ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                                                <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+                                                            </svg>
+                                                            <svg class="w-4 h-4 ms-1 text-gray-300 dark:text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                                                <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+                                                            </svg>
+                                                        </div>
 
-                                        <div id="review" class="tab-content mt-2" style="display: none;">
-                                            <div class="hover:bg-[#eeeeee] py-2 px-3 rounded-2xl">
-                                                <div class="font-bold">Fathan Alfariel Adhyaksa</div>
+                                                        <span>45</span>
+                                                    </div>
 
-                                                <!-- Rating -->
-                                                <div class="flex items-center mt-0.5">
-                                                    <svg class="w-4 h-4 text-[#fb8c00]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                                                        <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                                                    </svg>
-                                                    <svg class="w-4 h-4 text-[#fb8c00] ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                                                        <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                                                    </svg>
-                                                    <svg class="w-4 h-4 text-[#fb8c00] ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                                                        <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                                                    </svg>
-                                                    <svg class="w-4 h-4 text-[#fb8c00] ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                                                        <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                                                    </svg>
-                                                    <svg class="w-4 h-4 ms-1 text-gray-300 dark:text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                                                        <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                                                    </svg>
+                                                    <div class="bg-[#eeeeee] rounded-2xl py-2 px-3 mt-4">
+                                                        <div class="text-lg font-bold mb-3">Description</div>
+
+                                                        <p class="text-base">
+                                                            <?php echo $data['deskripsi']; ?>
+                                                        </p>
+                                                    </div>
                                                 </div>
 
-                                                <p class="text-sm mt-1">
-                                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse, nobis. Possimus explicabo quisquam expedita distinctio fugiat sapiente aliquam. Debitis dicta omnis iure ad odit repellat vitae aliquid facere eos soluta.
-                                                </p>
+                                                <div id="review<?php echo $data['id']; ?>" class="tab-content<?php echo $data['id']; ?> mt-2" style="display: none;">
+                                                    <div class="hover:bg-[#eeeeee] py-2 px-3 rounded-2xl">
+                                                        <div class="font-bold">Fathan Alfariel Adhyaksa</div>
+
+                                                        <!-- Rating -->
+                                                        <div class="flex items-center mt-0.5">
+                                                            <svg class="w-4 h-4 text-[#fb8c00]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                                                <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+                                                            </svg>
+                                                            <svg class="w-4 h-4 text-[#fb8c00] ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                                                <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+                                                            </svg>
+                                                            <svg class="w-4 h-4 text-[#fb8c00] ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                                                <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+                                                            </svg>
+                                                            <svg class="w-4 h-4 text-[#fb8c00] ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                                                <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+                                                            </svg>
+                                                            <svg class="w-4 h-4 ms-1 text-gray-300 dark:text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                                                <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+                                                            </svg>
+                                                        </div>
+
+                                                        <p class="text-sm mt-1">
+                                                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse, nobis. Possimus explicabo quisquam expedita distinctio fugiat sapiente aliquam. Debitis dicta omnis iure ad odit repellat vitae aliquid facere eos soluta.
+                                                        </p>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                <?php endforeach; ?>
+                    <?php }; ?>
+                </div>
             </main>
 
             <footer class="py-3 px-12 border-t bg-[#723E29] text-white text-center">
