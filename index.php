@@ -76,6 +76,7 @@
                         <a href="index.php" class="py-2 px-4 rounded-full text-sm text-white font-semibold bg-[#723E29]">
                             All
                         </a>
+
                         <?php
                             $getCategory = "SELECT * FROM kategori";
                             $getCategoryQuery = mysqli_query($conn, $getCategory);
@@ -85,6 +86,7 @@
                             <a href="index.php?key=<?= $data['nama']; ?>" class="py-2 px-4 rounded-full text-sm text-white font-semibold bg-[#8d6e63] capitalize">
                                 <?php echo $data['nama'] ?>
                             </a>
+
                         <?php }; ?>
                     </div>
                     
@@ -269,6 +271,7 @@
             </footer>
         </div>
 
+        <!-- Cart Sidebar -->
         <div class="hidden md:block w-80 md:w-64 xl:w-72 2xl:w-80 border-l p-1">
             <div class="grid grid-cols-12 gap-x-2 rounded-2xl p-1 group">
                 <div class="col-span-4">
