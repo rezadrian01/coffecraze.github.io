@@ -5,7 +5,7 @@ $conn = mysqli_connect("localhost","root","","ta_web_final");
 function show($key){
     global $conn;
     if($key === false){
-        $result = mysqli_query($conn, "SELECT * FROM barang;");
+        $result = mysqli_query($conn, "SELECT * FROM barang WHERE status = 'ready';");
         $rows = [];
         while($row = mysqli_fetch_assoc($result)){
             $id = $row['id_kategori'];
@@ -17,7 +17,7 @@ function show($key){
         return $rows;
     }
     //jika fungsi dipanggil menggunakan argument
-    $result = mysqli_query($conn, "SELECT * FROM barang WHERE id_kategori = '$key'");
+    $result = mysqli_query($conn, "SELECT * FROM barang WHERE id_kategori = '$key' and status = 'ready';");
     $rows = [];
     while($row = mysqli_fetch_assoc($result)){
         $kategori = mysqli_query($conn, "SELECT nama FROM kategori WHERE id = '$key'");
