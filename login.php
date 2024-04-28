@@ -1,14 +1,13 @@
 <?php
-require('functions.php');
 session_start();
+require('functions.php');
 if (isset($_COOKIE['user'])) {
     $key = $_COOKIE['user'];
     $result = mysqli_query($conn, "SELECT email FROM user");
-    $row = mysqli_fetch_assoc($result);
-    foreach ($row as $data) {
-        //data sebagai email user
+    while($row = mysqli_fetch_row($result)[0]){
+        $data = $row;
         if ($key === hash('sha256', $data)) {
-            var_dump($data);
+            
             $isi = addSession($data);
             $_SESSION["data"] = array(
                 "email" => $isi['email'],
@@ -19,6 +18,7 @@ if (isset($_COOKIE['user'])) {
         }
     }
 }
+
 
 if (isset($_SESSION["data"])) {
     header("Location: index.php");
@@ -45,6 +45,7 @@ if (isset($_POST['login'])) {
                 "alamat" => $data['alamat'],
                 "role" => $data['role']
             );
+
             if($data['role'] === 'admin'){
                 header("Location: dashboard.php");
                 exit();
