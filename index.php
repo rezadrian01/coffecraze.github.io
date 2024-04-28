@@ -67,7 +67,7 @@ $items = show(false);
                             <div class="flex justify-between items-center mt-1">
                                 <!-- Product's name and category -->
                                 <div>
-                                    <div class="text-sm text-[#757575]"><?= $data['id_kategori']; ?></div>
+                                    <div class="text-sm text-[#757575]"><?= $data['kategori']; ?></div>
                                     <h6 class="font-bold text-xl text-[#3e2723]"><?= $data['nama'] ?></h6>
                                 </div>
 
