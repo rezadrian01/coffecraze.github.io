@@ -1,6 +1,7 @@
 <?php
     session_start();
     require('functions.php');
+
     $items = show(false);
     if(isset($_GET['key'])){
         $key = $_GET['key'];
@@ -32,7 +33,7 @@
         }
     }
     
-    global $conn;
+
 ?>
 
 <!DOCTYPE html>
@@ -69,16 +70,23 @@
                         <!--kategori-->
                         <a href="index.php" class="py-2 px-4 rounded-full text-sm text-white font-semibold bg-[#723E29]">
                             All
+
                         </a>
+
+
                         <?php
                             $getCategory = "SELECT * FROM kategori";
                             $getCategoryQuery = mysqli_query($conn, $getCategory);
 
                             while($data = mysqli_fetch_array($getCategoryQuery)) {
                         ?>
+
                             <a href="index.php?key=<?= $data['nama']; ?>" class="py-2 px-4 rounded-full text-sm text-white font-semibold bg-[#8d6e63] capitalize">
                                 <?php echo $data['nama'] ?>
                             </a>
+
+                            
+
                         <?php }; ?>
                     </div>
                     
@@ -97,7 +105,10 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-6 gap-6">
                     <?php
+
                         foreach($items as $data):
+
+
                     ?>
                         <div onclick='showModal(<?php echo $data["id"]?>)'>
                             <div class="h-80 w-full">
@@ -254,7 +265,11 @@
                                 </div>
                             </div>
                         </div>
+
                     <?php endforeach; ?>
+
+                    
+
                 </div>
             </main>
 
