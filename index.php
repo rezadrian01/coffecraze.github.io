@@ -1,14 +1,8 @@
 <?php
-
-<<<<<<< Updated upstream
-session_start();
-require('functions.php');
-$items = show(false);
-=======
     session_start();
->>>>>>> Stashed changes
-
-    include("functions.php");
+    require('functions.php');
+    $items = show(false);
+    
     global $conn;
 ?>
 
