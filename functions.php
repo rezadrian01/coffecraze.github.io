@@ -58,5 +58,12 @@ function signup($data){
 }
 
 
+function addSession($email){
+    global $conn;
+    $result = mysqli_query($conn, "SELECT * FROM user WHERE email = '$email';");
+    $row = mysqli_fetch_assoc($result);
+    return $row;
+}
+
 
 ?>

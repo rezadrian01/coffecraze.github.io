@@ -1,3 +1,17 @@
+<?php
+
+require('functions.php');
+session_start();
+
+
+//data user yang login
+$emailUser = $_SESSION['data']['email'];
+$usernameUser = $_SESSION['data']['username'];
+$alamatUser = $_SESSION['data']['alamat'];
+$roleUser = $_SESSION['data']['role'];
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -89,5 +103,6 @@
         </div>
     </div>
 </body>
+
 
 </html>

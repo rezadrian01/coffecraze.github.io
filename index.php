@@ -1,7 +1,6 @@
 <?php
     session_start();
     require('functions.php');
-
     $items = show(false);
     if(isset($_GET['key'])){
         $key = $_GET['key'];
@@ -33,7 +32,13 @@
         }
     }
     
-
+    
+    //data user yang login
+    $emailUser = $_SESSION['data']['email'];
+    $usernameUser = $_SESSION['data']['username'];
+    $alamatUser = $_SESSION['data']['alamat'];
+    $roleUser = $_SESSION['data']['role'];
+    
 ?>
 
 <!DOCTYPE html>
@@ -55,7 +60,7 @@
                     <div class="text-xl font-medium">Logo</div>
 
                     <!-- jika belum login maka tombolnya login/signup -->
-                    <?php if (!isset($_SESSION['user'])) : ?>
+                    <?php if (!isset($_SESSION["data"])) : ?>
                         <a href="login.php" class="py-3 px-6 bg-[#723E29] text-sm text-white font-medium rounded-full">Log in / Sign up</a>
                     <!-- jika sudah login maka tombol menjadi logout -->
                     <?php else : ?>
@@ -70,7 +75,6 @@
                         <!--kategori-->
                         <a href="index.php" class="py-2 px-4 rounded-full text-sm text-white font-semibold bg-[#723E29]">
                             All
-
                         </a>
 
                         <?php
@@ -79,7 +83,6 @@
 
                             while($data = mysqli_fetch_array($getCategoryQuery)) {
                         ?>
-
                             <a href="index.php?key=<?= $data['nama']; ?>" class="py-2 px-4 rounded-full text-sm text-white font-semibold bg-[#8d6e63] capitalize">
                                 <?php echo $data['nama'] ?>
                             </a>
@@ -102,10 +105,7 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-6 gap-6">
                     <?php
-
                         foreach($items as $data):
-
-
                     ?>
                         <div onclick='showModal(<?php echo $data["id"]?>)'>
                             <div class="h-80 w-full">
@@ -262,7 +262,6 @@
                                 </div>
                             </div>
                         </div>
-
                     <?php endforeach; ?>
                 </div>
             </main>
