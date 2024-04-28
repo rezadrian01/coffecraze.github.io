@@ -1,8 +1,7 @@
 <?php
     session_start();
     require('functions.php');
-    $items = show(false);
-    
+
     global $conn;
 ?>
 
