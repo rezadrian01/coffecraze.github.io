@@ -54,7 +54,7 @@
                 <input id="search" type="text" class="outline-none text-sm w-full" placeholder="Search product">
             </div>
 
-            <a href="tambah_produk.php" class="py-2.5 px-5 transition hover:bg-[#e3f2fd] text-[#1976d2] text-sm font-medium rounded-full">Add product</a>
+            <a href="produk_tambah_page.php" class="py-2.5 px-5 transition hover:bg-[#e3f2fd] text-[#1976d2] text-sm font-medium rounded-full">Add product</a>
         </div>
 
         <div class="relative overflow-x-auto mt-5">
@@ -79,43 +79,58 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="text-sm">
-                        <th class="flex items-center gap-x-2 px-6 py-4 font-medium text-gray-900 text-sm group">
-                            <img class="w-12 rounded-lg" src="./assets/coffee-image.jpg" alt="coffee">
+                        <?php
+                            include("functions.php");
+                            global $conn;
 
-                            <div>
-                                Caffè latte
+                            $sql = "SELECT * FROM barang";
+                            $query = mysqli_query($conn, $sql);
 
-                                <p class="group-hover:hidden line-clamp-2 mt-0.5 text-[#757575] font-normal">Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum earum et impedit quidem quibusdam consequatur vel voluptates, tempora temporibus asperiores nobis explicabo ipsum deleniti architecto consectetur blanditiis, magni repellat voluptate? Quo, unde. Voluptatum officiis illum autem exercitationem reiciendis eligendi non accusamus blanditiis quos animi odio inventore quo, dolores, praesentium atque?</p>
-                            
-                                <div class="hidden group-hover:block mt-2.5">
-                                    <button type="button" class="p-2 hover:bg-[#eeeeee] rounded-full">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
-                                        </svg>
-                                    </button>
+                            while($data = mysqli_fetch_array($query)) {
+                        ?>
+                            <tr class="text-sm">
+                                <th class="flex items-center gap-x-2 px-6 py-4 font-medium text-gray-900 text-sm group">
+                                        <img class="w-12 rounded-lg" src="<?php echo "./images/" . $data['gambar']; ?>" alt="coffee">
+            
+                                        <div>
+                                            <?php echo $data['nama']; ?>
+            
+                                            <p class="group-hover:hidden line-clamp-2 mt-0.5 text-[#757575] font-normal">
+                                                <?php echo $data['deskripsi']; ?>
+                                            </p>
+                                        
+                                            <div class="hidden group-hover:block mt-2.5">
+                                                <div class="flex items-center">
+                                                    <a href="<?php echo "produk_edit_page.php?id=" . $data['id']; ?>" class="p-2 hover:bg-[#eeeeee] rounded-full">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
+                                                        </svg>
+                                                    </a>
+                
+                                                    <a href="<?php echo "produk_hapus.php?id=" . $data['id']; ?>" class="p-2 hover:bg-[#eeeeee] rounded-full">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                                                        </svg>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </th>
 
-                                    <button type="button" class="p-2 hover:bg-[#eeeeee] rounded-full">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
-                        </th>
-                        <td class="px-6 py-4">
-                            Rp8.000
-                        </td>
-                        <td class="px-6 py-4">
-                            <span class="bg-blue-100 text-blue-800 text-xs font-medium me-2 py-1 px-2 rounded-full">Ready</span>
-                        </td>
-                        <td class="px-6 py-4 text-sm hover:text-blue-600 cursor-pointer">
-                            4
-                        </td>
-                        <td class="px-6 py-4 text-sm hover:text-blue-600 cursor-pointer">
-                            4
-                        </td>
-                    </tr>
+                                    <td class="px-6 py-4">
+                                        <?php echo $data['harga']; ?>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span class="bg-blue-100 text-blue-800 text-xs font-medium me-2 py-1 px-2 rounded-full capitalize"><?php echo $data['status']; ?></span>
+                                    </td>
+                                    <td class="px-6 py-4 text-sm hover:text-blue-600 cursor-pointer">
+                                        4
+                                    </td>
+                                    <td class="px-6 py-4 text-sm hover:text-blue-600 cursor-pointer">
+                                        4
+                                    </td>
+                            </tr>
+                        <?php }; ?>
                 </tbody>
             </table>
         </div>
