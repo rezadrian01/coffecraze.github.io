@@ -7,14 +7,22 @@ function show($key){
     if($key === false){
         $result = mysqli_query($conn, "SELECT * FROM barang;");
         $rows = [];
-        while($row = mysqli_fetch_array($result)){
+        while($row = mysqli_fetch_assoc($result)){
+            $id = $row['id_kategori'];
+            $kategori = mysqli_query($conn, "SELECT nama FROM kategori WHERE id = '$id'");
+            $kategori = mysqli_fetch_row($kategori)[0];
+            $row["kategori"] =  $kategori;
             $rows[] = $row;
         }
         return $rows;
     }
+    //jika fungsi dipanggil menggunakan argument
     $result = mysqli_query($conn, "SELECT * FROM barang WHERE id_kategori = '$key'");
     $rows = [];
-    while($row = mysqli_fetch_array($result)){
+    while($row = mysqli_fetch_assoc($result)){
+        $kategori = mysqli_query($conn, "SELECT nama FROM kategori WHERE id = '$key'");
+        $kategori = mysqli_fetch_row($kategori)[0];
+        $row["kategori"] =  $kategori;
         $rows[] = $row;
     }
     return $rows;
