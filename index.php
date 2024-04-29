@@ -1,16 +1,6 @@
 <?php
     session_start();
     require('functions.php');
-    require('session.php');
-
-    //jika user sudah login
-    if(isset($_SESSION['data'])){
-        //data user yang login
-        $phoneUser = $_SESSION['data']['phone'];
-        $usernameUser = $_SESSION['data']['username'];
-        $alamatUser = $_SESSION['data']['alamat'];
-        $roleUser = $_SESSION['data']['role']; 
-    }
 
     $items = show(false);
     if(isset($_GET['key'])){
@@ -116,8 +106,47 @@ if(isset($_GET['key'])){
                         <a href="login.php" class="py-3 px-6 bg-[#723E29] text-sm text-white font-medium rounded-full">Log in / Sign up</a>
                     <!-- jika sudah login maka tombol menjadi logout -->
                     <?php else : ?>
-                        <a href="logout.php" class="py-3 px-6 bg-[#723E29] text-sm text-white font-medium rounded-full">Logout</a>
-                        
+                        <div id="parent-dropdown" class="relative inline-block">
+                            <button onclick="menuDropdown()" class="flex items-center py-3 pl-6 pr-5 border rounded-full font-medium text-sm">
+                                Welcome, <span class="font-normal"><?php echo $_SESSION['data']['username']; ?></span>
+                            
+                                <span class="ml-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                                    </svg>
+                                </span>
+                            </button>
+
+                            <div id="menu-dropdown" class="hidden absolute top-auto right-0 w-52">
+                                <ul class="mt-2 p-1 bg-white shadow-md rounded-xl border">
+                                    <?php
+                                        if($_SESSION['data']['role'] === "admin") {
+                                    ?>
+                                        <li>
+                                            <button class="py-2 pl-3.5 w-full hover:bg-[#eeeeee] text-left rounded-lg">
+                                                Dashboard
+                                            </button>
+                                        </li>
+                                        
+                                    <?php }; ?>
+                                    <li>
+                                        <button class="py-2 pl-3.5 w-full hover:bg-[#eeeeee] text-left rounded-lg">
+                                            Profile
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <div class="w-full">
+                                            <a href="logout.php">
+                                                <button class="py-2 pl-3.5 w-full hover:bg-[#eeeeee] text-left rounded-lg">
+                                                    Logout
+                                                </button>
+                                            </a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- <a href="logout.php" class="py-3 px-6 bg-[#723E29] text-sm text-white font-medium rounded-full">Logout</a> -->
                     <?php endif; ?>
                 </div>
             </header>
@@ -169,41 +198,43 @@ if(isset($_GET['key'])){
                     <?php
                         foreach($items as $data):
                     ?>
-                        <div onclick='showModal(<?php echo $data["id"]?>)'>
-                            <div class="h-80 w-full">
-                                <img class="h-full w-full rounded-2xl object-cover" src="<?php echo "./images/" . $data['gambar']?>" alt="coffee">
-                            </div>
+                        <div class="flex flex-col justify-between" onclick='showModal(<?php echo $data["id"]?>)'>
+                            <div>
+                                <div class="h-80 w-full">
+                                    <img class="h-full w-full rounded-2xl object-cover" src="<?php echo "./images/" . $data['gambar']?>" alt="coffee">
+                                </div>
 
-                            <div class="flex justify-between items-center mt-1">
-                                <!-- Product's name and category -->
-                                <div>
-                                    <div class="text-sm text-[#757575] capitalize">
-                                        <?php 
-                                            $getProductCategory = "SELECT * FROM kategori WHERE id = {$data['id_kategori']};";
-                                            $getProductsCategoryQuery = mysqli_query($conn, $getProductCategory);
-                                            $resultProductCategory = mysqli_fetch_assoc($getProductsCategoryQuery);
+                                <div class="flex justify-between items-center mt-1">
+                                    <!-- Product's name and category -->
+                                    <div>
+                                        <div class="text-sm text-[#757575] capitalize">
+                                            <?php 
+                                                $getProductCategory = "SELECT * FROM kategori WHERE id = {$data['id_kategori']};";
+                                                $getProductsCategoryQuery = mysqli_query($conn, $getProductCategory);
+                                                $resultProductCategory = mysqli_fetch_assoc($getProductsCategoryQuery);
 
-                                            echo $resultProductCategory['nama'];
-                                        ?>
+                                                echo $resultProductCategory['nama'];
+                                            ?>
+                                        </div>
+                                        <h6 class="font-bold text-xl text-[#3e2723] line-clamp-2">
+                                            <?php echo $data['nama']; ?>
+                                        </h6>
                                     </div>
-                                    <h6 class="font-bold text-xl text-[#3e2723]">
-                                        <?php echo $data['nama']; ?>
-                                    </h6>
+
+                                    <!-- Rating -->
+                                    <div class="flex items-center gap-x-1">
+                                        <span>
+                                            <svg class="w-4 h-4 text-[#fb8c00]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                                <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+                                            </svg>
+                                        </span>
+                                        4.0
+                                    </div>
                                 </div>
 
-                                <!-- Rating -->
-                                <div class="flex items-center gap-x-1">
-                                    <span>
-                                        <svg class="w-4 h-4 text-[#fb8c00]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                                            <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                                        </svg>
-                                    </span>
-                                    4.0
+                                <div class="flex justify-between items-center mt-1">
+                                    <h6 class="text-lg font-bold">Rp<?php echo $data['harga']; ?></h6>
                                 </div>
-                            </div>
-
-                            <div class="flex justify-between items-center mt-1">
-                                <h6 class="text-lg font-bold">Rp<?php echo $data['harga']; ?></h6>
                             </div>
 
                             <div class="flex items-center gap-x-2 mt-2">

@@ -51,3 +51,40 @@ const decrement = () => {
   }
 };
 // End Cart Functions
+
+// Dropdown Functions
+const menuDropdown = () => {
+  const menuElement = document.querySelector("#menu-dropdown");
+
+  // Periksa apakah dropdown sudah terlihat
+  const isVisible = !menuElement.classList.contains("hidden");
+
+  // Jika dropdown sudah terlihat, sembunyikan
+  if (isVisible) {
+    menuElement.classList.add("hidden");
+  } else {
+    // Jika dropdown belum terlihat, tampilkan
+    menuElement.classList.remove("hidden");
+  }
+};
+
+// Fungsi untuk menutup dropdown
+const closeDropdown = () => {
+  const menuElement = document.querySelector("#menu-dropdown");
+  menuElement.classList.add("hidden");
+};
+
+// Fungsi untuk mengecek apakah elemen yang diklik adalah dropdown atau bukan
+const isClickedInsideDropdown = (target) => {
+  const menuElement = document.querySelector("#parent-dropdown");
+  return menuElement.contains(target);
+};
+
+// Event listener untuk mendengarkan setiap kali dokumen diklik
+document.addEventListener("click", (event) => {
+  // Jika elemen yang diklik berada di luar dropdown, tutup dropdown
+  if (!isClickedInsideDropdown(event.target)) {
+    closeDropdown();
+  }
+});
+// End Dropdown Functions
