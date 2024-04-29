@@ -3,14 +3,14 @@ session_start();
 require('functions.php');
 if (isset($_COOKIE['user'])) {
     $key = $_COOKIE['user'];
-    $result = mysqli_query($conn, "SELECT email FROM user");
+    $result = mysqli_query($conn, "SELECT phone FROM user");
     while($row = mysqli_fetch_row($result)[0]){
         $data = $row;
         if ($key === hash('sha256', $data)) { 
             
             $isi = addSession($data);
             $_SESSION["data"] = array(
-                "email" => $isi['email'],
+                "phone" => $isi['phone'],
                 "username" => $isi['username'],
                 "alamat" => $isi['alamat'],
                 "role" => $isi['role']
@@ -26,21 +26,21 @@ if (isset($_SESSION["data"])) {
 }
 
 if (isset($_POST['login'])) {
-    $email = $_POST['email'];
+    $phone = $_POST['phone'];
     $password = $_POST['password'];
 
-    //cek apakah ada email di database
-    $result = mysqli_query($conn, "SELECT * FROM user WHERE email = '$email';");
+    //cek apakah ada phone di database
+    $result = mysqli_query($conn, "SELECT * FROM user WHERE phone = '$phone';");
     if (mysqli_num_rows($result) === 1) {
         $data = mysqli_fetch_assoc($result);
         if (password_verify($password, $data['password'])) {
             if(isset($_POST['remember'])){
-                setcookie('user', hash('sha256', $email), time() + (60 * 60 * 24));
+                setcookie('user', hash('sha256', $phone), time() + (60 * 60 * 24));
             }
             //mengambil data user sebelum dimasukan ke session
-            $data = addSession($email);
+            $data = addSession($phone);
             $_SESSION["data"] = array(
-                "email" => $data['email'],
+                "phone" => $data['phone'],
                 "username" => $data['username'],
                 "alamat" => $data['alamat'],
                 "role" => $data['role']
@@ -77,12 +77,12 @@ if (isset($_POST['login'])) {
                 Login to <span class="bg-gradient-to-br from-[#a1887f] from-15% to-[#3e2723] to-40% text-3xl font-black uppercase bg-clip-text text-transparent">COFFEE</span>
             </div>
 
-            <!-- Email Input -->
+            <!-- Nomor Telepon Input -->
             <form action="" method="post">
                 <div class="flex flex-col py-2 px-3 border-2 rounded-2xl transition hover:border-gray-400 mb-4">
-                    <label for="email" class="text-sm text-[#757575]">Email</label>
+                    <label for="phone" class="text-sm text-[#757575]">Mobile phone</label>
 
-                    <input id="email" type="email" class="text-sm outline-none" placeholder="Email address" name="email">
+                    <input id="phone" type="text" onkeypress="validate(event)" class="text-sm outline-none" placeholder="Mobile phone" name="phone">
                 </div>
 
                 <!-- Password Input -->
@@ -108,7 +108,7 @@ if (isset($_POST['login'])) {
                 </div>
 
                 <?php if (isset($error)) : ?>
-                    <p class="text-xs italic text-red-500">Email atau password salah!</p>
+                    <p class="text-xs italic text-red-500">Nomor telepon atau password salah!</p>
                 <?php endif; ?>
 
                 <button type="submit" name="login" class="py-2.5 w-full bg-[#723E29] text-base text-white font-medium rounded-full mt-7">Login</button>
@@ -136,6 +136,24 @@ if (isset($_POST['login'])) {
                 buttonShowHidePass.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" /></svg>';
             }
         };
+
+        function validate(evt) {
+            var theEvent = evt || window.event;
+
+            // Handle paste
+            if (theEvent.type === 'paste') {
+                key = event.clipboardData.getData('text/plain');
+            } else {
+            // Handle key press
+                var key = theEvent.keyCode || theEvent.which;
+                key = String.fromCharCode(key);
+            }
+            var regex = /[0-9]|\./;
+            if( !regex.test(key) ) {
+                theEvent.returnValue = false;
+                if(theEvent.preventDefault) theEvent.preventDefault();
+            }
+        }
     </script>
 </body>
 

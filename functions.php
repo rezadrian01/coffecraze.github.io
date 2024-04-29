@@ -30,16 +30,16 @@ function show($key){
 
 function signup($data){
     global $conn;
-    $email = strtolower($data['email']);
+    $phone = strtolower($data['phone']);
     $username = strtolower(stripslashes($data['username']));
     $password1 = mysqli_real_escape_string($conn,$data['password1']);
     $password2 = mysqli_real_escape_string($conn,$data['password2']);
 
-    //cek apakah email sudah ada di database
-    $cek = mysqli_query($conn, "SELECT email FROM user WHERE email = '$email';");
+    //cek apakah nomor telepon sudah ada di database
+    $cek = mysqli_query($conn, "SELECT phone FROM user WHERE phone = '$phone';");
     
     if(mysqli_fetch_assoc($cek)){
-        echo"<script>alert('Email sudah digunakan');</script>";
+        echo"<script>alert('phone sudah digunakan');</script>";
         return false;
     }
 
@@ -53,13 +53,13 @@ function signup($data){
 
     $password1 = password_hash($password1, PASSWORD_DEFAULT);
 
-    mysqli_query($conn, "INSERT INTO USER VALUES ('$email', '$username', '$password1', '', 'user')");
+    mysqli_query($conn, "INSERT INTO USER VALUES ('$phone', '$username', '$password1', '', 'user')");
     return true;
 }
 
-function addSession($email){
+function addSession($phone){
     global $conn;
-    $result = mysqli_query($conn, "SELECT * FROM user WHERE email = '$email';");
+    $result = mysqli_query($conn, "SELECT * FROM user WHERE phone = '$phone';");
     $row = mysqli_fetch_assoc($result);
     return $row;
 }

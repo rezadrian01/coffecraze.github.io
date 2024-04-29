@@ -223,7 +223,7 @@ else{
                                     <div class="p-4 md:pt-4 md:pb-6 md:px-6">
                                         <div class="grid grid-cols-12 gap-x-4 px-6 pb-6">
                                             <div class="col-span-5">
-                                                <img class="rounded-2xl" src="<?php echo "./images/" . $data['gambar']?>" alt="coffee">
+                                                <img class="rounded-2xl h-[32rem] w-full object-cover" src="<?php echo "./images/" . $data['gambar']?>" alt="coffee">
                                             </div>
 
                                             <div class="col-span-7">

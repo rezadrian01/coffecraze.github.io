@@ -5,7 +5,7 @@ session_start();
 
 
 //data user yang login
-$emailUser = $_SESSION['data']['email'];
+$phoneUser = $_SESSION['data']['phone'];
 $usernameUser = $_SESSION['data']['username'];
 $alamatUser = $_SESSION['data']['alamat'];
 $roleUser = $_SESSION['data']['role'];
@@ -92,7 +92,7 @@ $roleUser = $_SESSION['data']['role'];
         </div>
 
         <div class="">
-            <ul class="flex grid grid-cols-6 gap-4 mt-5">
+            <ul class="grid grid-cols-6 gap-4 mt-5">
                 <li class="col-start-1 col-end-3">Total</li>
                 <li class="col-end-9 col-span-2">Rp.10.000</li>
             </ul>
