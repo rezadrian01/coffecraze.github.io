@@ -1,11 +1,16 @@
 <?php
 
 session_start();
+
 if(isset($_SESSION['data']['role'])){
     if($_SESSION['data']['role'] === "user"){
         header("Location: index.php");
         exit();
     }
+ }
+else{
+    header("Location: index.php");
+    exit();
 }
 
 
