@@ -76,10 +76,6 @@ if(isset($_GET['key'])){
         header("Location: index.php");
     }
 }
-
-
-
-
 ?>
 
 <!DOCTYPE html>
@@ -99,7 +95,6 @@ if(isset($_GET['key'])){
             <header class="py-2.5 px-4 md:px-6 xl:px-12 2xl:px-16">
                 <div class="flex justify-between items-center">
                     <div class="text-xl font-medium">Logo</div>
-
                     <!-- jika belum login maka tombolnya login/signup -->
                     <?php if (!isset($_SESSION["data"])) : ?>
                         <a href="login.php" class="py-3 px-6 bg-[#723E29] text-sm text-white font-medium rounded-full">Log in / Sign up</a>
@@ -378,9 +373,9 @@ if(isset($_GET['key'])){
             </footer>
         </div>
         <?php
-        if(isset($phoneUser)):
-        $datas = getCartFromDb($phoneUser);
-        foreach($datas as $data):
+        if(isset($_SESSION['data']['phone'])):
+            $datas = getCartFromDb($_SESSION['data']['phone']);
+            foreach($datas as $data):
         ?>
         <div class="hidden md:block w-80 md:w-64 xl:w-72 2xl:w-80 border-l p-1">
             <div class="grid grid-cols-12 gap-x-2 rounded-2xl p-1 group">

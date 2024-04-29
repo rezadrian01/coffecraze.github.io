@@ -37,7 +37,7 @@ document.querySelector("#year").innerHTML = new Date().getFullYear();
 // Cart Functions
 const getQty = document.querySelector("#qty");
 let i = 1;
-getQty.innerHTML = i;
+// getQty.innerHTML = i;
 
 const increment = () => {
   getQty.innerHTML = ++i;
