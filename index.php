@@ -1,6 +1,8 @@
 <?php
     session_start();
     require('functions.php');
+    require('session.php');
+    
     $items = show(false);
     if(isset($_GET['key'])){
         $key = $_GET['key'];
@@ -96,7 +98,7 @@ else{
                         <a href="logout.php" class="py-3 px-6 bg-[#723E29] text-sm text-white font-medium rounded-full">Logout</a>
                         <?php
                             //data user yang login
-                            $emailUser = $_SESSION['data']['email'];
+                            $emailUser = $_SESSION['data']['phone'];
                             $usernameUser = $_SESSION['data']['username'];
                             $alamatUser = $_SESSION['data']['alamat'];
                             $roleUser = $_SESSION['data']['role']; 
