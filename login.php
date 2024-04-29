@@ -6,7 +6,7 @@ if (isset($_COOKIE['user'])) {
     $result = mysqli_query($conn, "SELECT email FROM user");
     while($row = mysqli_fetch_row($result)[0]){
         $data = $row;
-        if ($key === hash('sha256', $data)) {
+        if ($key === hash('sha256', $data)) { 
             
             $isi = addSession($data);
             $_SESSION["data"] = array(
@@ -67,7 +67,7 @@ if (isset($_POST['login'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="./src/output.css">
+        <link rel="stylesheet" href="./src/output.css">
 </head>
 
 <body>

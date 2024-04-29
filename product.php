@@ -26,6 +26,11 @@
                     Kategori
                 </a>
             </li>
+            <li>
+                <a href="logout.php" class="py-2 px-4 hover:bg-[#eeeeee] rounded-full">
+                    Logout
+                </a>
+            </li>
         </ul>
 
         <div>
@@ -58,9 +63,12 @@
         </div>
 
         <div class="relative overflow-x-auto mt-5">
-            <table class="table-fixed w-full text-left">
+            <table class="table-auto w-full text-left">
                 <thead class="text-xs text-gray-700 uppercase border-b">
                     <tr>
+                        <th scope="col" class="px-1 py-3">
+                            #
+                        </th>
                         <th scope="col" class="px-6 py-3 w-5/12">
                             Product name
                         </th>
@@ -85,10 +93,11 @@
 
                             $sql = "SELECT * FROM barang";
                             $query = mysqli_query($conn, $sql);
-
+                            $i = 1;
                             while($data = mysqli_fetch_array($query)) {
                         ?>
                             <tr class="text-sm">
+                                <th><?= $i++; ?></th>
                                 <th class="flex items-center gap-x-2 px-6 py-4 font-medium text-gray-900 text-sm group">
                                         <img class="w-12 rounded-lg" src="<?php echo "./images/" . $data['gambar']; ?>" alt="coffee">
             

@@ -32,13 +32,42 @@
         }
     }
     
+    //reset link ketika get dimanipulasi
+
+//ketika user input cart
+if(isset($_POST['id']) && isset($_POST['val'])){
+    $idBeli = $_POST['id'];
+    $jmlBeli = $_POST['val'];
+    $insertMembeli = mysqli_query($conn, "INSERT INTO cart VALUES ('', '$emailUser' , '$idBeli', '$jmlBeli';)");
+    $insertJumlah = mysqli_query($conn, "INSERT INTO jml_beli VALUES ('$emailUser', '$idBeli', '$jmlBeli';)");
     
-    //data user yang login
-    $emailUser = $_SESSION['data']['email'];
-    $usernameUser = $_SESSION['data']['username'];
-    $alamatUser = $_SESSION['data']['alamat'];
-    $roleUser = $_SESSION['data']['role'];
-    
+}
+
+//jika user manipulasi get
+if(isset($_GET['key'])){
+    $key = $_GET['key'];
+    $result = mysqli_query($conn, "SELECT * FROM kategori");
+    $row = [];
+    $error = false;
+    while($data = mysqli_fetch_array($result)){
+        if($key === $data['nama']) {
+            $error = true;
+        }
+    };
+    if(!$error){
+        header("Location: index.php");
+    }
+}
+
+
+//jika user belum login
+if(isset($_SESSION['data'])){
+    $login = true;
+}
+else{
+    $login = false;
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -65,28 +94,44 @@
                     <!-- jika sudah login maka tombol menjadi logout -->
                     <?php else : ?>
                         <a href="logout.php" class="py-3 px-6 bg-[#723E29] text-sm text-white font-medium rounded-full">Logout</a>
+                        <?php
+                            //data user yang login
+                            $emailUser = $_SESSION['data']['email'];
+                            $usernameUser = $_SESSION['data']['username'];
+                            $alamatUser = $_SESSION['data']['alamat'];
+                            $roleUser = $_SESSION['data']['role']; 
+                        ?>
                     <?php endif; ?>
                 </div>
             </header>
 
             <main class="grow py-2.5 px-4 md:px-6 xl:px-12 2xl:px-16">
                 <div class="flex justify-between items-center mt-3 mb-8">
-                    <div class="flex items-center gap-x-2">
+                    <div class="flex items-center overflow-x-auto gap-x-2">
                         <!--kategori-->
-                        <a href="index.php" class="py-2 px-4 rounded-full text-sm text-white font-semibold bg-[#723E29]">
-                            All
-                        </a>
-
+                        <?php if(!isset($_GET['key'])): ?>
+                            <a href="index.php" class="py-2 px-4 rounded-full text-sm text-white font-semibold bg-[#723E29]">
+                                All
+                            </a>
+                            <?php else: ?>
+                                <a href="index.php" class="py-2 px-4 rounded-full text-sm text-white font-semibold bg-[#8d6e63]">
+                                All
+                            </a>
+                        <?php endif; ?>
                         <?php
                             $getCategory = "SELECT * FROM kategori";
                             $getCategoryQuery = mysqli_query($conn, $getCategory);
 
                             while($data = mysqli_fetch_array($getCategoryQuery)) {
-                        ?>
-                            <a href="index.php?key=<?= $data['nama']; ?>" class="py-2 px-4 rounded-full text-sm text-white font-semibold bg-[#8d6e63] capitalize">
-                                <?php echo $data['nama'] ?>
-                            </a>
-
+                        ?><?php if(isset($_GET['key']) && $_GET['key'] === $data['nama']): ?>
+                                <a href="index.php?key=<?= $data['nama']; ?>" class="py-2 px-4 rounded-full text-sm text-white font-semibold bg-[#723E29] capitalize whitespace-nowrap">
+                                    <?php echo $data['nama'] ?>
+                                </a>
+                            <?php else: ?>
+                                <a href="index.php?key=<?= $data['nama']; ?>" class="py-2 px-4 rounded-full text-sm text-white font-semibold bg-[#8d6e63] capitalize whitespace-nowrap">
+                                    <?php echo $data['nama'] ?>
+                                </a>
+                            <?php endif; ?>
                         <?php }; ?>
                     </div>
                     
@@ -103,7 +148,7 @@
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-6 gap-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-6">
                     <?php
                         foreach($items as $data):
                     ?>
@@ -145,13 +190,17 @@
                             </div>
 
                             <div class="flex items-center gap-x-2 mt-2">
-                                <button class="bg-[#3e2723] text-white text-xs font-medium py-2.5 w-full rounded-full">
+                                <a  href="index.php?id=<?=$data['id']?>&val=<?=1?>" class="bg-[#3e2723] text-white text-center text-xs font-medium py-2.5 w-full rounded-full">
                                     Buy now
-                                </button>
+                                </a>
 
-                                <button class="border text-xs font-medium py-2.5 w-full rounded-full">
-                                    Add to cart
-                                </button>
+                                <form class="w-full" action="" method="post">
+                                    <input type="hidden" name="id" value="<?= $data['id']; ?>">
+                                    <input type="hidden" name="val" value="1">
+                                    <button type="submit" href="<?php $login ? 'index.php?id=data[\'id\']&val=1' : 'login.php' ?>"  class="border text-xs text-center font-medium py-2.5 w-full rounded-full">
+                                        Add to cart
+                                    </button>
+                                </form>
                             </div>
                         </div>
 
@@ -271,7 +320,6 @@
             </footer>
         </div>
 
-        <!-- Cart Sidebar -->
         <div class="hidden md:block w-80 md:w-64 xl:w-72 2xl:w-80 border-l p-1">
             <div class="grid grid-cols-12 gap-x-2 rounded-2xl p-1 group">
                 <div class="col-span-4">

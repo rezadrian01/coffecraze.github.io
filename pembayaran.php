@@ -11,7 +11,6 @@ $alamatUser = $_SESSION['data']['alamat'];
 $roleUser = $_SESSION['data']['role'];
 
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -103,6 +102,5 @@ $roleUser = $_SESSION['data']['role'];
         </div>
     </div>
 </body>
-
 
 </html>
