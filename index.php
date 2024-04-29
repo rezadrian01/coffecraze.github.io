@@ -2,7 +2,16 @@
     session_start();
     require('functions.php');
     require('session.php');
-    
+
+    //jika user sudah login
+    if(isset($_SESSION['data'])){
+        //data user yang login
+        $phoneUser = $_SESSION['data']['phone'];
+        $usernameUser = $_SESSION['data']['username'];
+        $alamatUser = $_SESSION['data']['alamat'];
+        $roleUser = $_SESSION['data']['role']; 
+    }
+
     $items = show(false);
     if(isset($_GET['key'])){
         $key = $_GET['key'];
@@ -34,15 +43,33 @@
         }
     }
     
-    //reset link ketika get dimanipulasi
 
-//ketika user input cart
-if(isset($_POST['id']) && isset($_POST['val'])){
+//ketika user input add to cart
+if(isset($_POST['beli'])){
     $idBeli = $_POST['id'];
     $jmlBeli = $_POST['val'];
-    $insertMembeli = mysqli_query($conn, "INSERT INTO cart VALUES ('', '$emailUser' , '$idBeli', '$jmlBeli';)");
-    $insertJumlah = mysqli_query($conn, "INSERT INTO jml_beli VALUES ('$emailUser', '$idBeli', '$jmlBeli';)");
+    //ambil id_user dan id_barang dari database
+    $idUser = mysqli_query($conn, "SELECT id_user FROM cart WHERE id_user = '$phoneUser';");
+    $idBarang = mysqli_query($conn, "SELECT id_barang FROM cart WHERE id_barang = '$idBeli';");
     
+    //jika user pernah membeli barang yang sama sebelumnya
+    if((mysqli_num_rows($idUser) > 0) && (mysqli_num_rows($idBarang) > 0)){
+        $idBarang = mysqli_fetch_row($idBarang)[0];
+        $idUser = mysqli_fetch_row($idUser)[0];
+        $id = mysqli_query($conn, "SELECT id FROM cart WHERE id_barang = '$idBarang';");
+        $id = mysqli_fetch_row($id)[0];
+        $jml = mysqli_query($conn, "SELECT jumlah FROM cart WHERE id_barang = '$idBarang';");
+        $jml = mysqli_fetch_row($jml)[0];
+        $jml = $jml + 1;
+        mysqli_query($conn, "UPDATE cart SET id = '$id', id_user='$idUser', id_barang = '$idBarang', jumlah = '$jml' WHERE id = $id;");
+        
+        header("Location: index.php");
+        exit();
+    }
+    //jika user tidak pernah beli barang / user membeli barang yang berbeda maka insert data biasa
+    mysqli_query($conn, "INSERT INTO cart values('', '$phoneUser', '$idBeli', '$jmlBeli');");
+    header("Location: index.php");
+    exit();
 }
 
 //jika user manipulasi get
@@ -62,13 +89,7 @@ if(isset($_GET['key'])){
 }
 
 
-//jika user belum login
-if(isset($_SESSION['data'])){
-    $login = true;
-}
-else{
-    $login = false;
-}
+
 
 ?>
 
@@ -96,13 +117,7 @@ else{
                     <!-- jika sudah login maka tombol menjadi logout -->
                     <?php else : ?>
                         <a href="logout.php" class="py-3 px-6 bg-[#723E29] text-sm text-white font-medium rounded-full">Logout</a>
-                        <?php
-                            //data user yang login
-                            $emailUser = $_SESSION['data']['phone'];
-                            $usernameUser = $_SESSION['data']['username'];
-                            $alamatUser = $_SESSION['data']['alamat'];
-                            $roleUser = $_SESSION['data']['role']; 
-                        ?>
+                        
                     <?php endif; ?>
                 </div>
             </header>
@@ -192,17 +207,28 @@ else{
                             </div>
 
                             <div class="flex items-center gap-x-2 mt-2">
-                                <a  href="index.php?id=<?=$data['id']?>&val=<?=1?>" class="bg-[#3e2723] text-white text-center text-xs font-medium py-2.5 w-full rounded-full">
-                                    Buy now
-                                </a>
-
-                                <form class="w-full" action="" method="post">
-                                    <input type="hidden" name="id" value="<?= $data['id']; ?>">
-                                    <input type="hidden" name="val" value="1">
-                                    <button type="submit" href="<?php $login ? 'index.php?id=data[\'id\']&val=1' : 'login.php' ?>"  class="border text-xs text-center font-medium py-2.5 w-full rounded-full">
-                                        Add to cart
+                                <!-- jika user belum login -->
+                                <?php if (!isset($_SESSION["data"])) : ?>
+                                    <button class="bg-[#3e2723] text-white text-center text-xs font-medium py-2.5 w-full rounded-full">
+                                        Buy now
                                     </button>
-                                </form>
+                                    <a href="login.php" class="border text-xs text-center font-medium py-2.5 w-full rounded-full">
+                                        Add to cart
+                                    </a>
+                                    <!-- jika user sudah login -->
+                                <?php else : ?>
+                                    <button class="bg-[#3e2723] text-white text-center text-xs font-medium py-2.5 w-full rounded-full">
+                                        Buy now
+                                    </button>
+                                    <form class="w-full" action="" method="post">
+                                        <input type="hidden" name="id" value="<?= $data['id']; ?>">
+                                        <input type="hidden" name="val" value="1">
+                                        <button type="submit" class="border text-xs text-center font-medium py-2.5 w-full rounded-full" name="beli">
+                                            Add to cart
+                                        </button>
+                                    </form>
+                                    
+                                <?php endif; ?>
                             </div>
                         </div>
 
