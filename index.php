@@ -33,49 +33,97 @@
         }
     }
     
-//ketika user input add to cart
-if(isset($_POST['beli'])){
-    $idBeli = $_POST['id'];
-    $jmlBeli = $_POST['val'];
-    //ambil id_user dan id_barang dari database
-    $idUser = mysqli_query($conn, "SELECT id_user FROM cart WHERE id_user = '{$_SESSION["data"]["phone"]}';");
-    $idBarang = mysqli_query($conn, "SELECT id_barang FROM cart WHERE id_barang = '$idBeli';");
-    
-    //jika user pernah membeli barang yang sama sebelumnya
-    if((mysqli_num_rows($idUser) > 0) && (mysqli_num_rows($idBarang) > 0)){
-        $idBarang = mysqli_fetch_row($idBarang)[0];
-        $idUser = mysqli_fetch_row($idUser)[0];
-        $id = mysqli_query($conn, "SELECT id FROM cart WHERE id_barang = '$idBarang';");
-        $id = mysqli_fetch_row($id)[0];
-        $jml = mysqli_query($conn, "SELECT jumlah FROM cart WHERE id_barang = '$idBarang';");
-        $jml = mysqli_fetch_row($jml)[0];
-        $jml = $jml + 1;
-        mysqli_query($conn, "UPDATE cart SET id = '$id', id_user='$idUser', id_barang = '$idBarang', jumlah = '$jml' WHERE id = $id;");
+    //ketika user input add to cart
+    if(isset($_POST['beli'])){
+        $idBeli = $_POST['id'];
+        $jmlBeli = $_POST['val'];
+        //ambil id_user dan id_barang dari database
+        $idUser = mysqli_query($conn, "SELECT id_user FROM cart WHERE id_user = '{$_SESSION["data"]["phone"]}';");
+        $idBarang = mysqli_query($conn, "SELECT id_barang FROM cart WHERE id_barang = '$idBeli';");
         
+        //jika user pernah membeli barang yang sama sebelumnya
+        if((mysqli_num_rows($idUser) > 0) && (mysqli_num_rows($idBarang) > 0)){
+            $idBarang = mysqli_fetch_row($idBarang)[0];
+            $idUser = mysqli_fetch_row($idUser)[0];
+            $id = mysqli_query($conn, "SELECT id FROM cart WHERE id_barang = '$idBarang';");
+            $id = mysqli_fetch_row($id)[0];
+            $jml = mysqli_query($conn, "SELECT jumlah FROM cart WHERE id_barang = '$idBarang';");
+            $jml = mysqli_fetch_row($jml)[0];
+            $jml = $jml + 1;
+            mysqli_query($conn, "UPDATE cart SET id = '$id', id_user='$idUser', id_barang = '$idBarang', jumlah = '$jml' WHERE id = $id;");
+            
+            header("Location: index.php");
+            exit();
+        }
+        //jika user tidak pernah beli barang / user membeli barang yang berbeda maka insert data biasa
+        mysqli_query($conn, "INSERT INTO cart values('', '{$_SESSION["data"]["phone"]}', '$idBeli', '$jmlBeli');");
         header("Location: index.php");
         exit();
     }
-    //jika user tidak pernah beli barang / user membeli barang yang berbeda maka insert data biasa
-    mysqli_query($conn, "INSERT INTO cart values('', '{$_SESSION["data"]["phone"]}', '$idBeli', '$jmlBeli');");
-    header("Location: index.php");
-    exit();
-}
 
-//jika user manipulasi get
-if(isset($_GET['key'])){
-    $key = $_GET['key'];
-    $result = mysqli_query($conn, "SELECT * FROM kategori");
-    $row = [];
-    $error = false;
-    while($data = mysqli_fetch_array($result)){
-        if($key === $data['nama']) {
-            $error = true;
+    //jika user manipulasi get
+    if(isset($_GET['key'])){
+        $key = $_GET['key'];
+        $result = mysqli_query($conn, "SELECT * FROM kategori");
+        $row = [];
+        $error = false;
+        while($data = mysqli_fetch_array($result)){
+            if($key === $data['nama']) {
+                $error = true;
+            }
+        };
+        if(!$error){
+            header("Location: index.php");
         }
-    };
-    if(!$error){
-        header("Location: index.php");
     }
-}
+
+    // Update tambah quantity stock barang di cart
+    if(isset($_POST['tambah-quantity'])) {
+        $id = $_POST['id_cart'];
+
+        $sql = "UPDATE cart SET jumlah = jumlah + 1 WHERE id = '$id'";
+        $query = mysqli_query($conn, $sql);
+
+        if($query) {
+            // Redirect ke halaman ini untuk menghindari form resubmission
+            header("Location: ".$_SERVER['PHP_SELF']);
+            exit();
+        } else {
+            die();
+        }
+    }
+
+    // Update mengurangi quantity stock barang di cart
+    if(isset($_POST['kurang-quantity'])) {
+        $id = $_POST['id_cart'];
+
+        $sql = "UPDATE cart SET jumlah = jumlah - 1 WHERE id = '$id'";
+        $query = mysqli_query($conn, $sql);
+
+        if($query) {
+            // Redirect ke halaman ini untuk menghindari form resubmission
+            header("Location: ".$_SERVER['PHP_SELF']);
+            exit();
+        } else {
+            die();
+        }
+    }
+
+    // Delete product dari cart
+    if(isset($_GET['hapus_cart'])) {
+        // Ambil id dari hapus_cart
+        $id = $_GET['hapus_cart'];
+
+        $sql = "DELETE FROM cart WHERE id = $id;";
+        $query = mysqli_query($conn, $sql);
+
+        if($query) {
+            header("Location: ".$_SERVER['PHP_SELF']);
+            exit();
+        } else {
+            die();
+        }
+    }
 ?>
 
 <!DOCTYPE html>
@@ -372,57 +420,129 @@ if(isset($_GET['key'])){
                 Copyright &#169;<span id="year"></span>
             </footer>
         </div>
-        <?php
-        if(isset($_SESSION['data']['phone'])):
-            $datas = getCartFromDb($_SESSION['data']['phone']);
-            foreach($datas as $data):
-        ?>
-        <div class="hidden md:block w-80 md:w-64 xl:w-72 2xl:w-80 border-l p-1">
-            <div class="grid grid-cols-12 gap-x-2 rounded-2xl p-1 group">
-                <div class="col-span-4">
-                    <img class="h-24 w-full rounded-xl object-cover" src="./assets/coffee-image.jpg" alt="coffee">
-                </div>
 
-                <div class="col-span-8 flex flex-col justify-between">
-                    <div>
-                        <div class="flex justify-between items-center">
-                            <div>
-                                <div class="text-xs text-[#757575]">Espresso</div>
-                                <h6 class="font-bold text-base text-[#3e2723]">Caffè latte</h6>
+        
+        <div class="hidden md:block w-80 md:w-64 xl:w-72 2xl:w-80 border-l">
+            <div class="sticky top-0 h-screen">
+                <div class="flex flex-col justify-between h-full">
+                    <div class="p-1">
+                        <?php
+                            $getUserCart = "SELECT * FROM cart WHERE id_user = '{$_SESSION['data']['phone']}'";
+                            $getUserCartQuery = mysqli_query($conn, $getUserCart);
+
+                            while($data = mysqli_fetch_array($getUserCartQuery)) {
+                        ?>
+                            <div class="grid grid-cols-12 gap-x-2 rounded-2xl p-1 group">
+                                <?php
+                                    $getProductData = "SELECT * FROM barang WHERE id = '{$data['id_barang']}'";
+                                    $getProductDataQuery = mysqli_query($conn, $getProductData);
+
+                                    while($productData = mysqli_fetch_array($getProductDataQuery)) {
+                                ?>
+                                    <div class="col-span-4">
+                                        <img class="h-24 w-full rounded-xl object-cover" src="<?php echo "./images/" . $productData['gambar']; ?>" alt="coffee">
+                                    </div>
+
+                                    <div class="col-span-8 flex flex-col justify-between">
+                                        <div>
+                                            <div class="flex justify-between items-center">
+                                                <div>
+                                                    <div class="text-xs text-[#757575] capitalize">
+                                                        <?php 
+                                                            $getProductCategory = "SELECT nama FROM kategori WHERE id = {$productData['id_kategori']};";
+                                                            $getProductsCategoryQuery = mysqli_query($conn, $getProductCategory);
+                                                            $resultProductCategory = mysqli_fetch_assoc($getProductsCategoryQuery);
+
+                                                            echo $resultProductCategory['nama'];
+                                                        ?>
+                                                    </div>
+
+                                                    <h6 title="<?php echo $productData['nama']; ?>" class="font-bold text-base text-[#3e2723] line-clamp-1">
+                                                        <?php echo $productData['nama']; ?>
+                                                    </h6>
+                                                </div>
+
+                                                <a href="<?php echo "{$_SERVER['PHP_SELF']}?hapus_cart=" . $data['id']; ?>" title="Delete from cart" class="hidden group-hover:block p-1.5 border rounded-full hover:bg-[#d32f2f] hover:text-white">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                                                    </svg>
+                                                </a>
+                                            </div>
+
+                                            <div class="text-base font-bold mt-0.5">
+                                                Rp<?php echo $productData['harga']; ?>
+
+                                                <span class="text-xs font-normal text-[#424242]">
+                                                    (x<?php echo $data['jumlah']; ?> <?php echo $data['jumlah'] * $productData['harga']; ?>)
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <div class="flex items-center gap-x-2">
+                                            <!-- Decrement Quantity -->
+                                            <form action="" method="POST">
+                                                <input type="hidden" name="id_cart" value="<?php echo $data['id'] ?>">
+
+                                                <button type="submit" name="kurang-quantity" class="border p-1 rounded-full hover:bg-[#eeeeee] disabled:cursor-not-allowed disabled:opacity-75 disabled:hover:bg-transparent" <?php echo $data['jumlah'] === '1' ? 'disabled' : ''; ?> >
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-3 h-3">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14" />
+                                                    </svg>
+                                                </button>
+                                            </form>
+
+                                            <span id="qty" class="text-sm font-medium"><?php echo $data['jumlah'] ?></span>
+
+                                            <!-- Increment Quantity -->
+                                            <form action="" method="POST">
+                                                <input type="hidden" name="id_cart" value="<?php echo $data['id'] ?>">
+
+                                                <button type="submit" name="tambah-quantity" class="border p-1 rounded-full hover:bg-[#eeeeee]">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-3 h-3">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                                                    </svg>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                <?php }; ?>
                             </div>
-
-                            <button title="Delete from cart" class="hidden group-hover:block p-1.5 border rounded-full hover:bg-[#d32f2f] hover:text-white">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
-                                </svg>
-                            </button>
-                        </div>
-
-                        <div class="text-base font-bold mt-0.5">Rp8.000</div>
+                        <?php }; ?>
                     </div>
 
-                    <div class="flex items-center gap-x-2">
-                        <button onclick="decrement()" class="border p-1 rounded-full hover:bg-[#eeeeee]">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-3 h-3">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14" />
-                            </svg>
-                        </button>
+                    <div class="border-t p-3">
+                        <div class="flex justify-between items-center mb-5">
+                            <div class="text-2xl font-bold">
+                                Total :
+                            </div>
 
-                        <span id="qty" class="text-sm font-medium"></span>
+                            <div class="text-lg font-medium">
+                                <?php
+                                    $getUserCart = "SELECT * FROM cart WHERE id_user = '{$_SESSION['data']['phone']}'";
+                                    $getUserCartQuery = mysqli_query($conn, $getUserCart);
 
-                        <button onclick="increment()" class="border p-1 rounded-full hover:bg-[#eeeeee]">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-3 h-3">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                            </svg>
+                                    $total = 0;
+                                
+                                    while($data = mysqli_fetch_array($getUserCartQuery)) {
+                                        $getProductData = "SELECT * FROM barang WHERE id = '{$data['id_barang']}'";
+                                        $getProductDataQuery = mysqli_query($conn, $getProductData);
+                                
+                                        while($productData = mysqli_fetch_array($getProductDataQuery)) {
+                                            $total += $data['jumlah'] * $productData['harga'];
+                                        }
+                                    }
+
+                                    echo "Rp$total";
+                                ?>
+                            </div>
+                        </div>
+
+                        <button class="py-2.5 w-full text-white font-medium bg-[#723E29] rounded-full">
+                            Beli
                         </button>
                     </div>
                 </div>
             </div>
         </div>
-        <?php
-            endforeach;
-            endif;
-        ?>
     </div>
 
     <!-- JavaScript -->

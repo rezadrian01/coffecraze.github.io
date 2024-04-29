@@ -34,24 +34,6 @@ const hiddenModal = (id) => {
 document.querySelector("#year").innerHTML = new Date().getFullYear();
 // End Get Year now for footer
 
-// Cart Functions
-const getQty = document.querySelector("#qty");
-let i = 1;
-// getQty.innerHTML = i;
-
-const increment = () => {
-  getQty.innerHTML = ++i;
-};
-
-const decrement = () => {
-  if (i !== 1) {
-    getQty.innerHTML = --i;
-  } else {
-    return i;
-  }
-};
-// End Cart Functions
-
 // Dropdown Functions
 const menuDropdown = () => {
   const menuElement = document.querySelector("#menu-dropdown");
