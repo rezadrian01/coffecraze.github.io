@@ -33,13 +33,12 @@
         }
     }
     
-
 //ketika user input add to cart
 if(isset($_POST['beli'])){
     $idBeli = $_POST['id'];
     $jmlBeli = $_POST['val'];
     //ambil id_user dan id_barang dari database
-    $idUser = mysqli_query($conn, "SELECT id_user FROM cart WHERE id_user = '$phoneUser';");
+    $idUser = mysqli_query($conn, "SELECT id_user FROM cart WHERE id_user = '{$_SESSION["data"]["phone"]}';");
     $idBarang = mysqli_query($conn, "SELECT id_barang FROM cart WHERE id_barang = '$idBeli';");
     
     //jika user pernah membeli barang yang sama sebelumnya
@@ -57,7 +56,7 @@ if(isset($_POST['beli'])){
         exit();
     }
     //jika user tidak pernah beli barang / user membeli barang yang berbeda maka insert data biasa
-    mysqli_query($conn, "INSERT INTO cart values('', '$phoneUser', '$idBeli', '$jmlBeli');");
+    mysqli_query($conn, "INSERT INTO cart values('', '{$_SESSION["data"]["phone"]}', '$idBeli', '$jmlBeli');");
     header("Location: index.php");
     exit();
 }
