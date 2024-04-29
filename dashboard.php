@@ -1,3 +1,15 @@
+<?php
+
+session_start();
+if(isset($_SESSION['data']['role'])){
+    if($_SESSION['data']['role'] === "user"){
+        header("Location: index.php");
+        exit();
+    }
+}
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,6 +37,9 @@
                 <a href="kategori.php" class="py-2 px-4 hover:bg-[#eeeeee] rounded-full">
                     Kategori
                 </a>
+            </li>
+            <li>
+                <a href="logout.php">Logout</a>
             </li>
         </ul>
 

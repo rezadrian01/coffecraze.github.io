@@ -26,6 +26,11 @@
                     Kategori
                 </a>
             </li>
+            <li>
+                <a href="logout.php" class="py-2 px-4 hover:bg-[#eeeeee] rounded-full font-semibold">
+                    Logout
+                </a>
+            </li>
         </ul>
 
         <div>
