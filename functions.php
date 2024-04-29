@@ -64,4 +64,35 @@ function addSession($phone){
     return $row;
 }
 
+function getCartFromDb($userId){
+    global $conn;
+    $result = mysqli_query($conn, "SELECT * FROM cart WHERE id_user = '$userId';");
+        $rows = [];
+        // while($row = mysqli_fetch_assoc($result)){
+        //     $idBarang = $row['id_barang']; //untuk ambil data dari tabel barang
+        //     $jml = $row['jumlah']; //untuk jumlah
+        //     //ambil data dari tabel barang
+        //     $barang = mysqli_query($conn, "SELECT * FROM barang WHERE id = '$idBarang';");
+        //     while($barang = mysqli_fetch_assoc($barang)){
+        //         $foto = $barang['foto'];
+        //         $kategori = $barang['id_kategori'];
+        //         $kategori = mysqli_query($conn, "SELECT nama FROM kategori WHERE id = '$kategori';");
+        //         $kategori = mysqli_fetch_row($kategori)[0];
+        //         $nama = $barang['nama'];
+        //         $harga = $barang['harga'];
+        //     }
+        //     //kali harga dengan value
+        //     $harga = $harga * $jml;
+        //     //isi semua data kedalam array
+        //     $row['foto'] = $foto;
+        //     $row['kategori'] = $kategori;
+        //     $row['nama'] = $nama;
+        //     $row['harga'] = $harga;
+        //     $row['jumlah'] = $jml;
+        //     $rows[] = $row;
+    
+    return $rows;
+//}
+}
+
 ?>

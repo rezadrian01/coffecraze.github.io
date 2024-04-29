@@ -347,7 +347,11 @@ if(isset($_GET['key'])){
                 Copyright &#169;<span id="year"></span>
             </footer>
         </div>
-
+        <?php
+        if(isset($phoneUser)):
+        $datas = getCartFromDb($phoneUser);
+        foreach($datas as $data):
+        ?>
         <div class="hidden md:block w-80 md:w-64 xl:w-72 2xl:w-80 border-l p-1">
             <div class="grid grid-cols-12 gap-x-2 rounded-2xl p-1 group">
                 <div class="col-span-4">
@@ -390,6 +394,10 @@ if(isset($_GET['key'])){
                 </div>
             </div>
         </div>
+        <?php
+            endforeach;
+            endif;
+        ?>
     </div>
 
     <!-- JavaScript -->
