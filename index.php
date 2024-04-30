@@ -561,9 +561,11 @@
                                 </div>
                             </div>
 
-                            <button class="py-2.5 w-full text-white font-medium bg-[#723E29] rounded-full">
-                                Beli
-                            </button>
+                            <a href="pembayaran.php">
+                                <button class="py-2.5 w-full text-white font-medium bg-[#723E29] rounded-full">
+                                    Beli
+                                </button>
+                            </a>
                         </div>
                     <?php } ?>
                 </div>
