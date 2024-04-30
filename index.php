@@ -561,7 +561,7 @@
                                 </div>
                             </div>
 
-                            <a href="pembayaran.php">
+                            <a href="checkout.php">
                                 <button class="py-2.5 w-full text-white font-medium bg-[#723E29] rounded-full">
                                     Beli
                                 </button>
