@@ -39,14 +39,14 @@ if (isset($_POST['sign-up'])) {
                 <div class="flex flex-col py-2 px-3 border-2 rounded-2xl transition hover:border-gray-400 mb-4">
                     <label for="phone" class="text-sm text-[#757575]">Mobile phone</label>
 
-                    <input id="phone" type="text" onkeypress="validate(event)" class="text-sm outline-none" placeholder="Mobile phone" name="phone">
+                    <input id="phone" type="text" onkeypress="validate(event)" class="text-sm outline-none" placeholder="Mobile phone" name="phone" required>
                 </div>
 
                 <!-- Username Input -->
                 <div class="flex flex-col py-2 px-3 border-2 rounded-2xl transition hover:border-gray-400 mb-4">
                     <label for="username" class="text-sm text-[#757575]">Username</label>
 
-                    <input id="username" type="text" class="text-sm outline-none" placeholder="Username" name="username">
+                    <input id="username" type="text" class="text-sm outline-none" placeholder="Username" name="username" required>
                 </div>
 
                 <!-- Password Input -->
@@ -54,7 +54,7 @@ if (isset($_POST['sign-up'])) {
                     <label for="password" class="text-sm text-gray-500">Password</label>
 
                     <div class="flex justify-between gap-x-2 items-center">
-                        <input id="password" type="password" class="password grow text-sm outline-none" placeholder="Password" name="password1">
+                        <input id="password" type="password" class="password grow text-sm outline-none" placeholder="Password" name="password1" required>
 
                         <button type="button" onclick="showHidePassword()" class="show_hide_pass p-1 transition hover:bg-[#eeeeee] rounded-full">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
@@ -70,7 +70,7 @@ if (isset($_POST['sign-up'])) {
                     <label for="confirm_password" class="text-sm text-gray-500">Confirm password</label>
 
                     <div class="flex justify-between gap-x-2 items-center">
-                        <input id="confirm_password" type="password" class="conf_password grow text-sm outline-none" placeholder="Confirm password" name="password2">
+                        <input id="confirm_password" type="password" class="conf_password grow text-sm outline-none" placeholder="Confirm password" name="password2" required>
 
                         <button type="button" onclick="showHideConfPassword()" class="show_hide_conf_pass p-1 transition hover:bg-[#eeeeee] rounded-full">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
