@@ -6,11 +6,29 @@
     while($row = mysqli_fetch_assoc($result)){
         $data = $row;
     }
+    //cek apakah user sudah login
+    if(!isset($_SESSION['data'])){
+      header("Location: index.php");
+      exit();
+    }
 
-    //apabila user menekan tombol edit
-    if(isset($_POST['edit'])){
-        header("Location: profile-edit.php");
-        exit();
+    //jika user tekan cancel
+    if(isset($_POST['cancelEdit'])){
+      header("Location: profile.php");
+      exit();
+    }
+
+    //jika user tekan tombol edit
+    if(isset($_POST['fixEdit'])){
+      var_dump($_POST); die();
+      $inputPassword = $_POST['password'];
+      if($data['password'] === $inputPassword){
+
+      }
+      //password salah
+      echo"<script>
+      alert('Password anda salah');
+      /</script>";
     }
 ?>
 
@@ -77,28 +95,54 @@
     </header>
     <main class="grow py-2.5 px-4 md:px-6 xl:px-12 2xl:px-16">
         <div class="w-3/4 mx-auto">
-            <div class="flow-root rounded-lg border border-gray-100 py-3 shadow-sm">
-                <dl class="-my-3 divide-y divide-gray-100 text-sm">
-                    <div class="grid grid-cols-1 gap-1 p-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-4">
-                        <dt class="font-medium text-gray-900">Phone Number</dt>
-                            <dd class="text-gray-700 sm:col-span-2"><?= $data['phone']; ?></dd>
-                    </div>
+          <form action="" method="post">
+              <div class="flow-root rounded-lg border border-gray-100 py-3 shadow-sm">
+                  <dl class="-my-3 divide-y divide-gray-100 text-sm">
+                      <div class="grid grid-cols-1 gap-1 p-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-4">
+                          <dt class="font-medium text-gray-900">Phone Number</dt>
+                              <dd class="text-gray-700 sm:col-span-2">
+                                <input type="hidden" id="phone" name="phone" value="<?= $data['phone']; ?>">
+                                <input type="text" id="phone" name="newPhone" value="<?= $data['phone']; ?>">
+                              </dd>
+                      </div>
 
-                    <div class="grid grid-cols-1 gap-1 p-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-4">
-                        <dt class="font-medium text-gray-900">Username</dt>
-                            <dd class="text-gray-700 sm:col-span-2"><?= $data['username']; ?></dd>
-                    </div>
+                      <div class="grid grid-cols-1 gap-1 p-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-4">
+                          <dt class="font-medium text-gray-900">Username</dt>
+                              <dd class="text-gray-700 sm:col-span-2">
+                                <input type="hidden" id="phone" name="username" value="<?= $data['username']; ?>">
+                                <input type="text" id="phone" name="newUsername" value="<?= $data['username']; ?>">
+                              </dd>
+                      </div>
 
-                    <div class="grid grid-cols-1 gap-1 p-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-4">
-                        <dt class="font-medium text-gray-900">Addres</dt>
-                        <dd class="text-gray-700 sm:col-span-2"><?= $data['alamat']; ?></dd>
-                    </div>
-                </dl>
-            </div>
-            <div class="mt-4">
+                      <div class="grid grid-cols-1 gap-1 p-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-4">
+                          <dt class="font-medium text-gray-900">Addres</dt>
+                          <dd class="text-gray-700 sm:col-span-2">
+                            <input type="hidden" id="phone" name="alamat" value="<?= $data['alamat']; ?>">
+                            <input type="text" id="phone" name="newAlamat" value="<?= $data['alamat']; ?>">
+                          </dd>
+                      </div>
+                      <div class="grid grid-cols-1 gap-1 p-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-4">
+                          <dt class="font-medium text-gray-900">New password</dt>
+                          <dd class="text-gray-700 sm:col-span-2">
+                            <input type="password" id="phone" name="newPassword">
+                          </dd>
+                      </div>
+                      <div class="grid grid-cols-1 gap-1 p-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-4">
+                          <dt class="font-medium text-gray-900">Your password</dt>
+                          <dd class="text-gray-700 sm:col-span-2">
+                            <input type="password" id="phone" name="password" require>
+                          </dd>
+                      </div>
+                  </dl>
+              </div>
+            </form>
+            <div class="m-4">
                 <form action="" method="post">
                     <input type="hidden" name="idUser" value="<?= $_SESSION['data']['phone']; ?>">
-                    <button class="hover:bg-slate-100 p-2 rounded-xl" type="submit" name="edit">Edit data</button>
+                    <button class="hover:bg-slate-100 p-3 rounded-xl" type="submit" name="fixEdit">Edit</button>
+                </form>
+                <form action="" method="post">
+                    <button class="hover:bg-slate-100 p-3 rounded-xl" type="submit" name="cancelEdit">Cancel</button>
                 </form>
             </div>
         </div>
