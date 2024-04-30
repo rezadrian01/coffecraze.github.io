@@ -10,6 +10,10 @@ $usernameUser = $_SESSION['data']['username'];
 $alamatUser = $_SESSION['data']['alamat'];
 $roleUser = $_SESSION['data']['role'];
 
+if(isset($_POST['hapus'])){
+    
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -62,14 +66,15 @@ $roleUser = $_SESSION['data']['role'];
 <body class="font-bold">
     <div class="container mx-auto" style="max-width: 500px;">
         <h1 class="font-bold text-center text-4xl" style="border-radius: 20px; color: black;">Pesan</h1>
-        <button class="w-full mt-5 mb-5 text-right text-red-400 hover:text-red-700">Remove all Items</button>
-
+        <form action="" method="post">
+            <button type="submit" name="hapus" class="w-full mt-5 mb-5 text-right text-red-400 hover:text-red-700">Remove all Items</button>
+        </form>
         <?php $datas = showPembayaran($phoneUser);
         // var_dump($datas); die();
             foreach($datas as $data):
         ?>
         <div class="card flex md:flex-row flex-col items-center gap-4" style="border-radius: 10px;">
-            <img src="images/<?= $data['foto']; ?>" class="product-image md:w-1/2" style="height: 200px; border-radius: 20px;">
+            <img src="images/<?= $data['gambar']; ?>" class="product-image md:w-1/2" style="height: 200px; border-radius: 20px;">
             <div class="product-details md:w-1/2 h-full" style="border-radius: 10px; font-weight: bold; padding: 20px;">
                 <p><?= $data['nama']; ?></p>
                 <p><?= $data['harga']; ?></p>
