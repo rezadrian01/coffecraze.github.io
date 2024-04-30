@@ -535,10 +535,14 @@
                                 ?>
                             </div>
                         </div>
-
-                        <button class="py-2.5 w-full text-white font-medium bg-[#723E29] rounded-full">
-                            Beli
-                        </button>
+                        <form action="" method="post">
+                            <button type="submit" name="buy" class="py-2.5 w-full text-white font-medium bg-[#723E29] rounded-full">
+                                Buy
+                            </button>
+                        </form>
+                        <?php if(isset($_POST['buy'])){
+                            addToPembelian(($_SESSION['data']['phone']), $_SESSION['data']['alamat']);
+                        } ?>
                     </div>
                 </div>
             </div>

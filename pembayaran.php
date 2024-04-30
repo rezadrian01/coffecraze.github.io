@@ -64,6 +64,7 @@ $roleUser = $_SESSION['data']['role'];
         <h1 class="font-bold text-center text-4xl" style="border-radius: 20px; color: black;">Pesan</h1>
         <button class="w-full mt-5 mb-5 text-right text-red-400 hover:text-red-700">Remove all Items</button>
 
+        <?php showPembayaran($phoneUser); ?>
         <div class="card flex md:flex-row flex-col items-center gap-4" style="border-radius: 10px;">
             <img src="coffee-image.jpg" alt="Coffee" class="product-image md:w-1/2" style="height: 200px; border-radius: 20PX;">
             <div class="product-details md:w-1/2 h-full" style="border-radius: 10px; font-weight: bold; padding: 20px;">

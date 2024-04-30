@@ -64,35 +64,29 @@ function addSession($phone){
     return $row;
 }
 
-function getCartFromDb($userId){
+
+function addToPembelian($idUser, $alamatUser){
     global $conn;
-    $result = mysqli_query($conn, "SELECT * FROM cart WHERE id_user = '$userId';");
-        $rows = [];
-        // while($row = mysqli_fetch_assoc($result)){
-        //     $idBarang = $row['id_barang']; //untuk ambil data dari tabel barang
-        //     $jml = $row['jumlah']; //untuk jumlah
-        //     //ambil data dari tabel barang
-        //     $barang = mysqli_query($conn, "SELECT * FROM barang WHERE id = '$idBarang';");
-        //     while($barang = mysqli_fetch_assoc($barang)){
-        //         $foto = $barang['foto'];
-        //         $kategori = $barang['id_kategori'];
-        //         $kategori = mysqli_query($conn, "SELECT nama FROM kategori WHERE id = '$kategori';");
-        //         $kategori = mysqli_fetch_row($kategori)[0];
-        //         $nama = $barang['nama'];
-        //         $harga = $barang['harga'];
-        //     }
-        //     //kali harga dengan value
-        //     $harga = $harga * $jml;
-        //     //isi semua data kedalam array
-        //     $row['foto'] = $foto;
-        //     $row['kategori'] = $kategori;
-        //     $row['nama'] = $nama;
-        //     $row['harga'] = $harga;
-        //     $row['jumlah'] = $jml;
-        //     $rows[] = $row;
-    
-    return $rows;
-//}
+    $insertQuery = mysqli_query($conn, "INSERT INTO pembelian VALUES('', '$idUser', '$alamatUser');");
+    $idPembelian = mysqli_query($conn, "SELECT id FROM pembelian WHERE id_user = $idUser;");
+    $idPembelian = mysqli_fetch_row($idPembelian)[0];
+    //ambil semua barang yang dibeli user dari tabel cart
+    $cart = mysqli_query($conn, "SELECT * FROM cart WHERE id_user = $idUser;");
+    $i = 0;
+    while($row = mysqli_fetch_assoc($cart)){
+        $barang[] = $row;
+    }
+    //input data barang ke tabel barang_dibeli
+    foreach($barang as $item){
+        $idBarang = $item['id_barang'];
+        $jml = $item['jumlah'];
+        mysqli_query($conn, "INSERT INTO barang_dibeli VALUES('$idPembelian', '$idBarang', '$jml');");
+    }
+    return true;
+}
+
+function showPembayaran($userId){
+
 }
 
 ?>
