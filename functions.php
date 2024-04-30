@@ -106,5 +106,34 @@ function showPembayaran($idUser){
     return $dataBarang;
 }
 
+function hapusAll($idUser){
+    global $conn;
+    //ambil id pembelian yang terakhir di tabel pembelian
+    $result = mysqli_query($conn, "SELECT id FROM pembelian WHERE id_user = '$idUser';");
+    while($row = mysqli_fetch_row($result)){
+        $rows[] = $row;
+    }
+    // var_dump($rows[0]); die();
+    $idPembelian = end($rows[0]);
+    //hapus data di tabel barang_dibeli
+    mysqli_query($conn, "DELETE FROM barang_dibeli WHERE id_pembelian = '$idPembelian';");
+    if(mysqli_affected_rows($conn) === 0){
+        echo"<script>alert('Gagal menghapus di tabel barang_dibeli');</script>";
+        return false;
+    }
+    // var_dump($idPembelian); die();
+    mysqli_query($conn, "DELETE FROM pembelian WHERE id = '$idPembelian';");
+    if(mysqli_affected_rows($conn) === 0){
+        echo"<script>alert('Gagal menghapus di tabel pembelian');</script>";
+        return false;
+    }
+    //hapus cart user
+    mysqli_query($conn, "DELETE FROM cart WHERE id_user = '$idUser';");
+    if(mysqli_affected_rows($conn) === 0){
+        echo"<script>alert('Gagal menghapus di tabel pembelian');</script>";
+        return false;
+    }
+    return true;
+}
 
 ?>

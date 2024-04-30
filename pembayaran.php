@@ -10,8 +10,15 @@ $usernameUser = $_SESSION['data']['username'];
 $alamatUser = $_SESSION['data']['alamat'];
 $roleUser = $_SESSION['data']['role'];
 
-if(isset($_POST['hapus'])){
-    
+if(isset($_POST['hapusAll'])){
+    if(hapusAll($phoneUser)){
+        echo"<script>alert('Berhasil menghapus');
+        document.location.href = 'index.php';</script>";
+    }
+    else{
+        echo"<script>alert('Gagal menghapus');
+        document.location.href: 'index.php';</script>";
+    }
 }
 
 ?>
@@ -45,7 +52,7 @@ if(isset($_POST['hapus'])){
         }
 
         .bayar:hover {
-            background-color: #703906;
+            background-color: #bf722a;
         }
 
         /* Responsive Styles */
@@ -67,7 +74,7 @@ if(isset($_POST['hapus'])){
     <div class="container mx-auto" style="max-width: 500px;">
         <h1 class="font-bold text-center text-4xl" style="border-radius: 20px; color: black;">Pesan</h1>
         <form action="" method="post">
-            <button type="submit" name="hapus" class="w-full mt-5 mb-5 text-right text-red-400 hover:text-red-700">Remove all Items</button>
+            <button type="submit" name="hapusAll" class="w-full mt-5 mb-5 text-right text-red-400 hover:text-red-700">Remove all Items</button>
         </form>
         <?php $datas = showPembayaran($phoneUser);
         // var_dump($datas); die();
@@ -104,7 +111,13 @@ if(isset($_POST['hapus'])){
         <div class="">
             <ul class="grid grid-cols-6 gap-4 mt-5">
                 <li class="col-start-1 col-end-3">Total</li>
-                <li class="col-end-9 col-span-2">Rp.10.000</li>
+                <li class="col-end-9 col-span-2"><?php 
+                    $total = 0;
+                    foreach($datas as $data){
+                        $total += ($data['harga']) * ($data['jumlah']);
+                    }
+                    echo $total;
+                ?></li>
             </ul>
         </div>
         <div>
