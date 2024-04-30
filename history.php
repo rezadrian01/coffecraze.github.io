@@ -3,18 +3,13 @@
     session_start();
     $phone = $_SESSION['data']['phone'];
     $result = mysqli_query($conn,"SELECT * FROM user WHERE phone = '$phone';");
+    //ambil data user
     while($row = mysqli_fetch_assoc($result)){
         $data = $row;
     }
 
-    //ambil data dari tabel pembelian
-    $pembelian = mysqli_query($conn, "SELECT * FROM pembelian WHERE id = '$phone';");
-    $userPembelian = mysqli_fetch_assoc($pembelian);
     //apabila user menekan tombol edit
-    if(isset($_POST['edit'])){
-        header("Location: profile-edit.php");
-        exit();
-    }
+
 ?>
 
 <!DOCTYPE html>
@@ -31,12 +26,12 @@
             <div class="text-xl font-medium">Logo</div>
             <ul class="flex items-center gap-x-2">
                 <li>
-                    <a href="profile.php" class="py-2 px-4 hover:bg-[#eeeeee] rounded-full font-semibold">
+                    <a href="profile.php" class="py-2 px-4 hover:bg-[#eeeeee] rounded-full">
                         Profile
                     </a>
                 </li>
                 <li>
-                    <a href="history.php" class="py-2 px-4 hover:bg-[#eeeeee] rounded-full">
+                    <a href="history.php" class="py-2 px-4 hover:bg-[#eeeeee] rounded-full font-semibold">
                         History purchase
                     </a>
                 </li>
@@ -64,11 +59,9 @@
                                 if($_SESSION['data']['role'] === "admin") {
                             ?>
                                 <li>
-                                    <a href="dashboard.php">
-                                        <button class="py-2 pl-3.5 w-full hover:bg-[#eeeeee] text-left rounded-lg">
-                                            Dashboard
-                                        </button>
-                                    </a>
+                                    <button class="py-2 pl-3.5 w-full hover:bg-[#eeeeee] text-left rounded-lg">
+                                        Dashboard
+                                    </button>
                                 </li>
                                 
                             <?php }; ?>
