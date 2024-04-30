@@ -64,12 +64,15 @@ $roleUser = $_SESSION['data']['role'];
         <h1 class="font-bold text-center text-4xl" style="border-radius: 20px; color: black;">Pesan</h1>
         <button class="w-full mt-5 mb-5 text-right text-red-400 hover:text-red-700">Remove all Items</button>
 
-        <?php showPembayaran($phoneUser); ?>
+        <?php $datas = showPembayaran($phoneUser);
+        // var_dump($datas); die();
+            foreach($datas as $data):
+        ?>
         <div class="card flex md:flex-row flex-col items-center gap-4" style="border-radius: 10px;">
-            <img src="coffee-image.jpg" alt="Coffee" class="product-image md:w-1/2" style="height: 200px; border-radius: 20PX;">
+            <img src="images/<?= $data['foto']; ?>" class="product-image md:w-1/2" style="height: 200px; border-radius: 20px;">
             <div class="product-details md:w-1/2 h-full" style="border-radius: 10px; font-weight: bold; padding: 20px;">
-                <p>Nama barang</p>
-                <p>Harga satuan (Rp.10.000)</p>
+                <p><?= $data['nama']; ?></p>
+                <p><?= $data['harga']; ?></p>
                 <div class="flex items-center gap-2">
                     <p>Jumlah</p>
                     <button onclick="decrement()" class="border p-1 rounded-full hover:bg-gray-200">
@@ -79,7 +82,7 @@ $roleUser = $_SESSION['data']['role'];
                         </svg>
                     </button>
 
-                    <span id="qty" class="text-sm font-medium">1</span>
+                    <span id="qty" class="text-sm font-medium"><?= $data['jumlah']; ?></span>
 
                     <button onclick="increment()" class="border p-1 rounded-full hover:bg-gray-200">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
@@ -92,6 +95,7 @@ $roleUser = $_SESSION['data']['role'];
             </div>
         </div>
 
+        <?php endforeach; ?>
         <div class="">
             <ul class="grid grid-cols-6 gap-4 mt-5">
                 <li class="col-start-1 col-end-3">Total</li>

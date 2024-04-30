@@ -72,7 +72,7 @@ function addToPembelian($idUser, $alamatUser){
     $idPembelian = mysqli_fetch_row($idPembelian)[0];
     //ambil semua barang yang dibeli user dari tabel cart
     $cart = mysqli_query($conn, "SELECT * FROM cart WHERE id_user = $idUser;");
-    $i = 0;
+
     while($row = mysqli_fetch_assoc($cart)){
         $barang[] = $row;
     }
@@ -85,8 +85,26 @@ function addToPembelian($idUser, $alamatUser){
     return true;
 }
 
-function showPembayaran($userId){
+function showPembayaran($idUser){
+    global $conn;
 
+    // Inisialisasi array untuk menyimpan data barang
+    $dataBarang = [];
+
+    // Query untuk mendapatkan id_pembelian
+    $queryIdPembelian = mysqli_query($conn, "SELECT id FROM pembelian WHERE id_user = '$idUser';");
+    $idPembelian = mysqli_fetch_row($queryIdPembelian)[0];
+
+    // Query untuk mendapatkan semua barang yang dibeli
+    $queryBarang = mysqli_query($conn, "SELECT bd.id_barang, bd.jumlah, b.* FROM barang_dibeli bd INNER JOIN barang b ON bd.id_barang = b.id WHERE bd.id_pembelian = '$idPembelian';");
+
+    // Ambil data semua barang yang dibeli
+    while($row = mysqli_fetch_assoc($queryBarang)){
+        $dataBarang[] = $row;
+    }
+
+    return $dataBarang;
 }
+
 
 ?>

@@ -542,6 +542,7 @@
                         </form>
                         <?php if(isset($_POST['buy'])){
                             addToPembelian(($_SESSION['data']['phone']), $_SESSION['data']['alamat']);
+                            
                         } ?>
                     </div>
                 </div>
