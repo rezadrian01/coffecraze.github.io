@@ -60,6 +60,13 @@
                                 </button>
                             </li>
                             <li>
+                                <a href="index.php">
+                                    <button class="py-2 pl-3.5 w-full hover:bg-[#eeeeee] text-left rounded-lg">
+                                    Back to home
+                                </button>
+                                </a>
+                            </li>
+                            <li>
                                 <div class="w-full">
                                     <a href="logout.php">
                                         <button class="py-2 pl-3.5 w-full hover:bg-[#eeeeee] text-left rounded-lg">
@@ -77,7 +84,7 @@
     </header>
     <main class="grow py-2.5 px-4 md:px-6 xl:px-12 2xl:px-16">
         <div class="w-3/4 mx-auto">
-            <div class="flow-root rounded-lg border border-gray-100 py-3 shadow-sm">
+            <div class="flow-root rounded-lg border border-gray-100 py-3 shadow-lg">
                 <dl class="-my-3 divide-y divide-gray-100 text-sm">
                     <div class="grid grid-cols-1 gap-1 p-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-4">
                         <dt class="font-medium text-gray-900">Phone Number</dt>

@@ -77,6 +77,7 @@
                                     Profile
                                 </button>
                             </li>
+                            
                             <li>
                                 <div class="w-full">
                                     <a href="logout.php">
