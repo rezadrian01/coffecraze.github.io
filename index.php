@@ -1,7 +1,7 @@
 <?php
     session_start();
     require('functions.php');
-
+    require('session.php');
     $items = show(false);
     if(isset($_GET['key'])){
         $key = $_GET['key'];
