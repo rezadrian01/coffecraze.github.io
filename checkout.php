@@ -320,17 +320,16 @@
                             <?php
                                     } else {
                             ?>
+                            
+                                    <form action="checkout_query.php" method="POST">
                                         <div>
                                             <label for="user_information" class="flex justify-between border py-3 px-4 rounded-3xl">
                                                 <div>
                                                     <div class="text-sm">Recipient name: <?php echo $_SESSION['data']['username']; ?></div>
-                                                    <input type="hidden" value="<?php echo $_SESSION['data']['username']; ?>">
 
                                                     <div class="text-sm">No. telpon: <?php echo $_SESSION['data']['phone']; ?></div>
-                                                    <input type="hidden" value="<?php echo $_SESSION['data']['phone']; ?>">
 
                                                     <div class="text-sm">Alamat: <?php echo $_SESSION['data']['alamat']; ?></div>
-                                                    <input type="hidden" value="<?php echo $_SESSION['data']['alamat']; ?>"
                                                 </div>
 
                                                 <input id="user_information" type="radio" name="user_information" checked>
@@ -344,25 +343,27 @@
                                             </label>
 
                                             <div id="information-form" class="hidden pt-3 pb-4 px-4 mt-1">
+                                                <input type="hidden" name="pemesanan_makanan" value="dine in">
+
                                                 <!-- Recipient name -->
                                                 <div class="flex flex-col py-2 px-3 border-2 rounded-2xl transition hover:border-gray-400 mb-4">
                                                     <label for="nama" class="text-sm text-[#757575] mb-px">Recipient name</label>
 
-                                                    <input id="nama" type="text" name="nama" class="text-sm outline-none" placeholder="Recipient name">
+                                                    <input id="nama" type="text" name="nama" value="<?php echo $_SESSION['data']['username'];?>" class="text-sm outline-none" placeholder="Recipient name">
                                                 </div>
 
                                                 <!-- Phone name -->
                                                 <div class="flex flex-col py-2 px-3 border-2 rounded-2xl transition hover:border-gray-400 mb-4">
                                                     <label for="phone" class="text-sm text-[#757575]">Mobile phone</label>
 
-                                                    <input id="phone" type="text" onkeypress="validate(event)" class="text-sm outline-none" placeholder="Mobile phone" name="phone">
+                                                    <input id="phone" type="text" name="phone" value="<?php echo $_SESSION['data']['phone'];?>" onkeypress="validate(event)" class="text-sm outline-none" placeholder="Mobile phone">
                                                 </div>
 
                                                 <!-- Alamat name -->
                                                 <div class="flex flex-col py-2 px-3 border-2 rounded-2xl transition hover:border-gray-400">
                                                     <label for="alamat" class="text-sm text-[#757575] mb-px">Address</label>
 
-                                                    <input id="alamat" type="text" name="alamat" class="text-sm outline-none" placeholder="Delivery address">
+                                                    <input id="alamat" type="text" name="alamat" value="<?php echo $_SESSION['data']['alamat'];?>" class="text-sm outline-none" placeholder="Delivery address">
                                                 </div>
                                             </div>
                                         </div>
@@ -389,6 +390,7 @@
                                                 ?>
                                             </span>
                                         </button>
+                                    </form>
                             <?php
                                     };
                                 }
@@ -396,12 +398,38 @@
                         </div>
 
                         <div id="take-away" class="tab-content mt-8" style="display: none;">
-                            <!-- Recipient name -->
-                            <div class="flex flex-col py-2 px-3 border-2 rounded-2xl transition hover:border-gray-400">
-                                <label for="nama" class="text-sm text-[#757575] mb-px">Recipient name</label>
+                            <form action="checkout_query.php" method="POST">
+                                <input type="hidden" name="pemesanan_makanan" value="take away">
+                                <!-- Recipient name -->
+                                <div class="flex flex-col py-2 px-3 border-2 rounded-2xl transition hover:border-gray-400">
+                                    <label for="nama" class="text-sm text-[#757575] mb-px">Recipient name</label>
 
-                                <input id="nama" type="text" name="nama" value="<?php echo $_SESSION['data']['username']?>" class="text-sm outline-none" placeholder="Recipient name">
-                            </div>
+                                    <input id="nama" type="text" name="nama" value="<?php echo $_SESSION['data']['username']?>" class="text-sm outline-none" placeholder="Recipient name">
+                                </div>
+
+                                <button type="submit" name="checkout-submit" class="py-3 w-full bg-[#723E29] text-base text-white text-center font-medium rounded-full mt-9">
+                                    Bayar 
+                                    <span>
+                                        <?php
+                                            $getUserCart = "SELECT * FROM cart WHERE id_user = '{$_SESSION['data']['phone']}'";
+                                            $getUserCartQuery = mysqli_query($conn, $getUserCart);
+
+                                            $total = 0;
+                                        
+                                            while($data = mysqli_fetch_array($getUserCartQuery)) {
+                                                $getProductData = "SELECT * FROM barang WHERE id = '{$data['id_barang']}'";
+                                                $getProductDataQuery = mysqli_query($conn, $getProductData);
+                                        
+                                                while($productData = mysqli_fetch_array($getProductDataQuery)) {
+                                                    $total += $data['jumlah'] * $productData['harga'];
+                                                }
+                                            }
+
+                                            echo "Rp$total";
+                                        ?>
+                                    </span>
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>
