@@ -259,8 +259,8 @@
 
                     <div class="mt-8">
                         <div class="tabs-parent relative flex items-center justify-between gap-x-1 p-1 bg-[#e0e0e0] rounded-full">
-                            <button onclick="tab(event, 'dine-in')" class="tablinks w-full text-center py-2 rounded-full text-sm active">Dine in</button>
-                            <button onclick="tab(event, 'take-away')" class="tablinks w-full text-center py-2 rounded-full text-sm">Take away</d>
+                            <button onclick="tab(event, 'dine-in')" class="tablinks w-full text-center py-2 rounded-full text-sm active">Delivery</button>
+                            <button onclick="tab(event, 'take-away')" class="tablinks w-full text-center py-2 rounded-full text-sm">Dine in / Take away</d>
                         </div>
 
                         <div id="dine-in" class="tab-content mt-8" style="display: block;">
