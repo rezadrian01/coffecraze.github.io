@@ -93,16 +93,22 @@
             <h4 class="text-2xl font-semibold">User</h4>
 
             <div class="flex items-center gap-x-7 mt-6">
-                <div class="grow flex items-center gap-x-2 border py-2 rounded-full px-3">
-                    <label for="search">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-[#424242]">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
-                        </svg>
-                    </label>
-
-                    <input id="search" type="text" class="outline-none text-sm w-full" placeholder="Search user">
-                </div>
-
+                <form action="" method="post">
+                    <div class="grow flex items-center gap-x-2 border py-2 rounded-full px-3">
+                        <?php if(!isset($_POST['search'])): ?>
+                            <input id="search" type="text" class="outline-none text-sm w-full" placeholder="Search user" name="keyword">
+                        <?php else: ?>
+                            <input id="search" type="text" class="outline-none text-sm w-full" placeholder="Search user" name="keyword" value="<?= $_POST['keyword'];?>">
+                        <?php endif; ?>
+                        <button type="submit" name="search">
+                            <label for="search">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-[#424242]">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                                </svg>
+                            </label>
+                        </button>
+                    </div>
+                </form>
                 <button type="button" onclick="addUserModal()" class="py-2.5 px-5 transition hover:bg-[#e3f2fd] text-[#1976d2] text-sm font-medium rounded-full">
                     Add user
                 </button>
@@ -130,20 +136,23 @@
                         <?php
                             include("functions.php");
                             global $conn;
-
-                            $sql = "SELECT * FROM user";
-                            $query = mysqli_query($conn, $sql);
-
+                            if(!isset($_POST['search'])){
+                                $sql = "SELECT * FROM user";
+                            }
+                            else{
+                                $keyword = $_POST['keyword'];
+                                $sql = "SELECT * FROM user WHERE
+                                phone LIKE '%$keyword%' OR
+                                username LIKE '%$keyword%' OR
+                                alamat LIKE '%$keyword%' OR
+                                role LIKE '%$keyword%';
+                                ";
+                            }
                             // Mengambil semua data dan memasukkannya ke dalam array
-                            $dataArray = [];
-                            while($data = mysqli_fetch_array($query)) {
-                                $dataArray[] = $data;
-                            };
-
+                            $query = mysqli_query($conn, $sql);
                             $i = 1;
-                            foreach($dataArray as $data) {
+                            while($data = mysqli_fetch_assoc($query)) {
                                 echo "<tr class='text-sm'>";
-
                                 echo "<td class='px-6 py-4'>".$i++."</td>";
                                 echo "<td class='px-6 py-4 capitalize'>".$data['username']."</td>";
                                 echo "<td class='px-6 py-4 capitalize'><span class='" . ($data['role'] === 'user' ? 'bg-blue-100 text-blue-800' : 'bg-rose-100 text-rose-800') . " text-xs font-medium me-2 py-1 px-2 rounded-full capitalize'>".$data['role']."</span></td>";

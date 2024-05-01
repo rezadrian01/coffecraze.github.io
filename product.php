@@ -150,7 +150,6 @@
                             <?php
                                 if(!isset($_POST['search'])){
                                     $sql = "SELECT * FROM barang";
-                                    $query = mysqli_query($conn, $sql);
                                 }
                                 else{
                                     $key = $_POST['keyword'];
@@ -158,12 +157,12 @@
                                     id LIKE '%$key%' OR
                                     nama LIKE '%$key%' OR
                                     harga LIKE '%$key%' OR
-                                    status LIKE '%$key%'
+                                    status LIKE '%$key%';
                                     ";
-                                    $query = mysqli_query($conn, $sql);
                                 }
+                                $query = mysqli_query($conn, $sql);
                                 $i = 1;
-                                while($data = mysqli_fetch_array($query)) {
+                                while($data = mysqli_fetch_assoc($query)) {
                             ?>
                                 <tr class="text-sm">
                                     <th><?= $i++; ?></th>
