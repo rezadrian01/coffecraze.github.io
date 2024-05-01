@@ -435,7 +435,7 @@
                     if(isset($_SESSION['data'])) {
                 ?>
                 <div class="flex flex-col justify-between h-full">
-                    <div class="p-1">
+                    <div class="p-1 overflow-auto">
                         <?php
                             $getUserCart = "SELECT * FROM cart WHERE id_user = '{$_SESSION['data']['phone']}'";
                             $getUserCartQuery = mysqli_query($conn, $getUserCart);
