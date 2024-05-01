@@ -193,12 +193,16 @@
                         <dd class="text-gray-700 sm:col-span-2"><?= $data['hargaBarang']; ?></dd>
                     </div>
                     <div class="grid grid-cols-1 gap-1 p-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-4">
-                        <dt class="font-medium text-gray-900">Qty</dt>
-                        <dd class="text-gray-700 sm:col-span-2"><?= $data['jumlahBarang']; ?></dd>
+                        <dt class="font-medium text-gray-900">Ordering method</dt>
+                        <dd class="text-gray-700 sm:col-span-2"><?= $data['tempat']; ?></dd>
                     </div>
                     <div class="grid grid-cols-1 gap-1 p-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-4">
                         <dt class="font-medium text-gray-900">Status</dt>
                         <dd class="text-gray-700 sm:col-span-2"><?= $data['status']; ?></dd>
+                    </div>
+                    <div class="grid grid-cols-1 gap-1 p-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-4">
+                        <dt class="font-medium text-gray-900">Qty</dt>
+                        <dd class="text-gray-700 sm:col-span-2"><?= $data['jumlahBarang']; ?></dd>
                     </div>
                 </dl>
             </div>
