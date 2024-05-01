@@ -30,8 +30,8 @@ function show($key){
 
 function signup($data){
     global $conn;
-    $phone = strtolower($data['phone']);
-    $username = strtolower(stripslashes($data['username']));
+    $phone = $data['phone'];
+    $username = stripslashes($data['username']);
     $password1 = mysqli_real_escape_string($conn,$data['password1']);
     $password2 = mysqli_real_escape_string($conn,$data['password2']);
 
