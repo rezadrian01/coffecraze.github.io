@@ -136,4 +136,28 @@ function hapusAll($idUser){
     return true;
 }
 
+function showHistory($idUser, $key){
+    global $conn;
+    //show all history
+    if($key === false){
+        $result = mysqli_query($conn, "SELECT pembelian.nama AS nama, barang_dibeli.id_barang AS idBarang, barang.nama AS namaBarang, kategori.nama AS kategori, barang.harga AS hargaBarang, barang_dibeli.jumlah AS jumlahBarang, pembelian.status AS status FROM pembelian INNER JOIN barang_dibeli ON pembelian.id = barang_dibeli.id_pembelian INNER JOIN barang ON barang_dibeli.id_barang = barang.id INNER JOIN kategori ON barang.id_kategori = kategori.id WHERE pembelian.id_user = '$idUser';");
+
+        $rows = [];
+        while($row = mysqli_fetch_assoc($result)){
+            $rows[] = $row;
+        }
+        
+        return $rows;
+    }
+        $result = mysqli_query($conn, "SELECT pembelian.nama AS nama, barang_dibeli.id_barang AS idBarang, barang.nama AS namaBarang, kategori.nama AS kategori, barang.harga AS hargaBarang, barang_dibeli.jumlah AS jumlahBarang, pembelian.status AS status FROM pembelian INNER JOIN barang_dibeli ON pembelian.id = barang_dibeli.id_pembelian INNER JOIN barang ON barang_dibeli.id_barang = barang.id INNER JOIN kategori ON barang.id_kategori = kategori.id WHERE pembelian.id_user = '$idUser' AND pembelian.status = '$key';");
+
+        $rows = [];
+        while($row = mysqli_fetch_assoc($result)){
+            $rows[] = $row;
+        }
+        
+        return $rows;
+    
+}
+
 ?>

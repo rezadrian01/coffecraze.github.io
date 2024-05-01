@@ -7,8 +7,30 @@
     while($row = mysqli_fetch_assoc($result)){
         $data = $row;
     }
+    if(!isset($_GET['key']) || $_GET['key'] === 'all'){
+        $key = false;
+    }else{
+        $key = $_GET['key'];
+    }
 
-    //apabila user menekan tombol edit
+    //ambil data di tabel pembelian
+    // $pembelian = mysqli_query($conn, "SELECT * FROM pembelian WHERE id_user = '$phone';");
+    // while($tempPembelian = mysqli_fetch_assoc($pembelian)){
+    //     $dataPembelian[] = $tempPembelian; //array 2 dimensi index[tiap baris] & assoc[tiap kolom]
+    // }
+
+    // //ambil semua id_pembelian di pembelian
+    // foreach($dataPembelian as $row){
+    //     $idPembelian[] = $row['id'];  //idPembelian berbentuk array index untuk tiap baris
+    //     //ambil semua idBarang yang dibeli user
+    //     $barangDibeli = mysqli_query($sonn, "SELECT * FROM barang_dibeli WHERE id_pembelian = $idPembelian");
+    //     while($dibeli = mysqli_fetch_){
+
+    //     }
+    // }
+
+    //dari line 11 itu querynya langsung pake inner join aja
+    
 
 ?>
 
@@ -59,9 +81,11 @@
                                 if($_SESSION['data']['role'] === "admin") {
                             ?>
                                 <li>
-                                    <button class="py-2 pl-3.5 w-full hover:bg-[#eeeeee] text-left rounded-lg">
-                                        Dashboard
-                                    </button>
+                                    <a href="dashboard.php">
+                                        <button class="py-2 pl-3.5 w-full hover:bg-[#eeeeee] text-left rounded-lg">
+                                            Dashboard
+                                        </button>
+                                    </a>
                                 </li>
                                 
                             <?php }; ?>
@@ -88,32 +112,98 @@
             <?php endif; ?>
         </div>
     </header>
-    <main class="grow py-2.5 px-4 md:px-6 xl:px-12 2xl:px-16">
+    <main class="grow py-2.5 px-4 md:px-6 xl:px-12 2xl:px-16 mb-16">
         <div class="w-3/4 mx-auto">
-            <div class="flow-root rounded-lg border border-gray-100 py-3 shadow-lg">
+            <!-- filter by kategori -->
+            <div class="mb-8">
+                <ul class="mx-4 flex gap-8">
+                    <!-- ketika all dipilih -->
+                    <li><?php if((!isset($_GET['key'])) || ($_GET['key'] === 'all')): ?>
+                        <a href="history.php?key=all">
+                            <button class="p-2 bg-slate-100 rounded-xl">All</button> 
+                        </a>
+                        <?php else: ?>
+                            <a href="history.php?key=all">
+                                <button class="p-2 rounded-xl">All</button> 
+                            </a>
+                        <?php endif; ?>
+                    </li>
+                    <li>
+                        <?php if((!isset($_GET['key'])) || ($_GET['key'] !== 'in process')): ?>
+                        <a href="history.php?key=in process">
+                            <button class="p-2   rounded-xl">In process</button> 
+                        </a>
+                        <?php else: ?>
+                            <a href="history.php?key=in process">
+                                <button class="p-2 bg-slate-100 rounded-xl">In process</button> 
+                            </a>
+                        <?php endif; ?>
+                    </li>
+                    <li>
+                        <?php if((!isset($_GET['key'])) || ($_GET['key'] !== 'to receive')): ?>
+                        <a href="history.php?key=to receive">
+                            <button class="p-2  rounded-xl">To receive</button> 
+                        </a>
+                        <?php else: ?>
+                            <a href="history.php?key=to receive">
+                                <button class="p-2 bg-slate-100 rounded-xl">To receive</button> 
+                            </a>
+                        <?php endif; ?>
+                    </li>
+                    <li>
+                        <?php if((!isset($_GET['key'])) || ($_GET['key'] !== 'completed')): ?>
+                        <a href="history.php?key=completed">
+                            <button class="p-2  rounded-xl">Completed</button> 
+                        </a>
+                        <?php else: ?>
+                            <a href="history.php?key=completed">
+                                <button class="p-2 bg-slate-100 rounded-xl">Completed</button> 
+                            </a>
+                        <?php endif; ?>
+                    </li>
+                </ul>
+            </div>
+            <!-- parent group -->
+            <?php 
+            $datas = showHistory($phone, $key);
+            foreach($datas as $data):
+            ?>
+            <div class="flow-root rounded-lg border border-gray-100 py-3 mb-8 shadow-lg">
                 <dl class="-my-3 divide-y divide-gray-100 text-sm">
                     <div class="grid grid-cols-1 gap-1 p-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-4">
-                        <dt class="font-medium text-gray-900">Phone Number</dt>
-                            <dd class="text-gray-700 sm:col-span-2"><?= $data['phone']; ?></dd>
+                        <dt class="font-medium text-gray-900">Recipient's name</dt>
+                            <dd class="text-gray-700 sm:col-span-2"><?= $data['nama']; ?></dd>
                     </div>
 
                     <div class="grid grid-cols-1 gap-1 p-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-4">
-                        <dt class="font-medium text-gray-900">Username</dt>
-                            <dd class="text-gray-700 sm:col-span-2"><?= $data['username']; ?></dd>
+                        <dt class="font-medium text-gray-900">Item id</dt>
+                            <dd class="text-gray-700 sm:col-span-2"><?= $data['idBarang']; ?></dd>
                     </div>
 
                     <div class="grid grid-cols-1 gap-1 p-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-4">
-                        <dt class="font-medium text-gray-900">Addres</dt>
-                        <dd class="text-gray-700 sm:col-span-2"><?= $data['alamat']; ?></dd>
+                        <dt class="font-medium text-gray-900">Name item</dt>
+                        <dd class="text-gray-700 sm:col-span-2"><?= $data['namaBarang']; ?></dd>
+                    </div>
+                    <div class="grid grid-cols-1 gap-1 p-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-4">
+                        <dt class="font-medium text-gray-900">Item category</dt>
+                        <dd class="text-gray-700 sm:col-span-2"><?= $data['kategori']; ?></dd>
+                    </div>
+                    <div class="grid grid-cols-1 gap-1 p-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-4">
+                        <dt class="font-medium text-gray-900">Price</dt>
+                        <dd class="text-gray-700 sm:col-span-2"><?= $data['hargaBarang']; ?></dd>
+                    </div>
+                    <div class="grid grid-cols-1 gap-1 p-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-4">
+                        <dt class="font-medium text-gray-900">Qty</dt>
+                        <dd class="text-gray-700 sm:col-span-2"><?= $data['jumlahBarang']; ?></dd>
+                    </div>
+                    <div class="grid grid-cols-1 gap-1 p-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-4">
+                        <dt class="font-medium text-gray-900">Status</dt>
+                        <dd class="text-gray-700 sm:col-span-2"><?= $data['status']; ?></dd>
                     </div>
                 </dl>
             </div>
-            <div class="mt-4">
-                <form action="" method="post">
-                    <input type="hidden" name="idUser" value="<?= $_SESSION['data']['phone']; ?>">
-                    <button class="hover:bg-slate-100 p-2 rounded-xl" type="submit" name="edit">Edit data</button>
-                </form>
-            </div>
+
+            <?php endforeach; ?>
         </div>
     </main>
     <footer class="py-3 px-12 border-t bg-[#723E29] text-white text-center">

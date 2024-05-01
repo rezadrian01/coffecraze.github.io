@@ -79,9 +79,11 @@
                             </div>
                         </li>
                         <li>
-                            <button class="py-2 pl-3.5 w-full hover:bg-[#eeeeee] text-left rounded-lg">
-                                Profile
-                            </button>
+                            <a href="profile.php">
+                                <button class="py-2 pl-3.5 w-full hover:bg-[#eeeeee] text-left rounded-lg">
+                                    Profile
+                                </button>
+                            </a>
                         </li>
                         <li>
                             <div class="w-full">
