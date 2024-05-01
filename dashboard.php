@@ -86,9 +86,13 @@
                 <div id="menu-dropdown" class="hidden absolute top-auto right-0 w-52">
                     <ul class="mt-2 p-1 bg-white shadow-md rounded-xl border">
                         <li>
-                            <button class="py-2 pl-3.5 w-full hover:bg-[#eeeeee] text-left rounded-lg">
-                                Back to home
-                            </button>
+                            <div>
+                                <a href="index.php">
+                                    <button class="py-2 pl-3.5 w-full hover:bg-[#eeeeee] text-left rounded-lg">
+                                        Back to home
+                                    </button>
+                                </a>
+                            </div>
                         </li>
                         <li>
                             <button class="py-2 pl-3.5 w-full hover:bg-[#eeeeee] text-left rounded-lg">
@@ -171,7 +175,7 @@
 
                                                     while($dataGambar = mysqli_fetch_assoc($getBarangDibeliQuery)) {
                                                 ?>
-                                                    <img class="w-10 h-10 border-2 border-white rounded-full object-cover" 
+                                                    <img class="w-10 h-10 border-2 border-white rounded-xl object-cover" 
                                                         src="<?php echo "./images/" . $dataGambar['gambar']; ?>" 
                                                         alt="produk_dibeli">
                                                 <?php

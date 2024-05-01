@@ -62,9 +62,13 @@
                 <div id="menu-dropdown" class="hidden absolute top-auto right-0 w-52">
                     <ul class="mt-2 p-1 bg-white shadow-md rounded-xl border">
                         <li>
-                            <button class="py-2 pl-3.5 w-full hover:bg-[#eeeeee] text-left rounded-lg">
-                                Back to home
-                            </button>
+                            <div>
+                                <a href="index.php">
+                                    <button class="py-2 pl-3.5 w-full hover:bg-[#eeeeee] text-left rounded-lg">
+                                        Back to home
+                                    </button>
+                                </a>
+                            </div>
                         </li>
                         <li>
                             <button class="py-2 pl-3.5 w-full hover:bg-[#eeeeee] text-left rounded-lg">
@@ -142,7 +146,7 @@
 
                                 echo "<td class='px-6 py-4'>".$i++."</td>";
                                 echo "<td class='px-6 py-4 capitalize'>".$data['username']."</td>";
-                                echo "<td class='px-6 py-4 capitalize'><span class='bg-blue-100 text-blue-800 text-xs font-medium me-2 py-1 px-2 rounded-full capitalize'>".$data['role']."</span></td>";
+                                echo "<td class='px-6 py-4 capitalize'><span class='" . ($data['role'] === 'user' ? 'bg-blue-100 text-blue-800' : 'bg-rose-100 text-rose-800') . " text-xs font-medium me-2 py-1 px-2 rounded-full capitalize'>".$data['role']."</span></td>";
                                 echo '<td class="flex items-center px-6 py-4">
                                         <button id="edit" onclick="editUserModal('.$data["phone"].', \''.$data["username"].'\', \''.$data["alamat"].'\', \''.$data["role"].'\')" class="p-2 hover:bg-[#eeeeee] rounded-full">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
