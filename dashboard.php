@@ -1,20 +1,34 @@
 <?php
+    session_start();
 
-session_start();
-include("functions.php");
-global $conn;
+    include("functions.php");
+    global $conn;
 
-if(isset($_SESSION['data']['role'])){
-    if($_SESSION['data']['role'] === "user"){
+    if(isset($_SESSION['data']['role'])){
+        if($_SESSION['data']['role'] === "user"){
+            header("Location: index.php");
+            exit();
+        }
+    }
+    else{
         header("Location: index.php");
         exit();
     }
- }
-else{
-    header("Location: index.php");
-    exit();
-}
 
+    if(isset($_POST['submit_process'])) {
+        $id = $_POST['id'];
+        $value = $_POST['submit_process'];
+
+        $sql = "UPDATE pembelian SET status = '$value' WHERE id = '$id';";
+        $query = mysqli_query($conn, $sql);
+
+        if($query) {
+            header('Location: dashboard.php?message=update_berhasil');
+            exit();
+        } else {
+            die("Gagal update...");
+        }
+    }
 
 ?>
 <!DOCTYPE html>
@@ -24,6 +38,12 @@ else{
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Dashboard</title>
         <link rel="stylesheet" href="./src/output.css">
+
+        <style>
+            input[type="radio"]:checked + label{
+                background-color: #eeeeee;
+            }
+        </style>
     </head>
     <body>
         <header class="flex justify-between items-center py-2.5 px-4 md:px-6 xl:px-12 2xl:px-16">
@@ -190,11 +210,17 @@ else{
                                                 </button>
 
                                                 <div class="hidden group-hover:block absolute top-auto right-0 pt-0.5 z-10">
-                                                    <div class="flex flex-col gap-y-0.5 w-28 bg-white rounded-lg p-0.5">
-                                                        <option class="cursor-pointer px-2 py-1 text-sm <?php echo ($data['status'] === "in process") ? 'bg-[#eeeeee]' : 'hover:bg-[#eeeeee]'; ?> rounded-md" value="in process" selected>In process</option>
-                                                        <option class="cursor-pointer px-2 py-1 text-sm <?php echo ($data['status'] === "to receive") ? 'bg-[#eeeeee]' : 'hover:bg-[#eeeeee]'; ?> hover:bg-[#eeeeee] rounded-md" value="to receive">To receive</option>
-                                                        <option class="cursor-pointer px-2 py-1 text-sm <?php echo ($data['status'] === "completed") ? 'bg-[#eeeeee]' : 'hover:bg-[#eeeeee]'; ?> hover:bg-[#eeeeee] rounded-md" value="completed">Completed</option>
-                                                    </div>
+                                                    <form action="" method="POST">
+                                                        <div class="flex flex-col gap-y-0.5 w-28 bg-white rounded-lg p-0.5">
+                                                            <input type="hidden" name="id" value="<?php echo $data['id']?>">
+
+                                                            <input type="submit" class="cursor-pointer px-2 py-1 text-sm text-left rounded-md capitalize <?php echo ($data['status'] === "in process") ? 'bg-[#eeeeee]' : 'hover:bg-[#eeeeee]'; ?>" name="submit_process" value="in process">
+                                                            
+                                                            <input type="submit" class="cursor-pointer px-2 py-1 text-sm text-left rounded-md capitalize <?php echo ($data['status'] === "to receive") ? 'bg-[#eeeeee]' : 'hover:bg-[#eeeeee]'; ?>" name="submit_process" value="to receive">
+                                                            
+                                                            <input type="submit" class="cursor-pointer px-2 py-1 text-sm text-left rounded-md capitalize <?php echo ($data['status'] === "completed") ? 'bg-[#eeeeee]' : 'hover:bg-[#eeeeee]'; ?>" name="submit_process" value="completed">
+                                                        </div>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </td>

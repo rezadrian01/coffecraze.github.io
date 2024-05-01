@@ -1,5 +1,24 @@
 <?php 
     session_start();
+
+    include("functions.php");
+    global $conn;
+
+    // Update Status
+    if(isset($_POST['submit_status'])) {
+        $id = $_POST['id'];
+        $status = $_POST['submit_status'];
+
+        $sql = "UPDATE barang SET status = '$status' WHERE id = '$id';";
+        $query = mysqli_query($conn, $sql);
+
+        if($query) {
+            header('Location: product.php?message=update_berhasil');
+            exit();
+        } else {
+            die("Gagal update...");
+        }
+    }
 ?>
 
 <!DOCTYPE html>
@@ -117,9 +136,6 @@
                     </thead>
                     <tbody>
                             <?php
-                                include("functions.php");
-                                global $conn;
-
                                 $sql = "SELECT * FROM barang";
                                 $query = mysqli_query($conn, $sql);
                                 $i = 1;
@@ -158,8 +174,32 @@
                                         <td class="px-6 py-4">
                                             <?php echo $data['harga']; ?>
                                         </td>
-                                        <td class="px-6 py-4">
-                                            <span class="bg-blue-100 text-blue-800 text-xs font-medium me-2 py-1 px-2 rounded-full capitalize"><?php echo $data['status']; ?></span>
+                                        <td class="px-5 py-4">
+                                            <div class="relative inline-block group">
+                                                <button class="inline-flex items-center gap-x-1 py-0.5 pl-0.5 pr-1.5 hover:bg-white border border-0 hover:border rounded-full">
+                                                    <span class="<?php echo ($data['status'] === "ready") ? 'bg-blue-100 text-blue-800' : 'bg-red-100 text-red-800'; ?> text-xs font-medium py-1 px-2 rounded-full capitalize">
+                                                        <?php echo $data['status']; ?>
+                                                    </span>
+                                                
+                                                    <div class="invisible group-hover:visible">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-3 h-3">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                                                        </svg>
+                                                    </div>
+                                                </button>
+
+                                                <div class="hidden group-hover:block absolute top-auto right-0 pt-0.5 z-10">
+                                                    <form action="" method="POST">
+                                                        <div class="flex flex-col gap-y-0.5 w-28 bg-white rounded-lg p-0.5 border">
+                                                            <input type="hidden" name="id" value="<?php echo $data['id']?>">
+
+                                                            <input type="submit" class="cursor-pointer px-2 py-1 text-sm text-left rounded-md capitalize <?php echo ($data['status'] === "ready") ? 'bg-[#eeeeee]' : 'hover:bg-[#eeeeee]'; ?>" name="submit_status" value="ready">
+                                                            
+                                                            <input type="submit" class="cursor-pointer px-2 py-1 text-sm text-left rounded-md capitalize <?php echo ($data['status'] === "not ready") ? 'bg-[#eeeeee]' : 'hover:bg-[#eeeeee]'; ?>" name="submit_status" value="not ready">
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
                                         </td>
                                         <td class="px-6 py-4 text-sm hover:text-blue-600 cursor-pointer">
                                             4
