@@ -103,16 +103,22 @@
             <h4 class="text-2xl font-semibold">Product</h4>
 
             <div class="flex items-center gap-x-7 mt-6">
-                <div class="grow flex items-center gap-x-2 border py-2 rounded-full px-3">
-                    <label for="search">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-[#424242]">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
-                        </svg>
-                    </label>
-
-                    <input id="search" type="text" class="outline-none text-sm w-full" placeholder="Search product">
-                </div>
-
+                <form action=""method="post">
+                    <div class="grow flex items-center gap-x-2 border py-2 rounded-full px-3">
+                        <?php if(!isset($_POST['search'])): ?>
+                            <input id="search" type="text" class="outline-none text-sm w-full" placeholder="Search product" name="keyword">
+                        <?php else: ?>
+                            <input id="search" type="text" class="outline-none text-sm w-full" placeholder="Search product" name="keyword" value="<?= $_POST['keyword'];?>">
+                        <?php endif; ?>
+                        <button type="submit" name="search">
+                            <label for="search">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-[#424242]">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                                </svg>
+                            </label>
+                        </button>
+                    </div>
+                </form>
                 <a href="produk_tambah_page.php" class="py-2.5 px-5 transition hover:bg-[#e3f2fd] text-[#1976d2] text-sm font-medium rounded-full">Add product</a>
             </div>
 
@@ -142,8 +148,20 @@
                     </thead>
                     <tbody>
                             <?php
-                                $sql = "SELECT * FROM barang";
-                                $query = mysqli_query($conn, $sql);
+                                if(!isset($_POST['search'])){
+                                    $sql = "SELECT * FROM barang";
+                                    $query = mysqli_query($conn, $sql);
+                                }
+                                else{
+                                    $key = $_POST['keyword'];
+                                    $sql = "SELECT * FROM barang WHERE
+                                    id LIKE '%$key%' OR
+                                    nama LIKE '%$key%' OR
+                                    harga LIKE '%$key%' OR
+                                    status LIKE '%$key%'
+                                    ";
+                                    $query = mysqli_query($conn, $sql);
+                                }
                                 $i = 1;
                                 while($data = mysqli_fetch_array($query)) {
                             ?>
