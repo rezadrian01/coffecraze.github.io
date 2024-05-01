@@ -141,7 +141,7 @@
         <div class="flex flex-col min-h-screen w-full">
             <header class="py-2.5 px-4 md:px-6 xl:px-12 2xl:px-16">
                 <div class="flex justify-between items-center">
-                    <div class="text-xl font-medium">Logo</div>
+                    <h5 class="bg-gradient-to-br from-[#a1887f] from-15% to-[#3e2723] to-40% text-3xl font-black uppercase bg-clip-text text-transparent">COFFEE</h5>
                     <!-- jika belum login maka tombolnya login/signup -->
                     <?php if (!isset($_SESSION["data"])) : ?>
                         <div class="flex items-center gap-x-2">
@@ -288,17 +288,17 @@
                             <div class="flex items-center gap-x-2 mt-2">
                                 <!-- jika user belum login -->
                                 <?php if (!isset($_SESSION["data"])) : ?>
-                                    <button class="bg-[#3e2723] text-white text-center text-xs font-medium py-2.5 w-full rounded-full">
+                                    <a href="login.php" class="bg-[#3e2723] text-white text-center text-xs font-medium py-2.5 w-full rounded-full">
                                         Buy now
-                                    </button>
+                                    </a>
                                     <a href="login.php" class="border text-xs text-center font-medium py-2.5 w-full rounded-full">
                                         Add to cart
                                     </a>
                                     <!-- jika user sudah login -->
                                 <?php else : ?>
-                                    <button class="bg-[#3e2723] text-white text-center text-xs font-medium py-2.5 w-full rounded-full">
+                                    <a href="checkout.php?buy_now=<?= $data['id']; ?>" class="bg-[#3e2723] text-white text-center text-xs font-medium py-2.5 w-full rounded-full">
                                         Buy now
-                                    </button>
+                                    </a>
                                     <form class="w-full" action="" method="post">
                                         <input type="hidden" name="id" value="<?= $data['id']; ?>">
                                         <input type="hidden" name="val" value="1">
@@ -390,7 +390,7 @@
 
                                                 <div id="review<?php echo $data['id']; ?>" class="tab-content<?php echo $data['id']; ?> mt-2" style="display: none;">
                                                     <div class="hover:bg-[#eeeeee] py-2 px-3 rounded-2xl">
-                                                        <div class="font-bold">Fathan Alfariel Adhyaksa</div>
+                                                        <div class="font-bold">Marshel</div>
 
                                                         <!-- Rating -->
                                                         <div class="flex items-center mt-0.5">
@@ -406,13 +406,13 @@
                                                             <svg class="w-4 h-4 text-[#fb8c00] ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
                                                                 <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
                                                             </svg>
-                                                            <svg class="w-4 h-4 ms-1 text-gray-300 dark:text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                                            <svg class="w-4 h-4 ms-1 text-gray-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
                                                                 <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
                                                             </svg>
                                                         </div>
 
                                                         <p class="text-sm mt-1">
-                                                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse, nobis. Possimus explicabo quisquam expedita distinctio fugiat sapiente aliquam. Debitis dicta omnis iure ad odit repellat vitae aliquid facere eos soluta.
+                                                            Cappucino enak worth it banget buat harga segini! 
                                                         </p>
                                                     </div>
                                                 </div>
