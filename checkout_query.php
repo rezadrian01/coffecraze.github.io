@@ -6,11 +6,11 @@
 
     if(isset($_POST['checkout-submit'])) {
         $nama = $_POST['nama'];
-        $phone = $_POST['phone'];
-        $alamat = $_POST['alamat'];
+        $phone = isset($_POST['phone']) ? $_POST['phone'] : '';
+        $alamat = isset($_POST['alamat']) ? $_POST['alamat'] : '';
         $pemesanan_makanan = $_POST['pemesanan_makanan'];
-        $qty_buynow = $_POST['qty_buy_now'];
-        $id_buynow = $_POST['id_buynow'];
+        $qty_buynow = isset($_POST['qty_buy_now']) ? $_POST['qty_buy_now'] : '';
+        $id_buynow = isset($_POST['id_buynow']) ? $_POST['id_buynow'] : '';
 
         // Mendapatkan data user untuk mengupdate alamat user jika alamat tersebut masih bernilai kosong/NULL
         $getUserData = "SELECT * FROM user WHERE phone = '{$_SESSION['data']['phone']}';";
@@ -56,6 +56,7 @@
             }
 
             header('Location: index.php?message=pembelian_success');
+            exit(); // Terminate script execution after redirection
         } else {
             die("Pembelian gagal");
         }
