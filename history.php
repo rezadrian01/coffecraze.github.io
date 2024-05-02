@@ -39,8 +39,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History</title>
     <link rel="stylesheet" href="./src/output.css">
-    <title>Document</title>
+
 </head>
 <body>
     <header class="py-2.5 px-4 md:px-6 xl:px-12 2xl:px-16">
@@ -172,12 +173,12 @@
                 <dl class="-my-3 divide-y divide-gray-100 text-sm">
                     <div class="grid grid-cols-1 gap-1 p-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-4">
                         <dt class="font-medium text-gray-900">Recipient's name</dt>
-                            <dd class="text-gray-700 sm:col-span-2"><?= $data['nama']; ?></dd>
+                        <dd class="text-gray-700 sm:col-span-2"><?= $data['nama']; ?></dd>
                     </div>
 
                     <div class="grid grid-cols-1 gap-1 p-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-4">
                         <dt class="font-medium text-gray-900">Item id</dt>
-                            <dd class="text-gray-700 sm:col-span-2"><?= $data['idBarang']; ?></dd>
+                        <dd class="text-gray-700 sm:col-span-2"><?= $data['idBarang']; ?></dd>
                     </div>
 
                     <div class="grid grid-cols-1 gap-1 p-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-4">
@@ -204,6 +205,53 @@
                         <dt class="font-medium text-gray-900">Qty</dt>
                         <dd class="text-gray-700 sm:col-span-2"><?= $data['jumlahBarang']; ?></dd>
                     </div>
+                    <?php 
+                        if($data['status'] === "completed") {
+                    ?>
+                        <div class="grid grid-cols-1 gap-1 p-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-4">
+                            <dt class="font-medium text-gray-900">Rating & comment</dt>
+                            <dd class="text-gray-700 sm:col-span-2">
+                                <div class="flex items-center gap-x-1">
+                                    <label for="1">
+                                        <svg class="w-4 h-4 text-[#90a0a3]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                            <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+                                        </svg>
+                                    </label>
+                                    <input type="radio" id="1" value="1" class="" name="star">
+
+                                    <label for="2">
+                                        <svg class="w-4 h-4 text-[#90a0a3]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                            <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+                                        </svg>
+                                    </label>
+                                    <input type="radio" id="2" value="2" class="" name="star">
+
+                                    <label for="3">
+                                        <svg class="w-4 h-4 text-[#90a0a3]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                            <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+                                        </svg>
+                                    </label>
+                                    <input type="radio" id="3" value="3" class="" name="star">
+
+                                    <label for="4">
+                                        <svg class="w-4 h-4 text-[#90a0a3]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                            <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+                                        </svg>
+                                    </label>
+                                    <input type="radio" id="4" value="4" class="" name="star">
+
+                                    <label for="5">
+                                        <svg class="w-4 h-4 text-[#90a0a3]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                            <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+                                        </svg>
+                                    </label>
+                                    <input type="radio" id="5" value="5" class="" name="star">
+                                </div>
+                            </dd>
+                        </div>
+                    <?php
+                        }
+                    ?>
                 </dl>
             </div>
 
