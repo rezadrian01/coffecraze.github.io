@@ -137,7 +137,7 @@
 </head>
 
 <body>
-    <div class="flex">
+    <div class="inline-flex max-w-full">
         <div class="flex flex-col min-h-screen w-full">
             <header class="py-2.5 px-4 md:px-6 xl:px-12 2xl:px-16">
                 <div class="flex justify-between items-center">
@@ -228,31 +228,19 @@
                             <?php endif; ?>
                         <?php }; ?>
                     </div>
-                    
-
-                    <div>
-                        <button class="flex items-center gap-x-2 py-2 pl-3 pr-4 rounded-full text-sm font-medium border">
-                            <span>
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
-                                    <path d="M10 3.75a2 2 0 1 0-4 0 2 2 0 0 0 4 0ZM17.25 4.5a.75.75 0 0 0 0-1.5h-5.5a.75.75 0 0 0 0 1.5h5.5ZM5 3.75a.75.75 0 0 1-.75.75h-1.5a.75.75 0 0 1 0-1.5h1.5a.75.75 0 0 1 .75.75ZM4.25 17a.75.75 0 0 0 0-1.5h-1.5a.75.75 0 0 0 0 1.5h1.5ZM17.25 17a.75.75 0 0 0 0-1.5h-5.5a.75.75 0 0 0 0 1.5h5.5ZM9 10a.75.75 0 0 1-.75.75h-5.5a.75.75 0 0 1 0-1.5h5.5A.75.75 0 0 1 9 10ZM17.25 10.75a.75.75 0 0 0 0-1.5h-1.5a.75.75 0 0 0 0 1.5h1.5ZM14 10a2 2 0 1 0-4 0 2 2 0 0 0 4 0ZM10 16.25a2 2 0 1 0-4 0 2 2 0 0 0 4 0Z" />
-                                </svg>
-                            </span>
-                            Filters
-                        </button>
-                    </div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-6">
+                <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-4 md:gap-6">
                     <?php
                         foreach($items as $data):
                     ?>
                         <div class="flex flex-col justify-between">
                             <div class="cursor-pointer" onclick='showModal(<?php echo $data["id"]?>)'>
-                                <div class="h-80 w-full">
+                                <div class="h-56 md:h-80 w-full">
                                     <img class="h-full w-full rounded-2xl object-cover" src="<?php echo "./images/" . $data['gambar']?>" alt="coffee">
                                 </div>
 
-                                <div class="flex justify-between items-center mt-1">
+                                <div class="flex justify-between items-center gap-x-2 mt-1">
                                     <!-- Product's name and category -->
                                     <div>
                                         <div class="text-sm text-[#757575] capitalize">
@@ -264,7 +252,7 @@
                                                 echo $resultProductCategory['nama'];
                                             ?>
                                         </div>
-                                        <h6 class="font-bold text-xl text-[#3e2723] line-clamp-2">
+                                        <h6 class="font-bold text-base md:text-xl text-[#3e2723] line-clamp-2 mt-1">
                                             <?php echo $data['nama']; ?>
                                         </h6>
                                     </div>
@@ -280,8 +268,8 @@
                                     </div>
                                 </div>
 
-                                <div class="flex justify-between items-center mt-1">
-                                    <h6 class="text-lg font-bold">Rp<?php echo $data['harga']; ?></h6>
+                                <div class="flex justify-between items-center mt-2">
+                                    <h6 class="text-base md:text-lg font-bold">Rp<?php echo $data['harga']; ?></h6>
                                 </div>
                             </div>
 
@@ -327,26 +315,26 @@
                                     </div>
                                     
                                     <!-- Modal body -->
-                                    <div class="p-4 md:pt-4 md:pb-6 md:px-6">
-                                        <div class="grid grid-cols-12 gap-x-4 px-6 pb-6">
-                                            <div class="col-span-5">
-                                                <img class="rounded-2xl h-[32rem] w-full object-cover" src="<?php echo "./images/" . $data['gambar']?>" alt="coffee">
+                                    <div class="p-0 md:p-4 md:pt-4 md:pb-6 md:px-6">
+                                        <div class="grid grid-cols-12 gap-x-0 md:gap-x-6 px-6 pb-6">
+                                            <div class="col-span-12 md:col-span-5">
+                                                <img class="rounded-2xl h-[21rem] md:h-[32rem] w-full object-cover" src="<?php echo "./images/" . $data['gambar']?>" alt="coffee">
                                             </div>
 
-                                            <div class="col-span-7">
+                                            <div class="col-span-12 md:col-span-7 mt-5">
                                                 <div class="tabs-parent relative flex items-center justify-between gap-x-1 p-1 bg-[#e0e0e0] rounded-full">
                                                     <button onclick="tab(event, 'details<?php echo $data['id']; ?>', '<?php echo $data['id']; ?>')" class="tablinks<?php echo $data['id']; ?> w-full text-center py-2 rounded-full active">Details</button>
                                                     <button onclick="tab(event, 'review<?php echo $data['id']; ?>', '<?php echo $data['id']; ?>')" class="tablinks<?php echo $data['id']; ?> w-full text-center py-2 rounded-full">Review</d>
                                                 </div>
 
                                                 <div id="details<?php echo $data['id']; ?>" class="tab-content<?php echo $data['id']; ?> mt-4" style="display: block;">
-                                                    <div class="flex justify-between items-center">
+                                                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center">
                                                         <div>
                                                             <div class="text-2xl text-black font-medium"><?php echo $data['nama']; ?></div>
-                                                            <div class="text-base text-[#757575] capitalize"><?php echo $resultProductCategory['nama']; ?></div>
+                                                            <div class="text-base text-[#757575] capitalize mt-1"><?php echo $resultProductCategory['nama']; ?></div>
                                                         </div>
 
-                                                        <div class="flex flex-col items-center">
+                                                        <div class="flex flex-row md:flex-col justify-between md:justify-normal items-center w-full mt-1.5">
                                                             <div class="text-2xl text-black font-bold">Rp<?php echo $data['harga']; ?></div>
 
                                                             <!-- Rating -->
@@ -431,8 +419,172 @@
             </footer>
         </div>
 
-        
-        <div class="hidden md:block w-80 md:w-64 xl:w-72 2xl:w-80 border-l">
+        <!-- Cart Mobile -->
+        <div class="block lg:hidden fixed bottom-0 left-0 bg-white w-full border-t">
+            <div class="flex justify-between items-center py-3 px-4">
+                <div class="text-xl font-bold">
+                    Total :
+                </div>
+
+                <div class="text-base font-medium">
+                    <?php
+                        $getUserCart = "SELECT * FROM cart WHERE id_user = '{$_SESSION['data']['phone']}'";
+                        $getUserCartQuery = mysqli_query($conn, $getUserCart);
+
+                        $total = 0;
+                    
+                        while($data = mysqli_fetch_array($getUserCartQuery)) {
+                            $getProductData = "SELECT * FROM barang WHERE id = '{$data['id_barang']}'";
+                            $getProductDataQuery = mysqli_query($conn, $getProductData);
+                    
+                            while($productData = mysqli_fetch_array($getProductDataQuery)) {
+                                $total += $data['jumlah'] * $productData['harga'];
+                            }
+                        }
+
+                        echo "Rp$total";
+                    ?>
+                </div>
+            </div>
+
+            <?php 
+                if(isset($_SESSION['data'])) {
+            ?>
+                <div class="flex flex-col justify-between h-full">
+                    <div id="cart_mobile" class="flex flex-col gap-y-2 px-4 pb-2 overflow-auto h-10">
+                        <?php
+                            $getUserCart = "SELECT * FROM cart WHERE id_user = '{$_SESSION['data']['phone']}'";
+                            $getUserCartQuery = mysqli_query($conn, $getUserCart);
+
+                            // Check if cart is empty
+                            if(mysqli_num_rows($getUserCartQuery) === 0) {
+                            ?>
+                                <div class="flex flex-col justify-center items-center h-screen px-3">
+                                    <p class="text-center text-xl font-medium">Tidak ada product yang ditambahkan ke dalam cart.</p>
+                                    
+                                    <dotlottie-player src="https://lottie.host/be4557e0-aa1c-48bc-886c-ab7b237c9a37/j4h6c86KWJ.json" background="transparent" speed="1" style="width: 250px; height: 250px;" loop autoplay></dotlottie-player>
+                                </div>
+                            <?php
+                            } else {
+                                while($data = mysqli_fetch_array($getUserCartQuery)) {
+                            ?>
+                                <div class="grid grid-cols-12 gap-x-2 rounded-2xl">
+                                    <?php
+                                        $getProductData = "SELECT * FROM barang WHERE id = '{$data['id_barang']}'";
+                                        $getProductDataQuery = mysqli_query($conn, $getProductData);
+
+                                        while($productData = mysqli_fetch_array($getProductDataQuery)) {
+                                    ?>
+                                        <div class="col-span-3">
+                                            <img class="h-24 w-full rounded-xl object-cover" src="<?php echo "./images/" . $productData['gambar']; ?>" alt="coffee">
+                                        </div>
+
+                                        <div class="col-span-9 flex flex-col justify-between">
+                                            <div>
+                                                <div class="flex justify-between items-center">
+                                                    <div>
+                                                        <div class="text-xs text-[#757575] capitalize">
+                                                            <?php 
+                                                                $getProductCategory = "SELECT nama FROM kategori WHERE id = {$productData['id_kategori']};";
+                                                                $getProductsCategoryQuery = mysqli_query($conn, $getProductCategory);
+                                                                $resultProductCategory = mysqli_fetch_assoc($getProductsCategoryQuery);
+
+                                                                echo $resultProductCategory['nama'];
+                                                            ?>
+                                                        </div>
+
+                                                        <h6 title="<?php echo $productData['nama']; ?>" class="font-bold text-base text-[#3e2723] line-clamp-1">
+                                                            <?php echo $productData['nama']; ?>
+                                                        </h6>
+                                                    </div>
+
+                                                    <a href="<?php echo "{$_SERVER['PHP_SELF']}?hapus_cart=" . $data['id']; ?>" title="Delete from cart" class="block p-1.5 border rounded-full bg-[#d32f2f] text-white">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                                                        </svg>
+                                                    </a>
+                                                </div>
+
+                                                <div class="text-base font-bold mt-0.5">
+                                                    Rp<?php echo $productData['harga']; ?>
+
+                                                    <span class="text-xs font-normal text-[#424242]">
+                                                        (x<?php echo $data['jumlah']; ?> <?php echo $data['jumlah'] * $productData['harga']; ?>)
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            <div class="flex items-center gap-x-2">
+                                                <!-- Decrement Quantity -->
+                                                <form action="" method="POST">
+                                                    <input type="hidden" name="id_cart" value="<?php echo $data['id'] ?>">
+
+                                                    <button type="submit" name="kurang-quantity" class="border p-1 rounded-full hover:bg-[#eeeeee] disabled:cursor-not-allowed disabled:opacity-75 disabled:hover:bg-transparent" <?php echo $data['jumlah'] === '1' ? 'disabled' : ''; ?> >
+                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-3 h-3">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14" />
+                                                        </svg>
+                                                    </button>
+                                                </form>
+
+                                                <span id="qty" class="text-sm font-medium"><?php echo $data['jumlah'] ?></span>
+
+                                                <!-- Increment Quantity -->
+                                                <form action="" method="POST">
+                                                    <input type="hidden" name="id_cart" value="<?php echo $data['id'] ?>">
+
+                                                    <button type="submit" name="tambah-quantity" class="border p-1 rounded-full hover:bg-[#eeeeee]">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-3 h-3">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                                                        </svg>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    <?php }; ?>
+                                </div>
+                        <?php }}; ?>  <!-- End of while loop-->
+                    </div>
+
+                    <?php
+                        $getUserCart = "SELECT * FROM cart WHERE id_user = '{$_SESSION['data']['phone']}'";
+                        $getUserCartQuery = mysqli_query($conn, $getUserCart);
+
+                        // Check if cart is empty
+                        if(mysqli_num_rows($getUserCartQuery) !== 0) {
+                    ?>
+                        <div class="flex items-center gap-x-2 border-t px-4 py-2">
+                            <a href="checkout.php" class="grow">
+                                <button class="py-2 text-sm w-full text-white font-medium bg-[#723E29] rounded-full">
+                                    Beli
+                                </button>
+                            </a>
+
+                            <button id="button_expand_cart_mobile" onclick="expandCartMobile()" class="p-2 border rounded-full">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 15.75 7.5-7.5 7.5 7.5" />
+                                </svg>
+                            </button>
+                        </div>
+                    <?php } ?>
+                </div>
+            <?php 
+                } else {
+            ?>
+                <div class="flex flex-col justify-center gap-y-2 p-3 border-b h-full">
+                    <p class="text-2xl font-semibold text-center mb-3">Login for better exprerience!</p>
+
+                    <a href="login.php" class="py-3 w-full bg-[#723E29] text-base text-white text-center font-medium rounded-full">
+                        Login
+                    </a>
+                    <a href="signup.php" class="py-3 w-full border hover:bg-[#eeeeee] text-base text-center font-medium rounded-full">
+                        Sign up
+                    </a>
+                </div>
+            <?php } ?>
+        </div>
+
+        <!-- Table, Laptop, Desktop Cart -->
+        <div class="hidden lg:block w-0 md:w-[26rem] border-l">
             <div class="sticky top-0 h-screen">
                 <?php 
                     if(isset($_SESSION['data'])) {
@@ -593,7 +745,24 @@
     </div>
 
     <!-- JavaScript -->
-    <script src="script.js"></script>
+    <script src="./script.js"></script>
     <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script> 
+
+    <script>
+        const expandCartMobile = () => {
+            const cartMobileElement = document.querySelector("#cart_mobile");
+            const buttonExpandElement = document.querySelector("#button_expand_cart_mobile");
+
+            if (cartMobileElement.classList.contains("h-10")) {
+                cartMobileElement.classList.replace("h-10", "h-52");
+
+                buttonExpandElement.querySelector("path").setAttribute("d", "m19.5 8.25-7.5 7.5-7.5-7.5");
+            } else {
+                cartMobileElement.classList.replace("h-52", "h-10");
+
+                buttonExpandElement.querySelector("path").setAttribute("d", "m4.5 15.75 7.5-7.5 7.5 7.5");
+            }
+        };
+    </script>
 </body>
 </html>

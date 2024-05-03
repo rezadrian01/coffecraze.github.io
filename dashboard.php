@@ -46,10 +46,10 @@
         </style>
     </head>
     <body>
-        <header class="flex justify-between items-center py-2.5 px-4 md:px-6 xl:px-12 2xl:px-16">
+        <header class="flex flex-wrap lg:flex-nowrap justify-between items-center py-2.5 px-4 md:px-6 xl:px-12 2xl:px-16">
             <h5 class="bg-gradient-to-br from-[#a1887f] from-15% to-[#3e2723] to-40% text-3xl font-black uppercase bg-clip-text text-transparent">COFFEE</h5>
 
-            <ul class="flex items-center gap-x-2">
+            <ul class="hidden lg:flex items-center gap-x-2">
                 <li>
                     <a href="dashboard.php" class="py-2 px-4 hover:bg-[#eeeeee] rounded-full font-semibold">
                         Home
@@ -112,12 +112,35 @@
                     </ul>
                 </div>
             </div>
+
+            <ul class="block lg:hidden flex justify-center items-center w-full gap-x-2 mt-5">
+                <li>
+                    <a href="dashboard.php" class="py-2 px-4 hover:bg-[#eeeeee] rounded-full font-semibold">
+                        Home
+                    </a>
+                </li>
+                <li>
+                    <a href="product.php" class="py-2 px-4 hover:bg-[#eeeeee] rounded-full">
+                        Product
+                    </a>
+                </li>
+                <li>
+                    <a href="kategori.php" class="py-2 px-4 hover:bg-[#eeeeee] rounded-full">
+                        Kategori
+                    </a>
+                </li>
+                <li>
+                    <a href="user.php" class="py-2 px-4 hover:bg-[#eeeeee] rounded-full">
+                        User
+                    </a>
+                </li>
+            </ul>
         </header>
 
-        <main class="max-w-screen-xl mx-auto py-12">
+        <main class="max-w-screen-xl mx-auto px-4 lg:px-0 py-5 md:py-12">
             <h1 class="text-3xl font-semibold">Hello, Fathan</h1>
 
-            <div class="mt-12">
+            <div class="mt-7 md:mt-12">
                 <h4 class="text-2xl font-semibold">Your orders</h4>
 
                 <?php 
