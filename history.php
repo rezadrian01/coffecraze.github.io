@@ -207,10 +207,25 @@
                     </div>
                     <?php 
                         if($data['status'] === "completed") {
+                        
+                        //jika user ngedit review maka kirim data ke database
+                        if(isset($_POST['submitReview'])){
+                            $idBarang = $data['idBarang'];
+                            $star = $_POST['star'];
+                            $review = $_POST['review'];
+                            var_dump($idBarang);
+                            var_dump($star);
+                            var_dump($review);
+                            //kirim data ke database
+                            mysqli_query($conn, "INSERT INTO review VALUES('', '$phone', '$idBarang', '$star', '$review');");
+                        }
                     ?>
                         <div class="grid grid-cols-1 gap-1 p-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-4">
                             <dt class="font-medium text-gray-900">Rating & comment</dt>
                             <dd class="text-gray-700 sm:col-span-2">
+                                <form action="" method="post">
+                                <!-- hanya menampilkan jika status = completed dan belum pernah review-->
+                                <?php if($data['status'] === 'completed' && !isset($data['review'])): ?>
                                 <div class="flex items-center gap-x-1">
                                     <label for="1">
                                         <svg class="w-4 h-4 text-[#90a0a3]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
@@ -247,6 +262,20 @@
                                     </label>
                                     <input type="radio" id="5" value="5" class="" name="star">
                                 </div>
+                                
+                                <div class="mt-4">
+                                    <input type="text" class="bg-slate-100 w-3/4 rounded-md p-2" name="review">
+                                    <div class="my-4">
+                                        <button type="submit" name="submitReview">Submit review</button>
+                                    </div>
+                                </div>
+                                <?php elseif($data['status'] === 'completed' && isset($data['review'])): ?>
+                                <div class="mt-4">
+                                    <p><?= $data['star']; ?>/5</p>
+                                    <p type="text" class="bg-slate-100 w-3/4 rounded-md p-2"><?= $data['review']; ?></p>
+                                </div>
+                                <?php endif; ?>
+                                </form>
                             </dd>
                         </div>
                     <?php
