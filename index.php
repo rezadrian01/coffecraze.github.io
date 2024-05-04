@@ -321,20 +321,20 @@
                                                 <img class="rounded-2xl h-[21rem] md:h-[32rem] w-full object-cover" src="<?php echo "./images/" . $data['gambar']?>" alt="coffee">
                                             </div>
 
-                                            <div class="col-span-12 md:col-span-7 mt-5">
+                                            <div class="col-span-12 md:col-span-7 mt-5 md:mt-0">
                                                 <div class="tabs-parent relative flex items-center justify-between gap-x-1 p-1 bg-[#e0e0e0] rounded-full">
-                                                    <button onclick="tab(event, 'details<?php echo $data['id']; ?>', '<?php echo $data['id']; ?>')" class="tablinks<?php echo $data['id']; ?> w-full text-center py-2 rounded-full active">Details</button>
-                                                    <button onclick="tab(event, 'review<?php echo $data['id']; ?>', '<?php echo $data['id']; ?>')" class="tablinks<?php echo $data['id']; ?> w-full text-center py-2 rounded-full">Review</d>
+                                                    <button onclick="tab(event, 'details<?php echo $data['id']; ?>', '<?php echo $data['id']; ?>')" class="tablinks<?php echo $data['id']; ?> w-full text-center py-2 rounded-full text-sm md:text-base active">Details</button>
+                                                    <button onclick="tab(event, 'review<?php echo $data['id']; ?>', '<?php echo $data['id']; ?>')" class="tablinks<?php echo $data['id']; ?> w-full text-center py-2 rounded-full text-sm md:text-base">Review</d>
                                                 </div>
 
                                                 <div id="details<?php echo $data['id']; ?>" class="tab-content<?php echo $data['id']; ?> mt-4" style="display: block;">
-                                                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center">
+                                                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center w-full">
                                                         <div>
                                                             <div class="text-2xl text-black font-medium"><?php echo $data['nama']; ?></div>
                                                             <div class="text-base text-[#757575] capitalize mt-1"><?php echo $resultProductCategory['nama']; ?></div>
                                                         </div>
 
-                                                        <div class="flex flex-row md:flex-col justify-between md:justify-normal items-center w-full mt-1.5">
+                                                        <div class="flex flex-row md:flex-col justify-between md:justify-normal items-center md:items-end w-full md:w-auto mt-1.5 md:mt-0">
                                                             <div class="text-2xl text-black font-bold">Rp<?php echo $data['harga']; ?></div>
 
                                                             <!-- Rating -->
@@ -377,32 +377,61 @@
                                                 </div>
 
                                                 <div id="review<?php echo $data['id']; ?>" class="tab-content<?php echo $data['id']; ?> mt-2" style="display: none;">
-                                                    <div class="hover:bg-[#eeeeee] py-2 px-3 rounded-2xl">
-                                                        <div class="font-bold">Marshel</div>
+                                                    <?php 
+                                                        $getReview = "SELECT id_user, rating, comment FROM review WHERE id_barang = '{$data['id']}';";
+                                                        $getReviewQuery = mysqli_query($conn, $getReview);
 
-                                                        <!-- Rating -->
-                                                        <div class="flex items-center mt-0.5">
-                                                            <svg class="w-4 h-4 text-[#fb8c00]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                                                                <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                                                            </svg>
-                                                            <svg class="w-4 h-4 text-[#fb8c00] ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                                                                <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                                                            </svg>
-                                                            <svg class="w-4 h-4 text-[#fb8c00] ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                                                                <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                                                            </svg>
-                                                            <svg class="w-4 h-4 text-[#fb8c00] ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                                                                <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                                                            </svg>
-                                                            <svg class="w-4 h-4 ms-1 text-gray-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                                                                <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                                                            </svg>
+                                                        // Memeriksa apakah ada review
+                                                        if(mysqli_num_rows($getReviewQuery) > 0) {
+                                                            while($review = mysqli_fetch_array($getReviewQuery)) {
+                                                                $rating = intval($review['rating']); // Ubah rating ke integer
+                                                    ?>
+                                                                <div class="hover:bg-[#eeeeee] py-2 px-3 rounded-2xl">
+                                                                    <div class="font-bold">
+                                                                        <?php
+                                                                            $getUser = "SELECT username FROM user WHERE phone = '{$review['id_user']}'";
+                                                                            $getUserQuery = mysqli_query($conn, $getUser);
+
+                                                                            while($userData = mysqli_fetch_assoc($getUserQuery)) {
+                                                                                echo $userData['username'];
+                                                                            }
+                                                                        ?>
+                                                                    </div>
+
+                                                                    <!-- Rating -->
+                                                                    <div class="flex items-center gap-x-0.5 mt-0.5">
+                                                                        <?php 
+                                                                            // Loop sebanyak rating dan berikan warna yang sesuai
+                                                                            for ($i = 0; $i < $rating; $i++) {
+                                                                        ?>
+                                                                            <svg class="w-4 h-4 text-[#fb8c00]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                                                                <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+                                                                            </svg>
+                                                                        <?php } ?>
+                                                                        <?php 
+                                                                            // Loop untuk memberikan warna abu-abu pada ikon yang tidak terpakai
+                                                                            for ($i = $rating; $i < 5; $i++) {
+                                                                        ?>
+                                                                            <svg class="w-4 h-4 text-[#90a0a3]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                                                                <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+                                                                            </svg>
+                                                                        <?php } ?>
+                                                                    </div>
+
+                                                                    <p class="text-sm mt-1">
+                                                                        <?php echo $review['comment']; ?>
+                                                                    </p>
+                                                                </div>
+                                                    <?php
+                                                            }
+                                                        } else {
+                                                    ?>
+                                                        <div class="text-base mt-7 text-center">
+                                                            This product does not have a review yet.
                                                         </div>
-
-                                                        <p class="text-sm mt-1">
-                                                            Cappucino enak worth it banget buat harga segini! 
-                                                        </p>
-                                                    </div>
+                                                    <?php
+                                                        }
+                                                    ?>
                                                 </div>
                                             </div>
                                         </div>

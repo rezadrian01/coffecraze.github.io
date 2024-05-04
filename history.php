@@ -30,8 +30,24 @@
     // }
 
     //dari line 11 itu querynya langsung pake inner join aja
-    
+  
+    // POST REVIEW
+    if(isset($_POST['submitReview'])){
+        $id_user = $_POST['id_user'];
+        $id_barang = $_POST['id_barang'];
+        $star = $_POST['star'];
+        $comment = $_POST['comment'];
 
+        $sql = "INSERT INTO review(id, id_user, id_barang, rating, comment) VALUES('', '$id_user', '$id_barang', '$star', '$comment');";
+        $query = mysqli_query($conn, $sql);
+
+        if ($query) {
+            header('Location: history.php?key=completed');
+            exit();
+        } else {
+            die();
+        }
+    }       
 ?>
 
 <!DOCTYPE html>
@@ -113,6 +129,7 @@
             <?php endif; ?>
         </div>
     </header>
+
     <main class="grow py-2.5 px-4 md:px-6 xl:px-12 2xl:px-16 mb-16">
         <div class="w-3/4 mx-auto">
             <!-- filter by kategori -->
@@ -205,82 +222,68 @@
                         <dt class="font-medium text-gray-900">Qty</dt>
                         <dd class="text-gray-700 sm:col-span-2"><?= $data['jumlahBarang']; ?></dd>
                     </div>
-                    <?php 
-                        if($data['status'] === "completed") {
-                        
-                        //jika user ngedit review maka kirim data ke database
-                        if(isset($_POST['submitReview'])){
-                            $idBarang = $data['idBarang'];
-                            $star = $_POST['star'];
-                            $review = $_POST['review'];
-                            var_dump($idBarang);
-                            var_dump($star);
-                            var_dump($review);
-                            //kirim data ke database
-                            mysqli_query($conn, "INSERT INTO review VALUES('', '$phone', '$idBarang', '$star', '$review');");
-                        }
-                    ?>
-                        <div class="grid grid-cols-1 gap-1 p-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-4">
-                            <dt class="font-medium text-gray-900">Rating & comment</dt>
-                            <dd class="text-gray-700 sm:col-span-2">
-                                <form action="" method="post">
-                                <!-- hanya menampilkan jika status = completed dan belum pernah review-->
-                                <?php if($data['status'] === 'completed' && !isset($data['review'])): ?>
-                                <div class="flex items-center gap-x-1">
-                                    <label for="1">
-                                        <svg class="w-4 h-4 text-[#90a0a3]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                                            <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                                        </svg>
-                                    </label>
-                                    <input type="radio" id="1" value="1" class="" name="star">
+                    <div class="grid grid-cols-1 gap-1 p-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-4">
+                        <dt class="font-medium text-gray-900">Rating & comment</dt>
+                        <dd class="text-gray-700 sm:col-span-2">
+                            <!-- hanya menampilkan jika status = completed dan belum pernah review-->
+                            <?php if($data['status'] === 'completed' && !isset($data['review'])): ?>
+                                <form action="" method="POST">
+                                    <!-- Rating -->
+                                    <div class="flex items-center gap-x-1">
+                                        <label for="1">
+                                            <svg class="w-4 h-4 text-[#90a0a3]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                                <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+                                            </svg>
+                                        </label>
+                                        <input type="radio" id="1" value="1" class="" name="star">
 
-                                    <label for="2">
-                                        <svg class="w-4 h-4 text-[#90a0a3]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                                            <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                                        </svg>
-                                    </label>
-                                    <input type="radio" id="2" value="2" class="" name="star">
+                                        <label for="2">
+                                            <svg class="w-4 h-4 text-[#90a0a3]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                                <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+                                            </svg>
+                                        </label>
+                                        <input type="radio" id="2" value="2" class="" name="star">
 
-                                    <label for="3">
-                                        <svg class="w-4 h-4 text-[#90a0a3]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                                            <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                                        </svg>
-                                    </label>
-                                    <input type="radio" id="3" value="3" class="" name="star">
+                                        <label for="3">
+                                            <svg class="w-4 h-4 text-[#90a0a3]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                                <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+                                            </svg>
+                                        </label>
+                                        <input type="radio" id="3" value="3" class="" name="star">
 
-                                    <label for="4">
-                                        <svg class="w-4 h-4 text-[#90a0a3]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                                            <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                                        </svg>
-                                    </label>
-                                    <input type="radio" id="4" value="4" class="" name="star">
+                                        <label for="4">
+                                            <svg class="w-4 h-4 text-[#90a0a3]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                                <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+                                            </svg>
+                                        </label>
+                                        <input type="radio" id="4" value="4" class="" name="star">
 
-                                    <label for="5">
-                                        <svg class="w-4 h-4 text-[#90a0a3]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                                            <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                                        </svg>
-                                    </label>
-                                    <input type="radio" id="5" value="5" class="" name="star">
-                                </div>
-                                
-                                <div class="mt-4">
-                                    <input type="text" class="bg-slate-100 w-3/4 rounded-md p-2" name="review">
-                                    <div class="my-4">
-                                        <button type="submit" name="submitReview">Submit review</button>
+                                        <label for="5">
+                                            <svg class="w-4 h-4 text-[#90a0a3]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                                <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+                                            </svg>
+                                        </label>
+                                        <input type="radio" id="5" value="5" class="" name="star">
                                     </div>
-                                </div>
-                                <?php elseif($data['status'] === 'completed' && isset($data['review'])): ?>
+                                    
+                                    <div class="mt-4">
+                                        <input type="hidden" name="id_user" value="<?php echo $_SESSION['data']['phone']; ?>">
+                                        <input type="hidden" name="id_barang" value="<?php echo $data['idBarang']; ?>">
+                                        <input type="text" class="bg-slate-100 w-3/4 rounded-md p-2" name="comment">
+
+                                        <div class="my-4">
+                                            <button type="submit" name="submitReview">Submit review</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            <?php elseif($data['status'] === 'completed' && isset($data['review'])): ?>
                                 <div class="mt-4">
                                     <p><?= $data['star']; ?>/5</p>
                                     <p type="text" class="bg-slate-100 w-3/4 rounded-md p-2"><?= $data['review']; ?></p>
                                 </div>
-                                <?php endif; ?>
-                                </form>
-                            </dd>
-                        </div>
-                    <?php
-                        }
-                    ?>
+                            <?php endif; ?>
+                        </dd>
+                    </div>
                 </dl>
             </div>
 
