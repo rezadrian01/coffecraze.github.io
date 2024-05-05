@@ -507,35 +507,34 @@
 
         <!-- Cart Mobile -->
         <div class="block lg:hidden fixed bottom-0 left-0 bg-white w-full border-t">
-            <div class="flex justify-between items-center py-3 px-4">
-                <div class="text-xl font-bold">
-                    Total :
-                </div>
-
-                <div class="text-base font-medium">
-                    <?php
-                        $getUserCart = "SELECT * FROM cart WHERE id_user = '{$_SESSION['data']['phone']}'";
-                        $getUserCartQuery = mysqli_query($conn, $getUserCart);
-
-                        $total = 0;
-                    
-                        while($data = mysqli_fetch_array($getUserCartQuery)) {
-                            $getProductData = "SELECT * FROM barang WHERE id = '{$data['id_barang']}'";
-                            $getProductDataQuery = mysqli_query($conn, $getProductData);
-                    
-                            while($productData = mysqli_fetch_array($getProductDataQuery)) {
-                                $total += $data['jumlah'] * $productData['harga'];
-                            }
-                        }
-
-                        echo "Rp$total";
-                    ?>
-                </div>
-            </div>
-
             <?php 
                 if(isset($_SESSION['data'])) {
             ?>
+                <div class="flex justify-between items-center py-3 px-4">
+                    <div class="text-xl font-bold">
+                        Total :
+                    </div>
+
+                    <div class="text-base font-medium">
+                        <?php
+                            $getUserCart = "SELECT * FROM cart WHERE id_user = '{$_SESSION['data']['phone']}'";
+                            $getUserCartQuery = mysqli_query($conn, $getUserCart);
+
+                            $total = 0;
+                        
+                            while($data = mysqli_fetch_array($getUserCartQuery)) {
+                                $getProductData = "SELECT * FROM barang WHERE id = '{$data['id_barang']}'";
+                                $getProductDataQuery = mysqli_query($conn, $getProductData);
+                        
+                                while($productData = mysqli_fetch_array($getProductDataQuery)) {
+                                    $total += $data['jumlah'] * $productData['harga'];
+                                }
+                            }
+
+                            echo "Rp$total";
+                        ?>
+                    </div>
+                </div>
                 <div class="flex flex-col justify-between h-full">
                     <div id="cart_mobile" class="flex flex-col gap-y-2 px-4 pb-2 overflow-auto h-10">
                         <?php
@@ -657,14 +656,16 @@
                 } else {
             ?>
                 <div class="flex flex-col justify-center gap-y-2 p-3 border-b h-full">
-                    <p class="text-2xl font-semibold text-center mb-3">Login for better exprerience!</p>
+                    <p class="text-lg font-semibold text-center mb-2">Login for better exprerience!</p>
 
-                    <a href="login.php" class="py-3 w-full bg-[#723E29] text-base text-white text-center font-medium rounded-full">
-                        Login
-                    </a>
-                    <a href="signup.php" class="py-3 w-full border hover:bg-[#eeeeee] text-base text-center font-medium rounded-full">
-                        Sign up
-                    </a>
+                    <div class="flex items-center gap-x-2">
+                        <a href="login.php" class="py-2.5 w-full bg-[#723E29] text-sm text-white text-center font-medium rounded-full">
+                            Login
+                        </a>
+                        <a href="signup.php" class="py-2.5 w-full border hover:bg-[#eeeeee] text-sm text-center font-medium rounded-full">
+                            Sign up
+                        </a>
+                    </div>
                 </div>
             <?php } ?>
         </div>

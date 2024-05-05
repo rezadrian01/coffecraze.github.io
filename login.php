@@ -55,7 +55,7 @@ if (isset($_POST['login'])) {
 
 <body>
     <div class="flex justify-center h-screen">
-        <div class="w-1/4">
+        <div class="w-full px-4 md:px-0 md:max-w-xl">
             <div class="text-3xl text-center font-semibold my-7">
                 Login to <span class="bg-gradient-to-br from-[#a1887f] from-15% to-[#3e2723] to-40% text-3xl font-black uppercase bg-clip-text text-transparent">COFFEE</span>
             </div>
