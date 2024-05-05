@@ -252,19 +252,39 @@
                                                 echo $resultProductCategory['nama'];
                                             ?>
                                         </div>
-                                        <h6 class="font-bold text-base md:text-xl text-[#3e2723] line-clamp-2 mt-1">
+                                        <h6 class="font-bold text-base md:text-xl text-[#3e2723] line-clamp-2 mt-1 md:mt-0">
                                             <?php echo $data['nama']; ?>
                                         </h6>
                                     </div>
 
                                     <!-- Rating -->
                                     <div class="flex items-center gap-x-1">
-                                        <span>
-                                            <svg class="w-4 h-4 text-[#fb8c00]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                                                <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                                            </svg>
-                                        </span>
-                                        4.0
+                                        <?php
+                                            $ratingAVG = "SELECT AVG(rating) AS rating_avg FROM review WHERE id_barang = '{$data['id']}';";
+                                            $ratingAVGQuery = mysqli_query($conn, $ratingAVG);
+
+                                            while($rating_avg = mysqli_fetch_assoc($ratingAVGQuery)) {
+                                                if(intval($rating_avg['rating_avg']) === 0) {
+                                        ?>
+                                            <span>
+                                                <svg class="w-4 h-4 text-[#90a0a3]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                                    <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+                                                </svg>
+                                            </span>
+                                            0
+                                        <?php
+                                                } else {
+                                        ?>
+                                            <span>
+                                                <svg class="w-4 h-4 text-[#fb8c00]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                                    <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+                                                </svg>
+                                            </span>
+                                            <?php echo intval($rating_avg['rating_avg']); ?>
+                                        <?php
+                                                }
+                                            }
+                                        ?>
                                     </div>
                                 </div>
 
@@ -339,32 +359,69 @@
 
                                                             <!-- Rating -->
                                                             <div class="flex items-center gap-x-2 mt-1">
-                                                                <div class="flex items-center">
-                                                                    <svg class="w-4 h-4 text-[#fb8c00]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                                                                        <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                                                                    </svg>
-                                                                    <svg class="w-4 h-4 text-[#fb8c00] ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                                                                        <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                                                                    </svg>
-                                                                    <svg class="w-4 h-4 text-[#fb8c00] ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                                                                        <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                                                                    </svg>
-                                                                    <svg class="w-4 h-4 text-[#fb8c00] ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                                                                        <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                                                                    </svg>
-                                                                    <svg class="w-4 h-4 ms-1 text-gray-300 dark:text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                                                                        <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                                                                    </svg>
+                                                                <?php
+                                                                    $ratingAVG = "SELECT AVG(rating) AS rating_avg, COUNT(*) AS total_review FROM review WHERE id_barang = '{$data['id']}';";
+                                                                    $ratingAVGQuery = mysqli_query($conn, $ratingAVG);
+
+                                                                    $total_review = 0;
+                                                                ?>
+                                                                <div class="flex items-center gap-x-0.5">
+                                                                    <?php
+                                                                        while($rating = mysqli_fetch_assoc($ratingAVGQuery)) {
+                                                                            $rating_avg = intval($rating['rating_avg']);
+                                                                            $total_review = $rating['total_review'];
+
+                                                                            for($i = 0; $i < $rating_avg; $i++) {
+                                                                    ?>
+                                                                            <svg class="w-4 h-4 text-[#fb8c00]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                                                                <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+                                                                            </svg>
+                                                                    <?php
+                                                                            }
+
+                                                                            for($i = $rating_avg; $i < 5; $i++) {
+                                                                    ?>
+                                                                            <svg class="w-4 h-4 text-[#90a0a3]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                                                                <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+                                                                            </svg>
+                                                                    <?php
+                                                                            }
+                                                                        }
+                                                                    ?>
                                                                 </div>
 
-                                                                <span>45</span>
+                                                                <span>
+                                                                    <?php
+                                                                        echo "($total_review)";
+                                                                    ?>
+                                                                </span>
                                                             </div>
                                                         </div>
                                                     </div>
 
                                                     <div class="flex items-center gap-x-2 mt-6">
-                                                        <button class="py-2.5 w-full bg-[#723E29] text-sm text-white font-medium rounded-full">Buy now</button>
-                                                        <button class="py-2.5 w-full bg-[#723E29] text-sm text-white font-medium rounded-full">Add to cart</button>
+                                                        <!-- jika user belum login -->
+                                                        <?php if (!isset($_SESSION["data"])) : ?>
+                                                            <a href="login.php" class="py-2.5 w-full text-center bg-[#723E29] text-sm text-white font-medium rounded-full">
+                                                                Buy now
+                                                            </a>
+                                                            <a href="login.php" class="py-2.5 w-full text-center border hover:bg-[#eeeeee] text-sm text-black font-medium rounded-full">
+                                                                Add to cart
+                                                            </a>
+                                                            <!-- jika user sudah login -->
+                                                        <?php else : ?>
+                                                            <a href="checkout.php?buy_now=<?= $data['id']; ?>" class="py-2.5 w-full bg-[#723E29] text-sm text-center text-white font-medium rounded-full">
+                                                                Buy now
+                                                            </a>
+                                                            <form class="w-full" action="" method="POST">
+                                                                <input type="hidden" name="id" value="<?= $data['id']; ?>">
+                                                                <input type="hidden" name="val" value="1">
+                                                                <button type="submit" class="py-2.5 w-full border hover:bg-[#eeeeee] text-sm text-black font-medium rounded-full" name="beli">
+                                                                    Add to cart
+                                                                </button>
+                                                            </form>
+                                                            
+                                                        <?php endif; ?>
                                                     </div>
 
                                                     <div class="bg-[#eeeeee] rounded-2xl py-2 px-3 mt-7">
