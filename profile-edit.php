@@ -1,6 +1,8 @@
 <?php
-    require('functions.php');
     session_start();
+
+    require('functions.php');
+
     $phone = $_SESSION['data']['phone'];
     $result = mysqli_query($conn,"SELECT * FROM user WHERE phone = '$phone';");
     while($row = mysqli_fetch_assoc($result)){
@@ -20,15 +22,50 @@
 
     //jika user tekan tombol edit
     if(isset($_POST['fixEdit'])){
-      var_dump($_POST); die();
-      $inputPassword = $_POST['password'];
-      if($data['password'] === $inputPassword){
+        $username = $_POST['username'];
+        $alamat = $_POST['alamat'];
+        $newPassword = $_POST['newPassword'];
+        $oldPassword = $_POST['oldPassword'];
 
-      }
-      //password salah
-      echo"<script>
-      alert('Password anda salah');
-      /</script>";
+        // Get user's password
+        $getUser = mysqli_query($conn, "SELECT password FROM user WHERE phone = '{$_SESSION['data']['phone']}';");
+        $userData = mysqli_fetch_assoc($getUser);
+
+        if ($newPassword === "" && $oldPassword !== "") {
+            echo "<script>
+                    alert('Masukkan password baru anda.');
+                </script>";
+        } elseif ($newPassword !== "" && $oldPassword === "") {
+            echo "<script>
+                    alert('Masukkan password lama anda.');
+                </script>";
+        } elseif ($newPassword !== "" && $oldPassword !== "") {
+            if (password_verify($oldPassword, $userData['password'])) {
+                $new_password = password_hash($newPassword, PASSWORD_DEFAULT);
+
+                $updateProfile = mysqli_query($conn, "UPDATE user SET username = '$username', password = '$new_password', alamat = '$alamat' WHERE phone = '{$_SESSION['data']['phone']}';");
+
+                if ($updateProfile) {
+                    header("Location: profile.php?message=update_berhasil");
+                    exit();
+                } else {
+                    header("Location: profile-edit.php?message=update_gagal");
+                }
+            } else {
+                echo "<script>
+                    alert('Password lama anda salah.');
+                </script>";
+            }
+        } else {
+            $updateProfile = mysqli_query($conn, "UPDATE user SET username = '$username', alamat = '$alamat' WHERE phone = '{$_SESSION['data']['phone']}';");
+
+            if ($updateProfile) {
+                header("Location: profile.php?message=update_berhasil");
+                exit();
+            } else {
+                header("Location: profile-edit.php?message=update_gagal");
+            }
+        }
     }
 ?>
 
@@ -37,13 +74,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile</title>
     <link rel="stylesheet" href="./src/output.css">
-    <title>Document</title>
 </head>
 <body>
     <header class="py-2.5 px-4 md:px-6 xl:px-12 2xl:px-16">
         <div class="flex justify-between items-center">
-            <div class="text-xl font-medium">Logo</div>
+            <h5 class="bg-gradient-to-br from-[#a1887f] from-15% to-[#3e2723] to-40% text-3xl font-black uppercase bg-clip-text text-transparent">COFFEE</h5>
             <!-- jika belum login maka tombolnya login/signup -->
             <?php if (!isset($_SESSION["data"])) : ?>
                 <a href="login.php" class="py-3 px-6 bg-[#723E29] text-sm text-white font-medium rounded-full">Log in / Sign up</a>
@@ -94,60 +131,54 @@
             <?php endif; ?>
         </div>
     </header>
+
     <main class="grow py-2.5 px-4 md:px-6 xl:px-12 2xl:px-16">
         <div class="w-3/4 mx-auto">
-          <form action="" method="post">
-              <div class="flow-root rounded-lg border border-gray-100 py-3 shadow-sm">
-                  <dl class="-my-3 divide-y divide-gray-100 text-sm">
-                      <div class="grid grid-cols-1 gap-1 p-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-4">
-                          <dt class="font-medium text-gray-900">Phone Number</dt>
-                              <dd class="text-gray-700 sm:col-span-2">
-                                <input type="hidden" id="phone" name="phone" value="<?= $data['phone']; ?>">
-                                <input type="text" id="phone" name="newPhone" value="<?= $data['phone']; ?>">
-                              </dd>
-                      </div>
+            <form action="" method="POST">
+                <div class="flow-root rounded-lg border border-gray-100 py-3 shadow-sm">
+                    <dl class="-my-3 divide-y divide-gray-100 text-sm">
+                        <div class="grid grid-cols-1 gap-1 p-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-4">
+                            <dt class="font-medium text-gray-900">Phone Number</dt>
+                            <dd class="text-gray-700 sm:col-span-2"><?= $data['phone']; ?></dd>
+                        </div>
 
-                      <div class="grid grid-cols-1 gap-1 p-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-4">
-                          <dt class="font-medium text-gray-900">Username</dt>
-                              <dd class="text-gray-700 sm:col-span-2">
-                                <input type="hidden" id="phone" name="username" value="<?= $data['username']; ?>">
-                                <input type="text" id="phone" name="newUsername" value="<?= $data['username']; ?>">
-                              </dd>
-                      </div>
+                        <div class="grid grid-cols-1 gap-1 p-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-4">
+                            <dt class="font-medium text-gray-900">Username</dt>
+                            <dd class="text-gray-700 sm:col-span-2">
+                                <input type="text" id="phone" name="username" value="<?= $data['username']; ?>" required>
+                            </dd>
+                        </div>
 
-                      <div class="grid grid-cols-1 gap-1 p-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-4">
-                          <dt class="font-medium text-gray-900">Addres</dt>
-                          <dd class="text-gray-700 sm:col-span-2">
-                            <input type="hidden" id="phone" name="alamat" value="<?= $data['alamat']; ?>">
-                            <input type="text" id="phone" name="newAlamat" value="<?= $data['alamat']; ?>">
-                          </dd>
-                      </div>
-                      <div class="grid grid-cols-1 gap-1 p-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-4">
-                          <dt class="font-medium text-gray-900">New password</dt>
-                          <dd class="text-gray-700 sm:col-span-2">
-                            <input type="password" id="phone" name="newPassword">
-                          </dd>
-                      </div>
-                      <div class="grid grid-cols-1 gap-1 p-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-4">
-                          <dt class="font-medium text-gray-900">Your password</dt>
-                          <dd class="text-gray-700 sm:col-span-2">
-                            <input type="password" id="phone" name="password" require>
-                          </dd>
-                      </div>
-                  </dl>
-              </div>
-            </form>
-            <div class="m-4">
-                <form action="" method="post">
-                    <input type="hidden" name="idUser" value="<?= $_SESSION['data']['phone']; ?>">
+                        <div class="grid grid-cols-1 gap-1 p-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-4">
+                            <dt class="font-medium text-gray-900">Address</dt>
+                            <dd class="text-gray-700 sm:col-span-2">
+                                <input type="text" id="phone" name="alamat" value="<?= $data['alamat']; ?>" required>
+                            </dd>
+                        </div>
+                        <div class="grid grid-cols-1 gap-1 p-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-4">
+                            <dt class="font-medium text-gray-900">New password</dt>
+                            <dd class="text-gray-700 sm:col-span-2">
+                                <input type="password" id="phone" name="newPassword">
+                            </dd>
+                        </div>
+                        <div class="grid grid-cols-1 gap-1 p-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-4">
+                            <dt class="font-medium text-gray-900">Your password</dt>
+                            <dd class="text-gray-700 sm:col-span-2">
+                                <input type="password" id="phone" name="oldPassword">
+                            </dd>
+                        </div>
+                    </dl>
+                </div>
+
+                <div class="my-4">
                     <button class="hover:bg-slate-100 p-3 rounded-xl" type="submit" name="fixEdit">Edit</button>
-                </form>
-                <form action="" method="post">
-                    <button class="hover:bg-slate-100 p-3 rounded-xl" type="submit" name="cancelEdit">Cancel</button>
-                </form>
-            </div>
+
+                    <a href="profile.php" class="hover:bg-slate-100 p-3 rounded-xl">Cancel</a>
+                </div>
+            </form>
         </div>
     </main>
+
     <footer class="py-3 px-12 border-t bg-[#723E29] text-white text-center">
             Copyright &#169;<span id="year"></span>
     </footer>

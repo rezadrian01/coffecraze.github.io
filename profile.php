@@ -29,7 +29,7 @@
     <div class="flex flex-col min-h-screen">
         <header class="py-2.5 px-4 md:px-6 xl:px-12 2xl:px-16">
             <div class="flex justify-between items-center">
-                <div class="text-xl font-medium">Logo</div>
+                <h5 class="bg-gradient-to-br from-[#a1887f] from-15% to-[#3e2723] to-40% text-3xl font-black uppercase bg-clip-text text-transparent">COFFEE</h5>
                 <ul class="flex items-center gap-x-2">
                     <li>
                         <a href="profile.php" class="py-2 px-4 hover:bg-[#eeeeee] rounded-full font-semibold">
@@ -103,16 +103,16 @@
                     <dl class="-my-3 divide-y divide-gray-100 text-sm">
                         <div class="grid grid-cols-1 gap-1 p-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-4">
                             <dt class="font-medium text-gray-900">Phone Number</dt>
-                                <dd class="text-gray-700 sm:col-span-2"><?= $data['phone']; ?></dd>
+                            <dd class="text-gray-700 sm:col-span-2"><?= $data['phone']; ?></dd>
                         </div>
 
                         <div class="grid grid-cols-1 gap-1 p-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-4">
                             <dt class="font-medium text-gray-900">Username</dt>
-                                <dd class="text-gray-700 sm:col-span-2"><?= $data['username']; ?></dd>
+                            <dd class="text-gray-700 sm:col-span-2"><?= $data['username']; ?></dd>
                         </div>
 
                         <div class="grid grid-cols-1 gap-1 p-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-4">
-                            <dt class="font-medium text-gray-900">Addres</dt>
+                            <dt class="font-medium text-gray-900">Address</dt>
                             <dd class="text-gray-700 sm:col-span-2"><?= $data['alamat']; ?></dd>
                         </div>
                     </dl>
