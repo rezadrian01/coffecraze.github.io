@@ -512,6 +512,14 @@
             <?php 
                 if(isset($_SESSION['data'])) {
             ?>
+                <?php
+                $getUserCart = "SELECT * FROM cart WHERE id_user = '{$_SESSION['data']['phone']}'";
+                $getUserCartQuery = mysqli_query($conn, $getUserCart);
+
+                $total = 0;
+
+                if(mysqli_num_rows($getUserCartQuery) !== 0) {
+                ?>
                 <div class="flex justify-between items-center py-3 px-4">
                     <div class="text-xl font-bold">
                         Total :
@@ -519,11 +527,6 @@
 
                     <div class="text-base font-medium">
                         <?php
-                            $getUserCart = "SELECT * FROM cart WHERE id_user = '{$_SESSION['data']['phone']}'";
-                            $getUserCartQuery = mysqli_query($conn, $getUserCart);
-
-                            $total = 0;
-                        
                             while($data = mysqli_fetch_array($getUserCartQuery)) {
                                 $getProductData = "SELECT * FROM barang WHERE id = '{$data['id_barang']}'";
                                 $getProductDataQuery = mysqli_query($conn, $getProductData);
@@ -537,8 +540,10 @@
                         ?>
                     </div>
                 </div>
+                <?php }
+                ?>
+
                 <div class="flex flex-col justify-between h-full">
-                    <div id="cart_mobile" class="flex flex-col gap-y-2 px-4 pb-2 overflow-auto h-10">
                         <?php
                             $getUserCart = "SELECT * FROM cart WHERE id_user = '{$_SESSION['data']['phone']}'";
                             $getUserCartQuery = mysqli_query($conn, $getUserCart);
@@ -546,15 +551,15 @@
                             // Check if cart is empty
                             if(mysqli_num_rows($getUserCartQuery) === 0) {
                             ?>
-                                <div class="flex flex-col justify-center items-center h-screen px-3">
-                                    <p class="text-center text-xl font-medium">Tidak ada product yang ditambahkan ke dalam cart.</p>
-                                    
-                                    <dotlottie-player src="https://lottie.host/be4557e0-aa1c-48bc-886c-ab7b237c9a37/j4h6c86KWJ.json" background="transparent" speed="1" style="width: 250px; height: 250px;" loop autoplay></dotlottie-player>
+                                <div class="flex flex-col justify-center items-center p-3">
+                                    <p class="text-center text-base font-medium">Tidak ada product yang ditambahkan ke dalam cart.</p>
                                 </div>
                             <?php
                             } else {
                                 while($data = mysqli_fetch_array($getUserCartQuery)) {
                             ?>
+                            
+                    <div id="cart_mobile" class="flex flex-col gap-y-2 px-4 pb-2 overflow-auto h-10">
                                 <div class="grid grid-cols-12 gap-x-2 rounded-2xl">
                                     <?php
                                         $getProductData = "SELECT * FROM barang WHERE id = '{$data['id_barang']}'";
@@ -629,8 +634,8 @@
                                         </div>
                                     <?php }; ?>
                                 </div>
-                        <?php }}; ?>  <!-- End of while loop-->
                     </div>
+                        <?php }}; ?>  <!-- End of while loop-->
 
                     <?php
                         $getUserCart = "SELECT * FROM cart WHERE id_user = '{$_SESSION['data']['phone']}'";
