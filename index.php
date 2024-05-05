@@ -141,7 +141,9 @@
         <div class="flex flex-col min-h-screen w-full">
             <header class="py-2.5 px-4 md:px-6 xl:px-12 2xl:px-16">
                 <div class="flex justify-between items-center">
+                    <a href="index.php">
                     <h5 class="bg-gradient-to-br from-[#a1887f] from-15% to-[#3e2723] to-40% text-3xl font-black uppercase bg-clip-text text-transparent">COFFEE</h5>
+                    </a>
                     <!-- jika belum login maka tombolnya login/signup -->
                     <?php if (!isset($_SESSION["data"])) : ?>
                         <div class="flex items-center gap-x-2">
@@ -559,7 +561,7 @@
                                         $getProductDataQuery = mysqli_query($conn, $getProductData);
 
                                         while($productData = mysqli_fetch_array($getProductDataQuery)) {
-                                    ?>
+                                    ?>  
                                         <div class="col-span-3">
                                             <img class="h-24 w-full rounded-xl object-cover" src="<?php echo "./images/" . $productData['gambar']; ?>" alt="coffee">
                                         </div>

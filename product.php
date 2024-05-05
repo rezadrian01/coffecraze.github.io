@@ -31,8 +31,9 @@
     </head>
     <body>
         <header class="flex flex-wrap lg:flex-nowrap justify-between items-center py-2.5 px-4 md:px-6 xl:px-12 2xl:px-16">
-            <h5 class="bg-gradient-to-br from-[#a1887f] from-15% to-[#3e2723] to-40% text-3xl font-black uppercase bg-clip-text text-transparent">COFFEE</h5>
-
+            <a href="index.php">
+                <h5 class="bg-gradient-to-br from-[#a1887f] from-15% to-[#3e2723] to-40% text-3xl font-black uppercase bg-clip-text text-transparent">COFFEE</h5>
+            </a>
             <ul class="hidden lg:flex items-center gap-x-2">
                 <li>
                     <a href="dashboard.php" class="py-2 px-4 hover:bg-[#eeeeee] rounded-full">
