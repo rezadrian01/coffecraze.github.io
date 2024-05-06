@@ -228,6 +228,9 @@
                             <dt class="font-medium text-gray-900">Qty</dt>
                             <dd class="text-gray-700 sm:col-span-2"><?= $data['jumlahBarang']; ?></dd>
                         </div>
+                        <?php
+                            if ($data['status'] === 'completed') {
+                        ?>
                         <div class="grid grid-cols-1 gap-1 p-3 even:bg-gray-50 sm:grid-cols-3 sm:gap-4">
                             <dt class="font-medium text-gray-900">Rating & comment</dt>
                             <dd class="text-gray-700 sm:col-span-2">
@@ -320,6 +323,10 @@
                                 ?>
                             </dd>
                         </div>
+                        <?php
+                            }
+                        ?>
+                        
                     </dl>
                 </div>
 
