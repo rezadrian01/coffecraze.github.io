@@ -2,7 +2,16 @@
     session_start();
 
     include("functions.php");
+
+    //cek apakah user sudah punya cart / buynow
     global $conn;
+    $temp = mysqli_query($conn, "SELECT * FROM cart WHERE id_user = '{$_SESSION['data']['phone']}'");
+    if(mysqli_num_rows($temp) === 0){
+        if(!isset($_GET['buy_now'])){
+            header("Location: index.php");
+            die();
+        }
+    }
 
     // Update tambah quantity stock barang di cart
     if(isset($_POST['tambah-quantity'])) {
