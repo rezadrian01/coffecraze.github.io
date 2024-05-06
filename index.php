@@ -56,7 +56,7 @@
             exit();
         }
         //jika user tidak pernah beli barang / user membeli barang yang berbeda maka insert data biasa
-        mysqli_query($conn, "INSERT INTO cart values('', '{$_SESSION["data"]["phone"]}', '$idBeli', '$jmlBeli');");
+        mysqli_query($conn, "INSERT INTO cart(id_user, id_barang, jumlah) VALUES('{$_SESSION["data"]["phone"]}', '$idBeli', '$jmlBeli');");
         header("Location: index.php");
         exit();
     }
@@ -556,10 +556,12 @@
                                 </div>
                             <?php
                             } else {
+                            ?>
+                            <div id="cart_mobile" class="flex flex-col gap-y-2 px-4 pb-2 overflow-auto h-10">
+                            <?php
                                 while($data = mysqli_fetch_array($getUserCartQuery)) {
                             ?>
                             
-                    <div id="cart_mobile" class="flex flex-col gap-y-2 px-4 pb-2 overflow-auto h-10">
                                 <div class="grid grid-cols-12 gap-x-2 rounded-2xl">
                                     <?php
                                         $getProductData = "SELECT * FROM barang WHERE id = '{$data['id_barang']}'";
@@ -634,8 +636,9 @@
                                         </div>
                                     <?php }; ?>
                                 </div>
-                    </div>
-                        <?php }}; ?>  <!-- End of while loop-->
+                        <?php } ?>
+                            </div>
+                        <?php }; ?>  <!-- End of while loop-->
 
                     <?php
                         $getUserCart = "SELECT * FROM cart WHERE id_user = '{$_SESSION['data']['phone']}'";
